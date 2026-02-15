@@ -250,7 +250,7 @@ def decode_stereo3d_outputs(
 
             # Map kept index -> flat index for sampling aux maps [B, C, HW_total]
             # Find hw_total from any available aux key
-            _aux_keys = [k for k in outputs if k != "det"]
+            _aux_keys = [k for k in outputs if k not in ("det", "boxes", "scores", "feats")]
             hw_total = outputs[_aux_keys[0]].shape[2] if _aux_keys else 0
             if idx_b is not None and j < idx_b.numel():
                 flat_idx = int(idx_b[j].item())

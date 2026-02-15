@@ -1,28 +1,23 @@
 from __future__ import annotations
 
-from typing import Dict
-
 import torch
 import torch.nn.functional as F
 
 from ultralytics.utils.loss import v8DetectionLoss
-from ultralytics.utils.tal import make_anchors
 
 
 class Stereo3DDetLossYOLO11(v8DetectionLoss):
-    """Multi-scale loss for stereo 3D detection using YOLO11-style bbox assignment.
+    """Multi-scale loss for stereo 3D detection using YOLO-style bbox assignment.
 
-    Handles P3+P4+P5 feature maps from the head. Aux targets are in pixel units
-    and aux predictions are [B, C, HW_total] (3D tensors, not 4D).
+    Overrides loss() to add auxiliary 3D losses (lr_distance, depth, dimensions,
+    orientation) on top of the standard detection losses (box, cls, dfl).
 
-    Expected head training output:
-        (det_feats_list, aux_dict) where:
-        - det_feats_list: list of 3 tensors [B, no, Hi, Wi]
-        - aux_dict: dict[str, Tensor] each [B, C, HW_total]
+    Expected preds dict keys (from head's forward_head):
+        - boxes, scores, feats: standard Detect outputs
+        - lr_distance, depth, dimensions, orientation: aux branch outputs [B, C, HW_total]
 
     Expected batch keys:
-        - img: Tensor [B,6,H,W]
-        - batch_idx, cls, bboxes: standard YOLO detection targets
+        - img, batch_idx, cls, bboxes: standard YOLO detection targets
         - aux_targets: dict[str, Tensor] each [B, max_n, C] in pixel units
     """
 
@@ -30,10 +25,10 @@ class Stereo3DDetLossYOLO11(v8DetectionLoss):
         self,
         model,
         tal_topk: int = 10,
-        loss_weights: Dict[str, float] | None = None,
+        loss_weights: dict[str, float] | None = None,
         use_bbox_loss: bool = True,
     ):
-        super().__init__(model, tal_topk=tal_topk)  # picks up reg_max from head
+        super().__init__(model, tal_topk=tal_topk)
         self.aux_w = loss_weights or {}
         self.use_bbox_loss = use_bbox_loss
 
@@ -72,13 +67,13 @@ class Stereo3DDetLossYOLO11(v8DetectionLoss):
 
     def _compute_aux_losses(
         self,
-        aux_preds: Dict[str, torch.Tensor],
-        batch: Dict[str, torch.Tensor],
+        aux_preds: dict[str, torch.Tensor],
+        batch: dict[str, torch.Tensor],
         target_gt_idx: torch.Tensor,
         fg_mask: torch.Tensor,
-    ) -> Dict[str, torch.Tensor]:
+    ) -> dict[str, torch.Tensor]:
         """Compute auxiliary losses for all 3D heads."""
-        aux_losses: Dict[str, torch.Tensor] = {}
+        aux_losses: dict[str, torch.Tensor] = {}
         aux_targets = batch.get("aux_targets", {})
 
         if not isinstance(aux_targets, dict) or not aux_targets:
@@ -92,89 +87,34 @@ class Stereo3DDetLossYOLO11(v8DetectionLoss):
 
         return aux_losses
 
-    def __call__(self, preds, batch: Dict[str, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:
-        # Unpack preds — two formats:
-        #   Training: (det_feats_list, aux_dict) tuple
-        #   Eval/val: {"det": (inference, feats), "dimensions": ..., ...} dict
-        if isinstance(preds, dict):
-            det_feats = preds["det"]
-            if isinstance(det_feats, tuple):
-                det_feats = det_feats[1]  # extract feat list from (inference, feats)
-            aux_preds = {k: v for k, v in preds.items() if k != "det"}
-        else:
-            det_feats, aux_preds = preds
-            if isinstance(det_feats, tuple):
-                det_feats = det_feats[1]
+    def loss(self, preds: dict[str, torch.Tensor], batch: dict[str, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:
+        """Calculate stereo 3D detection loss: det losses + aux 3D losses.
 
-        bs = det_feats[0].shape[0]
-        img = batch["img"]
+        Args:
+            preds: Dict with boxes, scores, feats, lr_distance, depth, dimensions, orientation.
+            batch: Batch dict with img, batch_idx, cls, bboxes, aux_targets.
+        """
+        # Separate aux preds from detection preds
+        aux_keys = {"lr_distance", "depth", "dimensions", "orientation"}
+        aux_preds = {k: v for k, v in preds.items() if k in aux_keys}
 
-        # Multi-scale: concatenate det feats across scales
-        pred_raw = torch.cat([xi.view(bs, self.no, -1) for xi in det_feats], 2)  # [B, no, HW_total]
-        pred_distri, pred_scores = pred_raw.split((self.reg_max * 4, self.nc), 1)
-        pred_scores = pred_scores.permute(0, 2, 1).contiguous()  # [B, HW, nc]
-        pred_distri = pred_distri.permute(0, 2, 1).contiguous()  # [B, HW, reg_max*4]
+        loss = torch.zeros(6, device=self.device)  # box, cls, lr_dist, depth, dims, orient
 
-        dtype = pred_scores.dtype
-        imgsz = torch.tensor([img.shape[2], img.shape[3]], device=self.device, dtype=dtype)  # (h, w) pixels
-
-        # Multi-scale anchors from all feature maps
-        anchor_points, stride_tensor = make_anchors(det_feats, self.stride, 0.5)
-
-        # Targets
-        batch_idx = batch["batch_idx"].view(-1, 1).to(self.device)
-        cls = batch["cls"].view(-1, 1).to(self.device)
-        bboxes = batch["bboxes"].to(self.device)
-        targets = torch.cat((batch_idx, cls, bboxes), 1)
-        targets = self.preprocess(targets, bs, scale_tensor=imgsz[[1, 0, 1, 0]])
-        gt_labels, gt_bboxes = targets.split((1, 4), 2)
-        mask_gt = gt_bboxes.sum(2, keepdim=True).gt_(0.0)
-
-        pred_bboxes = self.bbox_decode(anchor_points, pred_distri)
-        _, target_bboxes, target_scores, fg_mask, target_gt_idx = self.assigner(
-            pred_scores.detach().sigmoid(),
-            (pred_bboxes.detach() * stride_tensor).type(gt_bboxes.dtype),
-            anchor_points * stride_tensor,
-            gt_labels,
-            gt_bboxes,
-            mask_gt,
+        # Get detection losses + TAL assignment results
+        (fg_mask, target_gt_idx, target_bboxes, anchor_points, stride_tensor), det_loss, _ = (
+            self.get_assigned_targets_and_loss(preds, batch)
         )
 
-        target_scores_sum = max(target_scores.sum(), 1)
-
-        loss_box = torch.tensor(0.0, device=self.device)
-        loss_cls = self.bce(pred_scores, target_scores.to(dtype)).sum() / target_scores_sum
-
-        if self.use_bbox_loss and fg_mask.sum():
-            loss_box, _ = self.bbox_loss(
-                pred_distri,
-                pred_bboxes,
-                anchor_points,
-                target_bboxes / stride_tensor,
-                target_scores,
-                target_scores_sum,
-                fg_mask,
-            )
-            loss_box *= self.hyp.box
-        loss_cls *= self.hyp.cls
+        if self.use_bbox_loss:
+            loss[0] = det_loss[0]  # box (already scaled by hyp.box)
+        loss[1] = det_loss[1]  # cls (already scaled by hyp.cls)
+        # det_loss[2] is dfl, which is 0 since reg_max=1
 
         # Aux losses
         aux_losses = self._compute_aux_losses(aux_preds, batch, target_gt_idx, fg_mask)
+        for i, k in enumerate(["lr_distance", "depth", "dimensions", "orientation"], 2):
+            if k in aux_losses:
+                loss[i] = aux_losses[k] * float(self.aux_w.get(k, 1.0))
 
-        aux_total = torch.tensor(0.0, device=self.device)
-        for k, v in aux_losses.items():
-            aux_total = aux_total + float(self.aux_w.get(k, 1.0)) * v
-
-        total = loss_box + loss_cls + aux_total
-
-        items = [
-            loss_box,
-            loss_cls,
-            aux_losses.get("lr_distance", torch.tensor(0.0, device=self.device)),
-            aux_losses.get("depth", torch.tensor(0.0, device=self.device)),
-            aux_losses.get("dimensions", torch.tensor(0.0, device=self.device)),
-            aux_losses.get("orientation", torch.tensor(0.0, device=self.device)),
-        ]
-        loss_items = torch.stack(items)
-
-        return total * bs, loss_items.detach()
+        batch_size = preds["boxes"].shape[0]
+        return loss * batch_size, loss.detach()

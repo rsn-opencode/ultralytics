@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Dict, List
-
 import torch
 import torch.nn as nn
 
@@ -56,13 +54,15 @@ class Stereo3DDetHeadYOLO11(Detect):
 
     Args:
         nc: Number of classes.
+        reg_max: DFL channels (forced to 1).
+        end2end: End-to-end mode (forced to False).
         ch: Tuple of per-scale input channels, e.g. (256, 512, 1024).
     """
 
-    def __init__(self, nc: int = 3, reg_max: int = 1, ch: tuple = ()):
+    def __init__(self, nc: int = 3, reg_max: int = 1, end2end: bool = False, ch: tuple = ()):
         if isinstance(reg_max, (list, tuple)):  # YAML [nc] — ch landed in reg_max slot
             ch, reg_max = reg_max, 1
-        super().__init__(nc=nc, ch=ch)  # multi-scale Detect (builds with default reg_max)
+        super().__init__(nc=nc, reg_max=1, end2end=False, ch=ch)  # Force reg_max=1, end2end=False
 
         # Force reg_max=1 (no DFL) — stereo 3D detection doesn't benefit from DFL
         self.reg_max = 1
@@ -94,20 +94,24 @@ class Stereo3DDetHeadYOLO11(Detect):
             if name not in self.aux_specs:
                 del self.aux[name]
 
-    def forward(self, x: List[torch.Tensor]) -> Dict[str, torch.Tensor] | tuple:
-        """Forward pass: process aux BEFORE Detect.forward (Detect modifies x in-place)."""
-        bs = x[0].shape[0]
+    @property
+    def one2many(self):
+        """Returns the one-to-many head components including aux branches."""
+        return dict(box_head=self.cv2, cls_head=self.cv3, aux_branches=self.aux)
 
-        # Aux branches — collect before Detect mutates x
-        aux_out: Dict[str, torch.Tensor] = {}
-        for name, branches in self.aux.items():
-            out_c = self.aux_specs[name]
-            aux_out[name] = torch.cat(
-                [branches[i](x[i]).view(bs, out_c, -1) for i in range(self.nl)], -1
-            )  # [B, C, HW_total]
+    def forward_head(
+        self, x: list[torch.Tensor], box_head=None, cls_head=None, aux_branches=None
+    ) -> dict[str, torch.Tensor]:
+        """Forward pass: compute detection + aux predictions.
 
-        det = Detect.forward(self, x)  # standard multi-scale detect
-
-        if self.training:
-            return det, aux_out  # det is list of feat maps, aux_out is dict of [B,C,HW]
-        return {"det": det, **aux_out}
+        Returns dict with boxes, scores, feats, and all aux branch outputs.
+        """
+        preds = super().forward_head(x, box_head, cls_head)  # {boxes, scores, feats}
+        if aux_branches is not None:
+            bs = x[0].shape[0]
+            for name, branches in aux_branches.items():
+                out_c = self.aux_specs[name]
+                preds[name] = torch.cat(
+                    [branches[i](x[i]).view(bs, out_c, -1) for i in range(self.nl)], -1
+                )  # [B, C, HW_total]
+        return preds

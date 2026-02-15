@@ -11,7 +11,8 @@ import pytest
 import torch
 
 from ultralytics.data.stereo.box3d import Box3D
-from ultralytics.models.yolo.stereo3ddet.val import Stereo3DDetValidator, decode_stereo3d_outputs
+from ultralytics.models.yolo.stereo3ddet.preprocess import decode_stereo3d_outputs
+from ultralytics.models.yolo.stereo3ddet.val import Stereo3DDetValidator
 
 
 class TestDecodeStereo3dOutputs:

@@ -104,6 +104,8 @@ class Stereo3DDetPredictor(DetectionPredictor):
         # Mean and std dimensions for decoding (from dataset config)
         if isinstance(self.data, (str, Path)):
             data_cfg = YAML.load(str(self.data))
+        else:
+            data_cfg = self.data if isinstance(self.data, dict) else {}
         self.mean_dims = data_cfg.get("mean_dims")
         self.std_dims = data_cfg.get("std_dims")
 
@@ -235,14 +237,14 @@ class Stereo3DDetPredictor(DetectionPredictor):
             letterbox=self._letterbox,
         )
 
-    def postprocess(self, preds: dict[str, torch.Tensor], img: torch.Tensor, orig_imgs: list[np.ndarray], **kwargs) -> list[Results]:
+    def postprocess(self, preds, img: torch.Tensor, orig_imgs: list[np.ndarray], **kwargs) -> list[Results]:
         """Post-process model predictions to Results objects with 3D boxes.
 
         Uses shared decode_and_refine_predictions from preprocess.py which handles
         decoding, geometric construction, and dense alignment refinement.
 
         Args:
-            preds: Dictionary of YOLO11-mapped model outputs.
+            preds: Tuple of (inference_output, preds_dict) from model forward.
             img: Preprocessed input tensor.
             orig_imgs: List of original stereo images (6-channel).
             **kwargs: Additional arguments.
@@ -250,6 +252,13 @@ class Stereo3DDetPredictor(DetectionPredictor):
         Returns:
             List of Results objects with boxes3d attribute.
         """
+        # Unpack (y, preds_dict) tuple from new Detect.forward
+        if isinstance(preds, tuple):
+            y, preds_dict = preds
+            preds_dict = {**preds_dict, "det": y}
+        else:
+            preds_dict = preds
+
         # Build calibration list from stored parameters
         calibs = []
         if self.batch and self.batch[0]:
@@ -287,7 +296,7 @@ class Stereo3DDetPredictor(DetectionPredictor):
 
         # Use shared decode and refine pipeline (includes geometric + dense alignment)
         results_boxes3d = decode_and_refine_predictions(
-            preds=preds,
+            preds=preds_dict,
             batch=batch,
             args=self.args,
             use_geometric=getattr(self.args, "use_geometric", None),

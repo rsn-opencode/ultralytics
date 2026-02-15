@@ -18,12 +18,14 @@ GITHUB_ASSETS_NAMES = frozenset(
     [f"yolov8{k}{suffix}.pt" for k in "nsmlx" for suffix in ("", "-cls", "-seg", "-pose", "-obb", "-oiv7")]
     + [f"yolo11{k}{suffix}.pt" for k in "nsmlx" for suffix in ("", "-cls", "-seg", "-pose", "-obb")]
     + [f"yolo12{k}{suffix}.pt" for k in "nsmlx" for suffix in ("",)]  # detect models only currently
+    + [f"yolo26{k}{suffix}.pt" for k in "nsmlx" for suffix in ("", "-cls", "-seg", "-pose", "-obb")]
     + [f"yolov5{k}{resolution}u.pt" for k in "nsmlx" for resolution in ("", "6")]
     + [f"yolov3{k}u.pt" for k in ("", "-spp", "-tiny")]
     + [f"yolov8{k}-world.pt" for k in "smlx"]
     + [f"yolov8{k}-worldv2.pt" for k in "smlx"]
     + [f"yoloe-v8{k}{suffix}.pt" for k in "sml" for suffix in ("-seg", "-seg-pf")]
     + [f"yoloe-11{k}{suffix}.pt" for k in "sml" for suffix in ("-seg", "-seg-pf")]
+    + [f"yoloe-26{k}{suffix}.pt" for k in "nsmlx" for suffix in ("-seg", "-seg-pf")]
     + [f"yolov9{k}.pt" for k in "tsmce"]
     + [f"yolov10{k}.pt" for k in "nsmblx"]
     + [f"yolo_nas_{k}.pt" for k in "sml"]
@@ -46,7 +48,7 @@ def is_url(url: str | Path, check: bool = False) -> bool:
     """Validate if the given string is a URL and optionally check if the URL exists online.
 
     Args:
-        url (str): The string to be validated as a URL.
+        url (str | Path): The string to be validated as a URL.
         check (bool, optional): If True, performs an additional check to see if the URL exists online.
 
     Returns:
@@ -74,14 +76,14 @@ def delete_dsstore(path: str | Path, files_to_delete: tuple[str, ...] = (".DS_St
 
     Args:
         path (str | Path): The directory path where the files should be deleted.
-        files_to_delete (tuple): The files to be deleted.
+        files_to_delete (tuple[str, ...]): The files to be deleted.
 
     Examples:
         >>> from ultralytics.utils.downloads import delete_dsstore
         >>> delete_dsstore("path/to/dir")
 
     Notes:
-        ".DS_store" files are created by the Apple operating system and contain metadata about folders and files. They
+        ".DS_Store" files are created by the Apple operating system and contain metadata about folders and files. They
         are hidden system files and can cause issues when transferring files between different operating systems.
     """
     for file in files_to_delete:
@@ -104,7 +106,7 @@ def zip_directory(
     Args:
         directory (str | Path): The path to the directory to be zipped.
         compress (bool): Whether to compress the files while zipping.
-        exclude (tuple, optional): A tuple of filename strings to be excluded.
+        exclude (tuple[str, ...], optional): A tuple of filename strings to be excluded.
         progress (bool, optional): Whether to display a progress bar.
 
     Returns:
@@ -148,7 +150,7 @@ def unzip_file(
     Args:
         file (str | Path): The path to the zipfile to be extracted.
         path (str | Path, optional): The path to extract the zipfile to.
-        exclude (tuple, optional): A tuple of filename strings to be excluded.
+        exclude (tuple[str, ...], optional): A tuple of filename strings to be excluded.
         exist_ok (bool, optional): Whether to overwrite existing contents if they exist.
         progress (bool, optional): Whether to display a progress bar.
 
@@ -287,9 +289,9 @@ def safe_download(
     robust partial download detection using Content-Length validation.
 
     Args:
-        url (str): The URL of the file to be downloaded.
-        file (str, optional): The filename of the downloaded file. If not provided, the file will be saved with the same
-            name as the URL.
+        url (str | Path): The URL of the file to be downloaded.
+        file (str | Path, optional): The filename of the downloaded file. If not provided, the file will be saved with
+            the same name as the URL.
         dir (str | Path, optional): The directory to save the downloaded file. If not provided, the file will be saved
             in the current working directory.
         unzip (bool, optional): Whether to unzip the downloaded file.
@@ -418,13 +420,13 @@ def get_github_assets(
         LOGGER.warning(f"GitHub assets check failure for {url}: {r.status_code} {r.reason}")
         return "", []
     data = r.json()
-    return data["tag_name"], [x["name"] for x in data["assets"]]  # tag, assets i.e. ['yolo11n.pt', 'yolov8s.pt', ...]
+    return data["tag_name"], [x["name"] for x in data["assets"]]  # tag, assets i.e. ['yolo26n.pt', 'yolo11s.pt', ...]
 
 
 def attempt_download_asset(
     file: str | Path,
     repo: str = "ultralytics/assets",
-    release: str = "v8.3.0",
+    release: str = "v8.4.0",
     **kwargs,
 ) -> str:
     """Attempt to download a file from GitHub release assets if it is not found locally.
@@ -439,7 +441,7 @@ def attempt_download_asset(
         (str): The path to the downloaded file.
 
     Examples:
-        >>> file_path = attempt_download_asset("yolo11n.pt", repo="ultralytics/assets", release="latest")
+        >>> file_path = attempt_download_asset("yolo26n.pt", repo="ultralytics/assets", release="latest")
     """
     from ultralytics.utils import SETTINGS  # scoped for circular import
 
@@ -491,7 +493,7 @@ def download(
     Supports concurrent downloads if multiple threads are specified.
 
     Args:
-        url (str | list[str]): The URL or list of URLs of the files to be downloaded.
+        url (str | list[str] | Path): The URL or list of URLs of the files to be downloaded.
         dir (Path, optional): The directory where the files will be saved.
         unzip (bool, optional): Flag to unzip the files after downloading.
         delete (bool, optional): Flag to delete the zip files after extraction.

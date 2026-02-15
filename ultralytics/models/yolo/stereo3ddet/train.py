@@ -149,24 +149,13 @@ class Stereo3DDetTrainer(yolo.detect.DetectionTrainer):
                     with torch.no_grad():
                         dummy_img = torch.zeros(1, 6, imgsz_hw[0], imgsz_hw[1], device=self.device)
                         dummy_output = self.model(dummy_img)
-                        if isinstance(dummy_output, dict):
-                            # YOLO11 returns "det" (list) + aux branches (tensors)
-                            # Use first aux branch or "det" to get output size
-                            sample_branch = None
-                            if "det" in dummy_output:
-                                det_out = dummy_output["det"]
-                                if isinstance(det_out, list) and len(det_out) > 0:
-                                    sample_branch = det_out[0]
-                            if sample_branch is None:
-                                # Fallback to first aux branch
-                                aux_branches = [k for k in dummy_output.keys() if k != "det"]
-                                if aux_branches:
-                                    sample_branch = dummy_output[aux_branches[0]]
-                            if sample_branch is not None and len(sample_branch.shape) >= 2:
-                                _, _, output_h, output_w = sample_branch.shape
+                        # Training returns dict with "feats" (list of [B,C,H,W] feature maps)
+                        if isinstance(dummy_output, dict) and "feats" in dummy_output:
+                            feats = dummy_output["feats"]
+                            if isinstance(feats, list) and len(feats) > 0:
+                                _, _, output_h, output_w = feats[0].shape
                                 output_size = (output_h, output_w)
                 except Exception:
-                    # Fallback to default if model forward fails
                     pass
             
             # Get mean_dims from dataset config

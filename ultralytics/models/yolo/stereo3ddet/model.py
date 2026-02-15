@@ -9,6 +9,7 @@ class Stereo3DDetModel(DetectionModel):
     def __init__(self, cfg, ch=6, nc=None, verbose=True):
         super().__init__(cfg=cfg, ch=ch, nc=nc, verbose=verbose)
         self.task = "stereo3ddet"
+        self.end2end = False  # stereo uses custom geometric postprocessing, not NMS-free
 
         # Apply depth_mode from YAML (prune unused aux branches)
         depth_mode = (self.yaml or {}).get("training", {}).get("depth_mode", "both")

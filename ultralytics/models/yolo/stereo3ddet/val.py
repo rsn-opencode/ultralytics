@@ -256,18 +256,25 @@ class Stereo3DDetValidator(BaseValidator):
         self._current_batch = batch
         return batch
 
-    def postprocess(self, preds: dict[str, torch.Tensor]) -> list[list[Box3D]]:
+    def postprocess(self, preds) -> list[list[Box3D]]:
         """Postprocess model outputs to Box3D objects.
 
         Uses shared decode_and_refine_predictions from preprocess.py which handles
         decoding, geometric construction, and dense alignment refinement.
 
         Args:
-            preds: Dictionary of 10-branch model outputs.
+            preds: Tuple of (inference_output, preds_dict) from model forward.
 
         Returns:
             List of Box3D lists (one per batch item).
         """
+        # Unpack (y, preds_dict) tuple from new Detect.forward
+        if isinstance(preds, tuple):
+            y, preds_dict = preds
+            preds_dict = {**preds_dict, "det": y}  # add inference output for decode
+        else:
+            preds_dict = preds
+
         # Get batch for calibration and images
         batch = self._current_batch if hasattr(self, "_current_batch") else None
 
@@ -276,7 +283,7 @@ class Stereo3DDetValidator(BaseValidator):
         use_dense_alignment = getattr(self.args, "use_dense_alignment", None)
 
         return decode_and_refine_predictions(
-            preds=preds,
+            preds=preds_dict,
             batch=batch,
             args=self.args,
             use_geometric=use_geometric,
