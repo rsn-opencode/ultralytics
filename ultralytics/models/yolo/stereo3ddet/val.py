@@ -268,8 +268,8 @@ class Stereo3DDetValidator(BaseValidator):
         Returns:
             List of Box3D lists (one per batch item).
         """
-        # Unpack (y, preds_dict) tuple from new Detect.forward
-        if isinstance(preds, tuple):
+        # Unpack (y, preds_dict) from Detect.forward — AutoBackend may convert tuple to list
+        if isinstance(preds, (tuple, list)) and len(preds) == 2 and isinstance(preds[1], dict):
             y, preds_dict = preds
             preds_dict = {**preds_dict, "det": y}  # add inference output for decode
         else:
