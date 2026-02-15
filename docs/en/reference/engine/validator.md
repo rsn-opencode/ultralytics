@@ -48,7 +48,7 @@ keywords: Ultralytics, BaseValidator, model validation, PyTorch, TensorFlow, ONN
 ## Class `ultralytics.engine.validator.BaseValidator` {#ultralytics.engine.validator.BaseValidator}
 
 ```python
-BaseValidator(self, dataloader = None, save_dir = None, args = None, _callbacks = None)
+BaseValidator(self, dataloader=None, save_dir=None, args=None, _callbacks=None)
 ```
 
 A base class for creating validators.

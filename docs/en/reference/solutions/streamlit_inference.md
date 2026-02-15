@@ -288,9 +288,7 @@ def inference(self) -> None:
 
             # Process frame with model
             if self.enable_trk:
-                results = self.model.track(
-                    frame, conf=self.conf, iou=self.iou, classes=self.selected_ind, persist=True
-                )
+                results = self.model.track(frame, conf=self.conf, iou=self.iou, classes=self.selected_ind, persist=True)
             else:
                 results = self.model(frame, conf=self.conf, iou=self.iou, classes=self.selected_ind)
 

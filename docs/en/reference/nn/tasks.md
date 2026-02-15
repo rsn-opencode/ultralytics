@@ -217,8 +217,7 @@ Perform augmentations on input image x and return augmented inference.
 def _predict_augment(self, x):
     """Perform augmentations on input image x and return augmented inference."""
     LOGGER.warning(
-        f"{self.__class__.__name__} does not support 'augment=True' prediction. "
-        f"Reverting to single-scale prediction."
+        f"{self.__class__.__name__} does not support 'augment=True' prediction. Reverting to single-scale prediction."
     )
     return self._predict_once(x)
 ```
@@ -688,7 +687,7 @@ def predict(self, x, profile=False, visualize=False, augment=False, embed=None):
 ## Class `ultralytics.nn.tasks.DetectionModel` {#ultralytics.nn.tasks.DetectionModel}
 
 ```python
-DetectionModel(self, cfg = "yolo26n.yaml", ch = 3, nc = None, verbose = True)
+DetectionModel(self, cfg="yolo26n.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `BaseModel`
@@ -1096,7 +1095,7 @@ def set_head_attr(self, **kwargs):
 ## Class `ultralytics.nn.tasks.OBBModel` {#ultralytics.nn.tasks.OBBModel}
 
 ```python
-OBBModel(self, cfg = "yolo26n-obb.yaml", ch = 3, nc = None, verbose = True)
+OBBModel(self, cfg="yolo26n-obb.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `DetectionModel`
@@ -1189,7 +1188,7 @@ def init_criterion(self):
 ## Class `ultralytics.nn.tasks.SegmentationModel` {#ultralytics.nn.tasks.SegmentationModel}
 
 ```python
-SegmentationModel(self, cfg = "yolo26n-seg.yaml", ch = 3, nc = None, verbose = True)
+SegmentationModel(self, cfg="yolo26n-seg.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `DetectionModel`
@@ -1282,7 +1281,7 @@ def init_criterion(self):
 ## Class `ultralytics.nn.tasks.PoseModel` {#ultralytics.nn.tasks.PoseModel}
 
 ```python
-PoseModel(self, cfg = "yolo26n-pose.yaml", ch = 3, nc = None, data_kpt_shape = (None, None), verbose = True)
+PoseModel(self, cfg="yolo26n-pose.yaml", ch=3, nc=None, data_kpt_shape=(None, None), verbose=True)
 ```
 
 **Bases:** `DetectionModel`
@@ -1391,7 +1390,7 @@ def init_criterion(self):
 ## Class `ultralytics.nn.tasks.ClassificationModel` {#ultralytics.nn.tasks.ClassificationModel}
 
 ```python
-ClassificationModel(self, cfg = "yolo26n-cls.yaml", ch = 3, nc = None, verbose = True)
+ClassificationModel(self, cfg="yolo26n-cls.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `BaseModel`
@@ -1593,9 +1592,7 @@ def reshape_outputs(model, nc):
         elif torch.nn.Conv2d in types:
             i = len(types) - 1 - types[::-1].index(torch.nn.Conv2d)  # last torch.nn.Conv2d index
             if m[i].out_channels != nc:
-                m[i] = torch.nn.Conv2d(
-                    m[i].in_channels, nc, m[i].kernel_size, m[i].stride, bias=m[i].bias is not None
-                )
+                m[i] = torch.nn.Conv2d(m[i].in_channels, nc, m[i].kernel_size, m[i].stride, bias=m[i].bias is not None)
 ```
 </details>
 
@@ -1605,7 +1602,7 @@ def reshape_outputs(model, nc):
 ## Class `ultralytics.nn.tasks.RTDETRDetectionModel` {#ultralytics.nn.tasks.RTDETRDetectionModel}
 
 ```python
-RTDETRDetectionModel(self, cfg = "rtdetr-l.yaml", ch = 3, nc = None, verbose = True)
+RTDETRDetectionModel(self, cfg="rtdetr-l.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `DetectionModel`
@@ -1822,9 +1819,7 @@ def loss(self, batch, preds=None):
     dec_bboxes = torch.cat([enc_bboxes.unsqueeze(0), dec_bboxes])  # (7, bs, 300, 4)
     dec_scores = torch.cat([enc_scores.unsqueeze(0), dec_scores])
 
-    loss = self.criterion(
-        (dec_bboxes, dec_scores), targets, dn_bboxes=dn_bboxes, dn_scores=dn_scores, dn_meta=dn_meta
-    )
+    loss = self.criterion((dec_bboxes, dec_scores), targets, dn_bboxes=dn_bboxes, dn_scores=dn_scores, dn_meta=dn_meta)
     # NOTE: There are like 12 losses in RTDETR, backward with all losses but only show the main three losses.
     return sum(loss.values()), torch.as_tensor(
         [loss[k].detach() for k in ["loss_giou", "loss_class", "loss_bbox"]], device=img.device
@@ -1906,7 +1901,7 @@ def predict(self, x, profile=False, visualize=False, batch=None, augment=False, 
 ## Class `ultralytics.nn.tasks.WorldModel` {#ultralytics.nn.tasks.WorldModel}
 
 ```python
-WorldModel(self, cfg = "yolov8s-world.yaml", ch = 3, nc = None, verbose = True)
+WorldModel(self, cfg="yolov8s-world.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `DetectionModel`
@@ -2205,7 +2200,7 @@ def set_classes(self, text, batch=80, cache_clip_model=True):
 ## Class `ultralytics.nn.tasks.YOLOEModel` {#ultralytics.nn.tasks.YOLOEModel}
 
 ```python
-YOLOEModel(self, cfg = "yoloe-v8s.yaml", ch = 3, nc = None, verbose = True)
+YOLOEModel(self, cfg="yoloe-v8s.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `DetectionModel`
@@ -2598,9 +2593,7 @@ Perform a forward pass through the model.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/tasks.py#L1160-L1206"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def predict(
-    self, x, profile=False, visualize=False, tpe=None, augment=False, embed=None, vpe=None, return_vpe=False
-):
+def predict(self, x, profile=False, visualize=False, tpe=None, augment=False, embed=None, vpe=None, return_vpe=False):
     """Perform a forward pass through the model.
 
     Args:
@@ -2747,7 +2740,7 @@ def set_vocab(self, vocab, names):
 ## Class `ultralytics.nn.tasks.YOLOESegModel` {#ultralytics.nn.tasks.YOLOESegModel}
 
 ```python
-YOLOESegModel(self, cfg = "yoloe-v8s-seg.yaml", ch = 3, nc = None, verbose = True)
+YOLOESegModel(self, cfg="yoloe-v8s-seg.yaml", ch=3, nc=None, verbose=True)
 ```
 
 **Bases:** `YOLOEModel`, `SegmentationModel`

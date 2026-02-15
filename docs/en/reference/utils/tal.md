@@ -214,9 +214,7 @@ def _forward(self, pd_scores, pd_bboxes, anc_points, gt_labels, gt_bboxes, mask_
         pd_scores, pd_bboxes, gt_labels, gt_bboxes, anc_points, mask_gt
     )
 
-    target_gt_idx, fg_mask, mask_pos = self.select_highest_overlaps(
-        mask_pos, overlaps, self.n_max_boxes, align_metric
-    )
+    target_gt_idx, fg_mask, mask_pos = self.select_highest_overlaps(mask_pos, overlaps, self.n_max_boxes, align_metric)
 
     # Assigned target
     target_labels, target_bboxes, target_scores = self.get_targets(gt_labels, gt_bboxes, target_gt_idx, fg_mask)
@@ -488,8 +486,7 @@ def get_targets(self, gt_labels, gt_bboxes, target_gt_idx, fg_mask):
         gt_bboxes (torch.Tensor): Ground truth bounding boxes of shape (b, max_num_obj, 4).
         target_gt_idx (torch.Tensor): Indices of the assigned ground truth objects for positive anchor points, with
             shape (b, h*w), where h*w is the total number of anchor points.
-        fg_mask (torch.Tensor): A boolean tensor of shape (b, h*w) indicating the positive (foreground) anchor
-            points.
+        fg_mask (torch.Tensor): A boolean tensor of shape (b, h*w) indicating the positive (foreground) anchor points.
 
     Returns:
         target_labels (torch.Tensor): Target labels for positive anchor points with shape (b, h*w).
@@ -735,11 +732,11 @@ def select_topk_candidates(self, metrics, topk_mask=None):
     """Select the top-k candidates based on the given metrics.
 
     Args:
-        metrics (torch.Tensor): A tensor of shape (b, max_num_obj, h*w), where b is the batch size, max_num_obj is
-            the maximum number of objects, and h*w represents the total number of anchor points.
-        topk_mask (torch.Tensor, optional): An optional boolean tensor of shape (b, max_num_obj, topk), where topk
-            is the number of top candidates to consider. If not provided, the top-k values are automatically
-            computed based on the given metrics.
+        metrics (torch.Tensor): A tensor of shape (b, max_num_obj, h*w), where b is the batch size, max_num_obj is the
+            maximum number of objects, and h*w represents the total number of anchor points.
+        topk_mask (torch.Tensor, optional): An optional boolean tensor of shape (b, max_num_obj, topk), where topk is
+            the number of top candidates to consider. If not provided, the top-k values are automatically computed based
+            on the given metrics.
 
     Returns:
         (torch.Tensor): A tensor of shape (b, max_num_obj, h*w) containing the selected top-k candidates.

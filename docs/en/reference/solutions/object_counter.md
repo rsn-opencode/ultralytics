@@ -327,8 +327,8 @@ def process(self, im0) -> SolutionResults:
 
     Returns:
         (SolutionResults): Contains processed image `im0`, 'in_count' (int, count of objects entering the region),
-            'out_count' (int, count of objects exiting the region), 'classwise_count' (dict, per-class object
-            count), and 'total_tracks' (int, total number of tracked objects).
+            'out_count' (int, count of objects exiting the region), 'classwise_count' (dict, per-class object count),
+            and 'total_tracks' (int, total number of tracked objects).
 
     Examples:
         >>> counter = ObjectCounter()
@@ -342,9 +342,7 @@ def process(self, im0) -> SolutionResults:
     self.extract_tracks(im0)  # Extract tracks
     self.annotator = SolutionAnnotator(im0, line_width=self.line_width)  # Initialize annotator
 
-    self.annotator.draw_region(
-        reg_pts=self.region, color=(104, 0, 123), thickness=self.line_width * 2
-    )  # Draw region
+    self.annotator.draw_region(reg_pts=self.region, color=(104, 0, 123), thickness=self.line_width * 2)  # Draw region
 
     # Iterate over bounding boxes, track ids and classes index
     for box, track_id, cls, conf in zip(self.boxes, self.track_ids, self.clss, self.confs):

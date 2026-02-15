@@ -64,7 +64,7 @@ keywords: Ultralytics, YOLO, BaseTrainer, model training, configuration, dataset
 ## Class `ultralytics.engine.trainer.BaseTrainer` {#ultralytics.engine.trainer.BaseTrainer}
 
 ```python
-BaseTrainer(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+BaseTrainer(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 A base class for creating trainers.
@@ -329,9 +329,7 @@ Build dataloaders, optimizer, and scheduler for current batch size.
 def _build_train_pipeline(self):
     """Build dataloaders, optimizer, and scheduler for current batch size."""
     batch_size = self.batch_size // max(self.world_size, 1)
-    self.train_loader = self.get_dataloader(
-        self.data["train"], batch_size=batch_size, rank=LOCAL_RANK, mode="train"
-    )
+    self.train_loader = self.get_dataloader(self.data["train"], batch_size=batch_size, rank=LOCAL_RANK, mode="train")
     # Note: When training DOTA dataset, double batch size could get OOM on images with >2000 objects.
     self.test_loader = self.get_dataloader(
         self.data.get("val") or self.data.get("test"),
@@ -509,9 +507,7 @@ def _do_train(self):
                     self.loss = loss.sum()
                     if RANK != -1:
                         self.loss *= self.world_size
-                    self.tloss = (
-                        self.loss_items if self.tloss is None else (self.tloss * i + self.loss_items) / (i + 1)
-                    )
+                    self.tloss = self.loss_items if self.tloss is None else (self.tloss * i + self.loss_items) / (i + 1)
 
                 # Backward
                 self.scaler.scale(self.loss).backward()
@@ -1059,8 +1055,8 @@ def build_optimizer(self, model, name="auto", lr=0.001, momentum=0.9, decay=1e-5
 
     Args:
         model (torch.nn.Module): The model for which to build an optimizer.
-        name (str, optional): The name of the optimizer to use. If 'auto', the optimizer is selected based on the
-            number of iterations.
+        name (str, optional): The name of the optimizer to use. If 'auto', the optimizer is selected based on the number
+            of iterations.
         lr (float, optional): The learning rate for the optimizer.
         momentum (float, optional): The momentum factor for the optimizer.
         decay (float, optional): The weight decay for the optimizer.

@@ -479,9 +479,7 @@ def _display(self, final: bool = False) -> None:
             # Completed bytes: show only final size
             progress_str = f"{self.desc}: {percent:.0f}% {bar} {t_str} {rate_str} {elapsed_str}"
         else:
-            progress_str = (
-                f"{self.desc}: {percent:.0f}% {bar} {n_str}/{t_str} {rate_str} {elapsed_str}{remaining_str}"
-            )
+            progress_str = f"{self.desc}: {percent:.0f}% {bar} {n_str}/{t_str} {rate_str} {elapsed_str}{remaining_str}"
     else:
         progress_str = f"{self.desc}: {bar} {n_str} {rate_str} {elapsed_str}"
 

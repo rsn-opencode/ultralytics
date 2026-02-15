@@ -108,14 +108,14 @@ def postprocess(self, preds, img, orig_imgs):
     predictions to Results objects containing properly scaled bounding boxes.
 
     Args:
-        preds (list | tuple): List of [predictions, extra] from the model, where predictions contain bounding boxes
-            and scores.
+        preds (list | tuple): List of [predictions, extra] from the model, where predictions contain bounding boxes and
+            scores.
         img (torch.Tensor): Processed input images with shape (N, 3, H, W).
         orig_imgs (list | torch.Tensor): Original, unprocessed images.
 
     Returns:
-        (list[Results]): A list of Results objects containing the post-processed bounding boxes, confidence scores,
-            and class labels.
+        (list[Results]): A list of Results objects containing the post-processed bounding boxes, confidence scores, and
+            class labels.
     """
     if not isinstance(preds, (list, tuple)):  # list for PyTorch inference but list[0] Tensor for export inference
         preds = [preds, None]

@@ -487,8 +487,8 @@ def process_batch(
         detections (dict[str, torch.Tensor]): Dictionary containing detected bounding boxes and their associated
             information. Should contain 'cls', 'conf', and 'bboxes' keys, where 'bboxes' can be Array[N, 4] for
             regular boxes or Array[N, 5] for OBB with angle.
-        batch (dict[str, Any]): Batch dictionary containing ground truth data with 'bboxes' (Array[M, 4]| Array[M,
-            5]) and 'cls' (Array[M]) keys, where M is the number of ground truth objects.
+        batch (dict[str, Any]): Batch dictionary containing ground truth data with 'bboxes' (Array[M, 4]| Array[M, 5])
+            and 'cls' (Array[M]) keys, where M is the number of ground truth objects.
         conf (float, optional): Confidence threshold for detections.
         iou_thres (float, optional): IoU threshold for matching detections to ground truth.
     """
@@ -630,8 +630,7 @@ normalization. This is useful for exporting the matrix to various formats such a
 ```python
 def summary(self, normalize: bool = False, decimals: int = 5) -> list[dict[str, float]]:
     """Generate a summarized representation of the confusion matrix as a list of dictionaries, with optional
-    normalization. This is useful for exporting the matrix to various formats such as CSV, XML, HTML, JSON,
-    or SQL.
+    normalization. This is useful for exporting the matrix to various formats such as CSV, XML, HTML, JSON, or SQL.
 
     Args:
         normalize (bool): Whether to normalize the confusion matrix values.
@@ -1636,16 +1635,15 @@ shared scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-sc
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/metrics.py#L1146-L1178"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def summary(self, normalize: bool = True, decimals: int = 5) -> list[dict[str, Any]]:
-    """Generate a summarized representation of per-class detection metrics as a list of dictionaries. Includes
-    shared scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-score for each class.
+    """Generate a summarized representation of per-class detection metrics as a list of dictionaries. Includes shared
+    scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-score for each class.
 
     Args:
         normalize (bool): For Detect metrics, everything is normalized by default [0-1].
         decimals (int): Number of decimal places to round the metrics values to.
 
     Returns:
-        (list[dict[str, Any]]): A list of dictionaries, each representing one class with corresponding metric
-            values.
+        (list[dict[str, Any]]): A list of dictionaries, each representing one class with corresponding metric values.
 
     Examples:
        >>> results = model.val(data="coco8.yaml")
@@ -1696,8 +1694,8 @@ def update_stats(self, stat: dict[str, Any]) -> None:
     """Update statistics by appending new values to existing stat collections.
 
     Args:
-        stat (dict[str, Any]): Dictionary containing new statistical values to append. Keys should match existing
-            keys in self.stats.
+        stat (dict[str, Any]): Dictionary containing new statistical values to append. Keys should match existing keys
+            in self.stats.
     """
     for k in self.stats.keys():
         self.stats[k].append(stat[k])
@@ -2061,17 +2059,15 @@ both box and mask scalar metrics (mAP, mAP50, mAP75) alongside precision, recall
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/metrics.py#L1290-L1316"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def summary(self, normalize: bool = True, decimals: int = 5) -> list[dict[str, Any]]:
-    """Generate a summarized representation of per-class segmentation metrics as a list of dictionaries. Includes
-    both box and mask scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-score for
-    each class.
+    """Generate a summarized representation of per-class segmentation metrics as a list of dictionaries. Includes both
+    box and mask scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-score for each class.
 
     Args:
         normalize (bool): For Segment metrics, everything is normalized by default [0-1].
         decimals (int): Number of decimal places to round the metrics values to.
 
     Returns:
-        (list[dict[str, Any]]): A list of dictionaries, each representing one class with corresponding metric
-            values.
+        (list[dict[str, Any]]): A list of dictionaries, each representing one class with corresponding metric values.
 
     Examples:
         >>> results = model.val(data="coco8-seg.yaml")
@@ -2451,16 +2447,15 @@ and pose scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/metrics.py#L1432-L1457"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def summary(self, normalize: bool = True, decimals: int = 5) -> list[dict[str, Any]]:
-    """Generate a summarized representation of per-class pose metrics as a list of dictionaries. Includes both box
-    and pose scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-score for each class.
+    """Generate a summarized representation of per-class pose metrics as a list of dictionaries. Includes both box and
+    pose scalar metrics (mAP, mAP50, mAP75) alongside precision, recall, and F1-score for each class.
 
     Args:
         normalize (bool): For Pose metrics, everything is normalized by default [0-1].
         decimals (int): Number of decimal places to round the metrics values to.
 
     Returns:
-        (list[dict[str, Any]]): A list of dictionaries, each representing one class with corresponding metric
-            values.
+        (list[dict[str, Any]]): A list of dictionaries, each representing one class with corresponding metric values.
 
     Examples:
         >>> results = model.val(data="coco8-pose.yaml")

@@ -34,7 +34,7 @@ keywords: ConsoleLogger, console capture, log streaming, API logging, file loggi
 ## Class `ultralytics.utils.logger.ConsoleLogger` {#ultralytics.utils.logger.ConsoleLogger}
 
 ```python
-ConsoleLogger(self, destination = None, batch_size = 1, flush_interval = 5.0, on_flush = None)
+ConsoleLogger(self, destination=None, batch_size=1, flush_interval=5.0, on_flush=None)
 ```
 
 Console output capture with batched streaming to file, API, or custom callback.
@@ -697,8 +697,8 @@ Example output (rates=True):
 def get_metrics(self, rates=False):
     """Get current system metrics including CPU, RAM, disk, network, and GPU usage.
 
-    Collects comprehensive system metrics including CPU usage, RAM usage, disk I/O statistics, network I/O
-    statistics, and GPU metrics (if available).
+    Collects comprehensive system metrics including CPU usage, RAM usage, disk I/O statistics, network I/O statistics,
+    and GPU metrics (if available).
 
     Example output (rates=False, default):
     ```python

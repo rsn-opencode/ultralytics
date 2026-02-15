@@ -5537,8 +5537,7 @@ matrix.
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/block.py#L2049-L2060"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def backward_p(self, x):
-    """Apply mapping from the data space to the latent space and calculate the log determinant of the Jacobian
-    matrix.
+    """Apply mapping from the data space to the latent space and calculate the log determinant of the Jacobian matrix.
     """
     log_det_jacob, z = x.new_zeros(x.shape[0]), x
     for i in reversed(range(len(self.t))):

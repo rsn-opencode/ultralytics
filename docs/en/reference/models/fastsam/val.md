@@ -21,7 +21,7 @@ keywords: FastSAM Validator, Ultralytics, YOLO, segmentation, validation, metric
 ## Class `ultralytics.models.fastsam.val.FastSAMValidator` {#ultralytics.models.fastsam.val.FastSAMValidator}
 
 ```python
-FastSAMValidator(self, dataloader = None, save_dir = None, args = None, _callbacks = None)
+FastSAMValidator(self, dataloader=None, save_dir=None, args=None, _callbacks=None)
 ```
 
 **Bases:** `SegmentationValidator`

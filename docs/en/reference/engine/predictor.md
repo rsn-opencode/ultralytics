@@ -223,8 +223,8 @@ def __call__(self, source=None, model=None, stream: bool = False, *args, **kwarg
     """Perform inference on an image or stream.
 
     Args:
-        source (str | Path | list[str] | list[Path] | list[np.ndarray] | np.ndarray | torch.Tensor, optional):
-            Source for inference.
+        source (str | Path | list[str] | list[Path] | list[np.ndarray] | np.ndarray | torch.Tensor, optional): Source
+            for inference.
         model (str | Path | torch.nn.Module, optional): Model for inference.
         stream (bool): Whether to stream the inference results. If True, returns a generator.
         *args (Any): Additional arguments for the inference method.
@@ -413,12 +413,12 @@ def predict_cli(self, source=None, model=None):
     """Method used for Command Line Interface (CLI) prediction.
 
     This function is designed to run predictions using the CLI. It sets up the source and model, then processes the
-    inputs in a streaming manner. This method ensures that no outputs accumulate in memory by consuming the
-    generator without storing results.
+    inputs in a streaming manner. This method ensures that no outputs accumulate in memory by consuming the generator
+    without storing results.
 
     Args:
-        source (str | Path | list[str] | list[Path] | list[np.ndarray] | np.ndarray | torch.Tensor, optional):
-            Source for inference.
+        source (str | Path | list[str] | list[Path] | list[np.ndarray] | np.ndarray | torch.Tensor, optional): Source
+            for inference.
         model (str | Path | torch.nn.Module, optional): Model for inference.
 
     Notes:
@@ -744,8 +744,8 @@ def stream_inference(self, source=None, model=None, *args, **kwargs):
     """Stream inference on input source and save results to file.
 
     Args:
-        source (str | Path | list[str] | list[Path] | list[np.ndarray] | np.ndarray | torch.Tensor, optional):
-            Source for inference.
+        source (str | Path | list[str] | list[Path] | list[np.ndarray] | np.ndarray | torch.Tensor, optional): Source
+            for inference.
         model (str | Path | torch.nn.Module, optional): Model for inference.
         *args (Any): Additional arguments for the inference method.
         **kwargs (Any): Additional keyword arguments for the inference method.

@@ -207,16 +207,15 @@ This method extracts tracks from the input frame, annotates bounding boxes, and 
 def process(self, im0) -> SolutionResults:
     """Process a video frame and calculate the distance between two selected bounding boxes.
 
-    This method extracts tracks from the input frame, annotates bounding boxes, and calculates the distance between
-    two user-selected objects if they have been chosen.
+    This method extracts tracks from the input frame, annotates bounding boxes, and calculates the distance between two
+    user-selected objects if they have been chosen.
 
     Args:
         im0 (np.ndarray): The input image frame to process.
 
     Returns:
         (SolutionResults): Contains processed image `plot_im`, `total_tracks` (int) representing the total number of
-            tracked objects, and `pixels_distance` (float) representing the distance between selected objects
-            in pixels.
+            tracked objects, and `pixels_distance` (float) representing the distance between selected objects in pixels.
 
     Examples:
         >>> import numpy as np

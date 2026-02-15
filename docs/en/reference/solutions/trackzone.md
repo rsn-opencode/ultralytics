@@ -150,15 +150,15 @@ This method initializes the annotator, creates a mask for the specified region, 
 def process(self, im0: np.ndarray) -> SolutionResults:
     """Process the input frame to track objects within a defined region.
 
-    This method initializes the annotator, creates a mask for the specified region, extracts tracks only from the
-    masked area, and updates tracking information. Objects outside the region are ignored.
+    This method initializes the annotator, creates a mask for the specified region, extracts tracks only from the masked
+    area, and updates tracking information. Objects outside the region are ignored.
 
     Args:
         im0 (np.ndarray): The input image or frame to be processed.
 
     Returns:
-        (SolutionResults): Contains processed image `plot_im` and `total_tracks` (int) representing the total number
-            of tracked objects within the defined region.
+        (SolutionResults): Contains processed image `plot_im` and `total_tracks` (int) representing the total number of
+            tracked objects within the defined region.
 
     Examples:
         >>> tracker = TrackZone()

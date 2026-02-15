@@ -483,8 +483,8 @@ def pred_to_json(self, predn: dict[str, torch.Tensor], pbatch: dict[str, Any]) -
     """
 
     def to_string(counts: list[int]) -> str:
-        """Converts the RLE object into a compact string representation. Each count is delta-encoded and
-        variable-length encoded as a string.
+        """Converts the RLE object into a compact string representation. Each count is delta-encoded and variable-length
+        encoded as a string.
 
         Args:
             counts (list[int]): List of RLE counts.
@@ -519,8 +519,7 @@ def pred_to_json(self, predn: dict[str, torch.Tensor], pbatch: dict[str, Any]) -
         """Convert multiple binary masks using Run-Length Encoding (RLE).
 
         Args:
-            pixels (torch.Tensor): A 2D tensor where each row represents a flattened binary mask with shape [N,
-                H*W].
+            pixels (torch.Tensor): A 2D tensor where each row represents a flattened binary mask with shape [N, H*W].
 
         Returns:
             (list[list[int]]): A list of RLE counts for each mask.
@@ -672,9 +671,7 @@ def scale_preds(self, predn: dict[str, torch.Tensor], pbatch: dict[str, Any]) ->
     """Scales predictions to the original image size."""
     return {
         **super().scale_preds(predn, pbatch),
-        "masks": ops.scale_masks(predn["masks"][None], pbatch["ori_shape"], ratio_pad=pbatch["ratio_pad"])[
-            0
-        ].byte(),
+        "masks": ops.scale_masks(predn["masks"][None], pbatch["ori_shape"], ratio_pad=pbatch["ratio_pad"])[0].byte(),
     }
 ```
 </details>

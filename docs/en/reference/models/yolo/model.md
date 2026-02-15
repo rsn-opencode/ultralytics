@@ -584,8 +584,8 @@ This method extracts positional embeddings from visual features based on the inp
 def get_visual_pe(self, img, visual):
     """Get visual positional embeddings for the given image and visual features.
 
-    This method extracts positional embeddings from visual features based on the input image. It requires that the
-    model is an instance of YOLOEModel.
+    This method extracts positional embeddings from visual features based on the input image. It requires that the model
+    is an instance of YOLOEModel.
 
     Args:
         img (torch.Tensor): Input image tensor.
@@ -697,13 +697,12 @@ def predict(
     Args:
         source (str | int | PIL.Image | np.ndarray, optional): Source for prediction. Accepts image paths, directory
             paths, URL/YouTube streams, PIL images, numpy arrays, or webcam indices.
-        stream (bool): Whether to stream the prediction results. If True, results are yielded as a generator as they
-            are computed.
-        visual_prompts (dict[str, list]): Dictionary containing visual prompts for the model. Must include 'bboxes'
-            and 'cls' keys when non-empty.
+        stream (bool): Whether to stream the prediction results. If True, results are yielded as a generator as they are
+            computed.
+        visual_prompts (dict[str, list]): Dictionary containing visual prompts for the model. Must include 'bboxes' and
+            'cls' keys when non-empty.
         refer_image (str | PIL.Image | np.ndarray, optional): Reference image for visual prompts.
-        predictor (callable): Custom predictor class for visual prompt predictions. Defaults to
-            YOLOEVPDetectPredictor.
+        predictor (callable): Custom predictor class for visual prompt predictions. Defaults to YOLOEVPDetectPredictor.
         **kwargs (Any): Additional keyword arguments passed to the predictor.
 
     Returns:

@@ -724,9 +724,7 @@ def forward(
 
     if self.aux_loss:
         total_loss.update(
-            self._get_loss_aux(
-                pred_bboxes[:-1], pred_scores[:-1], gt_bboxes, gt_cls, gt_groups, match_indices, postfix
-            )
+            self._get_loss_aux(pred_bboxes[:-1], pred_scores[:-1], gt_bboxes, gt_cls, gt_groups, match_indices, postfix)
         )
 
     return total_loss

@@ -201,16 +201,15 @@ def gating_distance(
     Args:
         mean (np.ndarray): Mean vector over the state distribution (8 dimensional).
         covariance (np.ndarray): Covariance of the state distribution (8x8 dimensional).
-        measurements (np.ndarray): An (N, 4) matrix of N measurements, each in format (x, y, a, h) where (x, y) is
-            the bounding box center position, a the aspect ratio, and h the height.
-        only_position (bool, optional): If True, distance computation is done with respect to box center position
-            only.
-        metric (str, optional): The metric to use for calculating the distance. Options are 'gaussian' for the
-            squared Euclidean distance and 'maha' for the squared Mahalanobis distance.
+        measurements (np.ndarray): An (N, 4) matrix of N measurements, each in format (x, y, a, h) where (x, y) is the
+            bounding box center position, a the aspect ratio, and h the height.
+        only_position (bool, optional): If True, distance computation is done with respect to box center position only.
+        metric (str, optional): The metric to use for calculating the distance. Options are 'gaussian' for the squared
+            Euclidean distance and 'maha' for the squared Mahalanobis distance.
 
     Returns:
-        (np.ndarray): Returns an array of length N, where the i-th element contains the squared distance between
-            (mean, covariance) and `measurements[i]`.
+        (np.ndarray): Returns an array of length N, where the i-th element contains the squared distance between (mean,
+            covariance) and `measurements[i]`.
 
     Examples:
         Compute gating distance using Mahalanobis metric:
@@ -277,8 +276,8 @@ def initiate(self, measurement: np.ndarray):
     """Create a track from an unassociated measurement.
 
     Args:
-        measurement (np.ndarray): Bounding box coordinates (x, y, a, h) with center position (x, y), aspect ratio a,
-            and height h.
+        measurement (np.ndarray): Bounding box coordinates (x, y, a, h) with center position (x, y), aspect ratio a, and
+            height h.
 
     Returns:
         mean (np.ndarray): Mean vector (8-dimensional) of the new track. Unobserved velocities are initialized to 0.
@@ -431,8 +430,7 @@ def predict(self, mean: np.ndarray, covariance: np.ndarray):
 
     Args:
         mean (np.ndarray): The 8-dimensional mean vector of the object state at the previous time step.
-        covariance (np.ndarray): The 8x8-dimensional covariance matrix of the object state at the previous time
-            step.
+        covariance (np.ndarray): The 8x8-dimensional covariance matrix of the object state at the previous time step.
 
     Returns:
         mean (np.ndarray): Mean vector of the predicted state.
@@ -713,8 +711,7 @@ def initiate(self, measurement: np.ndarray):
     """Create track from unassociated measurement.
 
     Args:
-        measurement (np.ndarray): Bounding box coordinates (x, y, w, h) with center position (x, y), width, and
-            height.
+        measurement (np.ndarray): Bounding box coordinates (x, y, w, h) with center position (x, y), width, and height.
 
     Returns:
         mean (np.ndarray): Mean vector (8 dimensional) of the new track. Unobserved velocities are initialized to 0.
@@ -878,8 +875,7 @@ def predict(self, mean: np.ndarray, covariance: np.ndarray):
 
     Args:
         mean (np.ndarray): The 8-dimensional mean vector of the object state at the previous time step.
-        covariance (np.ndarray): The 8x8-dimensional covariance matrix of the object state at the previous time
-            step.
+        covariance (np.ndarray): The 8x8-dimensional covariance matrix of the object state at the previous time step.
 
     Returns:
         mean (np.ndarray): Mean vector of the predicted state.

@@ -35,7 +35,7 @@ keywords: Ultralytics, SAM3, SAM, transformer, layers, utilities, deep learning,
 ## Class `ultralytics.models.sam.sam3.model_misc.DotProductScoring` {#ultralytics.models.sam.sam3.model\_misc.DotProductScoring}
 
 ```python
-DotProductScoring(self, d_model, d_proj, prompt_mlp = None, clamp_logits = True, clamp_max_val = 12.0)
+DotProductScoring(self, d_model, d_proj, prompt_mlp=None, clamp_logits=True, clamp_max_val=12.0)
 ```
 
 **Bases:** `torch.nn.Module`

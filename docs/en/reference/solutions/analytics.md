@@ -215,8 +215,8 @@ def process(self, im0: np.ndarray, frame_number: int) -> SolutionResults:
         frame_number (int): Video frame number for plotting the data.
 
     Returns:
-        (SolutionResults): Contains processed image `plot_im`, 'total_tracks' (int, total number of tracked objects)
-            and 'classwise_count' (dict, per-class object count).
+        (SolutionResults): Contains processed image `plot_im`, 'total_tracks' (int, total number of tracked objects) and
+            'classwise_count' (dict, per-class object count).
 
     Raises:
         ValueError: If an unsupported chart type is specified.
@@ -291,9 +291,7 @@ Update the graph with new data for single or multiple classes.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/solutions/analytics.py#L139-L264"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def update_graph(
-    self, frame_number: int, count_dict: dict[str, int] | None = None, plot: str = "line"
-) -> np.ndarray:
+def update_graph(self, frame_number: int, count_dict: dict[str, int] | None = None, plot: str = "line") -> np.ndarray:
     """Update the graph with new data for single or multiple classes.
 
     Args:

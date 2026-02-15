@@ -595,9 +595,7 @@ def box_label(self, box, label: str = "", color: tuple = (128, 128, 128), txt_co
             # self.draw.text([box[0], box[1]], label, fill=txt_color, font=self.font, anchor='ls')  # for PIL>8.0
             self.draw.text((p1[0], p1[1] - h if outside else p1[1]), label, fill=txt_color, font=self.font)
     else:  # cv2
-        cv2.polylines(
-            self.im, [np.asarray(box, dtype=int)], True, color, self.lw
-        ) if multi_points else cv2.rectangle(
+        cv2.polylines(self.im, [np.asarray(box, dtype=int)], True, color, self.lw) if multi_points else cv2.rectangle(
             self.im, p1, (int(box[2]), int(box[3])), color, thickness=self.lw, lineType=cv2.LINE_AA
         )
         if label:
@@ -940,9 +938,7 @@ def masks(self, masks, colors, im_gpu: torch.Tensor = None, alpha: float = 0.5, 
             # Use scale_masks to properly remove padding and upsample, convert bool to float first
             masks = ops.scale_masks(masks[None].float(), (ih, iw))[0] > 0.5
             # Convert original BGR image to RGB tensor
-            im_gpu = (
-                torch.from_numpy(self.im).to(masks.device).permute(2, 0, 1).flip(0).contiguous().float() / 255.0
-            )
+            im_gpu = torch.from_numpy(self.im).to(masks.device).permute(2, 0, 1).flip(0).contiguous().float() / 255.0
 
         colors = torch.tensor(colors, device=masks.device, dtype=torch.float32) / 255.0  # shape(n,3)
         colors = colors[:, None, None]  # shape(n,1,1,3)
@@ -1071,7 +1067,7 @@ def show(self, title: str | None = None):
     im = Image.fromarray(np.asarray(self.im)[..., ::-1])  # Convert BGR NumPy array to RGB PIL Image
     if IS_COLAB or IS_KAGGLE:  # cannot use IS_JUPYTER as it runs for all IPython environments
         try:
-            display(im)  # noqa - display() function only available in ipython environments
+            display(im)
         except ImportError as e:
             LOGGER.warning(f"Unable to display image in Jupyter notebooks: {e}")
     else:

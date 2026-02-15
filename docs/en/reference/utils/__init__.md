@@ -958,7 +958,7 @@ def save(cls, file="data.yaml", data=None, header=""):
 ## Class `ultralytics.utils.TryExcept` {#ultralytics.utils.\_\_init\_\_.TryExcept}
 
 ```python
-TryExcept(self, msg = "", verbose = True)
+TryExcept(self, msg="", verbose=True)
 ```
 
 **Bases:** `contextlib.ContextDecorator`
@@ -1096,7 +1096,7 @@ def __exit__(self, exc_type, value, traceback):
 ## Class `ultralytics.utils.Retry` {#ultralytics.utils.\_\_init\_\_.Retry}
 
 ```python
-Retry(self, times = 3, delay = 2)
+Retry(self, times=3, delay=2)
 ```
 
 **Bases:** `contextlib.ContextDecorator`
@@ -1528,7 +1528,7 @@ def update(self, *args, **kwargs):
 ## Class `ultralytics.utils.SettingsManager` {#ultralytics.utils.\_\_init\_\_.SettingsManager}
 
 ```python
-SettingsManager(self, file = SETTINGS_FILE, version = "0.0.6")
+SettingsManager(self, file=SETTINGS_FILE, version="0.0.6")
 ```
 
 **Bases:** `JSONDict`

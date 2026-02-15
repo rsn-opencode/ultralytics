@@ -1339,8 +1339,8 @@ dim=192, input_resolution=(14, 14), num_heads=3, window_size=7, mlp_ratio=4.0
 def extra_repr(self) -> str:
     """Return a string representation of the TinyViTBlock's parameters.
 
-    This method provides a formatted string containing key information about the TinyViTBlock, including its
-    dimension, input resolution, number of attention heads, window size, and MLP ratio.
+    This method provides a formatted string containing key information about the TinyViTBlock, including its dimension,
+    input resolution, number of attention heads, window size, and MLP ratio.
 
     Returns:
         (str): A formatted string containing the block's parameters.

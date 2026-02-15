@@ -160,8 +160,8 @@ def task_map(self) -> dict[str, dict[str, type[Predictor]]]:
     """Provide a mapping from the 'segment' task to its corresponding 'Predictor'.
 
     Returns:
-        (dict[str, dict[str, type[Predictor]]]): A dictionary mapping the 'segment' task to its corresponding
-            Predictor class. For SAM2 models, it maps to SAM2Predictor, otherwise to the standard Predictor.
+        (dict[str, dict[str, type[Predictor]]]): A dictionary mapping the 'segment' task to its corresponding Predictor
+            class. For SAM2 models, it maps to SAM2Predictor, otherwise to the standard Predictor.
 
     Examples:
         >>> sam = SAM("sam_b.pt")
@@ -169,9 +169,7 @@ def task_map(self) -> dict[str, dict[str, type[Predictor]]]:
         >>> print(task_map)
         {'segment': {'predictor': <class 'ultralytics.models.sam.predict.Predictor'>}}
     """
-    return {
-        "segment": {"predictor": SAM2Predictor if self.is_sam2 else SAM3Predictor if self.is_sam3 else Predictor}
-    }
+    return {"segment": {"predictor": SAM2Predictor if self.is_sam2 else SAM3Predictor if self.is_sam3 else Predictor}}
 ```
 </details>
 
@@ -220,8 +218,8 @@ This method is an alias for the 'predict' method, providing a convenient way to 
 def __call__(self, source=None, stream: bool = False, bboxes=None, points=None, labels=None, **kwargs):
     """Perform segmentation prediction on the given image or video source.
 
-    This method is an alias for the 'predict' method, providing a convenient way to call the SAM model for
-    segmentation tasks.
+    This method is an alias for the 'predict' method, providing a convenient way to call the SAM model for segmentation
+    tasks.
 
     Args:
         source (str | PIL.Image | np.ndarray | None): Path to the image or video file, or a PIL.Image object, or a
@@ -395,8 +393,8 @@ def predict(self, source, stream: bool = False, bboxes=None, points=None, labels
     """Perform segmentation prediction on the given image or video source.
 
     Args:
-        source (str | PIL.Image | np.ndarray): Path to the image or video file, or a PIL.Image object, or a
-            np.ndarray object.
+        source (str | PIL.Image | np.ndarray): Path to the image or video file, or a PIL.Image object, or a np.ndarray
+            object.
         stream (bool): If True, enables real-time streaming.
         bboxes (list[list[float]] | None): List of bounding box coordinates for prompted segmentation.
         points (list[list[float]] | None): List of points for prompted segmentation.

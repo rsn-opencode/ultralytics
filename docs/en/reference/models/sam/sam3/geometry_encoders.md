@@ -34,7 +34,7 @@ keywords: Ultralytics, SAM3, SAM, prompt encoder, geometry encoder, padding, emb
 ## Class `ultralytics.models.sam.sam3.geometry_encoders.Prompt` {#ultralytics.models.sam.sam3.geometry\_encoders.Prompt}
 
 ```python
-Prompt(self, box_embeddings = None, box_mask = None, box_labels = None)
+Prompt(self, box_embeddings=None, box_mask=None, box_labels=None)
 ```
 
 Utility class to manipulate geometric prompts.

@@ -616,9 +616,7 @@ def update(self, new_track: STrack, frame_id: int):
     self.tracklet_len += 1
 
     new_tlwh = new_track.tlwh
-    self.mean, self.covariance = self.kalman_filter.update(
-        self.mean, self.covariance, self.convert_coords(new_tlwh)
-    )
+    self.mean, self.covariance = self.kalman_filter.update(self.mean, self.covariance, self.convert_coords(new_tlwh))
     self.state = TrackState.Tracked
     self.is_activated = True
 

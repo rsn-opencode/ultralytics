@@ -60,7 +60,7 @@ keywords: Ultralytics, torch utils, model optimization, device selection, infere
 ## Class `ultralytics.utils.torch_utils.ModelEMA` {#ultralytics.utils.torch\_utils.ModelEMA}
 
 ```python
-ModelEMA(self, model, decay = 0.9999, tau = 2000, updates = 0)
+ModelEMA(self, model, decay=0.9999, tau=2000, updates=0)
 ```
 
 Updated Exponential Moving Average (EMA) implementation.
@@ -220,7 +220,7 @@ def update_attr(self, model, include=(), exclude=("process_group", "reducer")):
 ## Class `ultralytics.utils.torch_utils.EarlyStopping` {#ultralytics.utils.torch\_utils.EarlyStopping}
 
 ```python
-EarlyStopping(self, patience = 50)
+EarlyStopping(self, patience=50)
 ```
 
 Early stopping class that stops training when a specified number of epochs have passed without improvement.

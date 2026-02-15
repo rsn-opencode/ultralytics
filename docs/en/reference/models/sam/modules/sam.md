@@ -893,9 +893,9 @@ def _encode_new_memory(
     # is predicted to be occluded (i.e. no object is appearing in the frame)
     if self.no_obj_embed_spatial is not None:
         is_obj_appearing = (object_score_logits > 0).float()
-        maskmem_features += (1 - is_obj_appearing[..., None, None]) * self.no_obj_embed_spatial[
-            ..., None, None
-        ].expand(*maskmem_features.shape)
+        maskmem_features += (1 - is_obj_appearing[..., None, None]) * self.no_obj_embed_spatial[..., None, None].expand(
+            *maskmem_features.shape
+        )
 
     return maskmem_features, maskmem_out["vision_pos_enc"]
 ```
@@ -980,15 +980,15 @@ def _forward_sam_heads(
     Args:
         backbone_features (torch.Tensor): Image features with shape (B, C, H, W).
         point_inputs (dict[str, torch.Tensor] | None): Dictionary containing point prompts with keys 'point_coords'
-            (Tensor of shape (B, P, 2) with float32 dtype, containing absolute pixel-unit coordinates in (x, y)
-            format for P input points) and 'point_labels' (Tensor of shape (B, P) with int32 dtype, where 1 means
-            positive clicks, 0 means negative clicks, and -1 means padding).
-        mask_inputs (torch.Tensor | None): Mask of shape (B, 1, H*16, W*16), float or bool, with the same spatial
-            size as the image.
-        high_res_features (list[torch.Tensor] | None): List of two feature maps with shapes (B, C, 4*H, 4*W) and (B,
-            C, 2*H, 2*W) respectively, used as high-resolution feature maps for SAM decoder.
-        multimask_output (bool): If True, output 3 candidate masks and their IoU estimates; if False, output only 1
-            mask and its IoU estimate.
+            (Tensor of shape (B, P, 2) with float32 dtype, containing absolute pixel-unit coordinates in (x, y) format
+            for P input points) and 'point_labels' (Tensor of shape (B, P) with int32 dtype, where 1 means positive
+            clicks, 0 means negative clicks, and -1 means padding).
+        mask_inputs (torch.Tensor | None): Mask of shape (B, 1, H*16, W*16), float or bool, with the same spatial size
+            as the image.
+        high_res_features (list[torch.Tensor] | None): List of two feature maps with shapes (B, C, 4*H, 4*W) and (B, C,
+            2*H, 2*W) respectively, used as high-resolution feature maps for SAM decoder.
+        multimask_output (bool): If True, output 3 candidate masks and their IoU estimates; if False, output only 1 mask
+            and its IoU estimate.
 
     Returns:
         low_res_multimasks (torch.Tensor): Tensor of shape (B, M, H*4, W*4) with SAM output mask logits.
@@ -1291,11 +1291,7 @@ def _prepare_memory_conditioned_features(
             pos_and_ptrs = [
                 # Temporal pos encoding contains how far away each pointer is from current frame
                 (
-                    (
-                        (frame_idx - t) * tpos_sign_mul
-                        if self.use_signed_tpos_enc_to_obj_ptrs
-                        else abs(frame_idx - t)
-                    ),
+                    ((frame_idx - t) * tpos_sign_mul if self.use_signed_tpos_enc_to_obj_ptrs else abs(frame_idx - t)),
                     out["obj_ptr"],
                 )
                 for t, out in ptr_cond_outputs.items()

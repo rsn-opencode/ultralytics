@@ -144,14 +144,12 @@ Return OBBModel initialized with specified config and weights.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/yolo/obb/train.py#L50-L72"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def get_model(
-    self, cfg: str | dict | None = None, weights: str | Path | None = None, verbose: bool = True
-) -> OBBModel:
+def get_model(self, cfg: str | dict | None = None, weights: str | Path | None = None, verbose: bool = True) -> OBBModel:
     """Return OBBModel initialized with specified config and weights.
 
     Args:
-        cfg (str | dict, optional): Model configuration. Can be a path to a YAML config file, a dictionary
-            containing configuration parameters, or None to use default configuration.
+        cfg (str | dict, optional): Model configuration. Can be a path to a YAML config file, a dictionary containing
+            configuration parameters, or None to use default configuration.
         weights (str | Path, optional): Path to pretrained weights file. If None, random initialization is used.
         verbose (bool): Whether to display model information during initialization.
 

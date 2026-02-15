@@ -158,9 +158,7 @@ def _apply_self_attention(self, tgt, tgt_query_pos, dac, dac_use_selfatt_ln, pre
     # Handle presence token
     if presence_token is not None:
         tgt_o2o = torch.cat([presence_token, tgt_o2o], dim=0)
-        tgt_query_pos_o2o = torch.cat([torch.zeros_like(presence_token), tgt_query_pos_o2o], dim=0).to(
-            tgt_o2o.dtype
-        )
+        tgt_query_pos_o2o = torch.cat([torch.zeros_like(presence_token), tgt_query_pos_o2o], dim=0).to(tgt_o2o.dtype)
         tgt_query_pos = torch.cat([torch.zeros_like(presence_token), tgt_query_pos], dim=0)
 
     # Self-attention
@@ -774,9 +772,7 @@ def forward(
 ):
     """Forward pass of the TransformerDecoder."""
     if memory_mask is not None:
-        assert self.boxRPB == "none", (
-            "inputting a memory_mask in the presence of boxRPB is unexpected/not implemented"
-        )
+        assert self.boxRPB == "none", "inputting a memory_mask in the presence of boxRPB is unexpected/not implemented"
 
     apply_dac = apply_dac if apply_dac is not None else self.dac
     if apply_dac:

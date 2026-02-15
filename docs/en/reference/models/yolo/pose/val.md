@@ -251,14 +251,13 @@ truth.
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/yolo/pose/val.py#L158-L186"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def _process_batch(self, preds: dict[str, torch.Tensor], batch: dict[str, Any]) -> dict[str, np.ndarray]:
-    """Return correct prediction matrix by computing Intersection over Union (IoU) between detections and ground
-    truth.
+    """Return correct prediction matrix by computing Intersection over Union (IoU) between detections and ground truth.
 
     Args:
-        preds (dict[str, torch.Tensor]): Dictionary containing prediction data with keys 'cls' for class predictions
-            and 'keypoints' for keypoint predictions.
-        batch (dict[str, Any]): Dictionary containing ground truth data with keys 'cls' for class labels, 'bboxes'
-            for bounding boxes, and 'keypoints' for keypoint annotations.
+        preds (dict[str, torch.Tensor]): Dictionary containing prediction data with keys 'cls' for class predictions and
+            'keypoints' for keypoint predictions.
+        batch (dict[str, Any]): Dictionary containing ground truth data with keys 'cls' for class labels, 'bboxes' for
+            bounding boxes, and 'keypoints' for keypoint annotations.
 
     Returns:
         (dict[str, np.ndarray]): Dictionary containing the correct prediction matrix including 'tp_p' for pose true
@@ -417,9 +416,9 @@ This method extends the parent class postprocessing by extracting keypoints from
 def postprocess(self, preds: torch.Tensor) -> list[dict[str, torch.Tensor]]:
     """Postprocess YOLO predictions to extract and reshape keypoints for pose estimation.
 
-    This method extends the parent class postprocessing by extracting keypoints from the 'extra' field of
-    predictions and reshaping them according to the keypoint shape configuration. The keypoints are reshaped from a
-    flattened format to the proper dimensional structure (typically [N, 17, 3] for COCO pose format).
+    This method extends the parent class postprocessing by extracting keypoints from the 'extra' field of predictions
+    and reshaping them according to the keypoint shape configuration. The keypoints are reshaped from a flattened format
+    to the proper dimensional structure (typically [N, 17, 3] for COCO pose format).
 
     Args:
         preds (torch.Tensor): Raw prediction tensor from the YOLO pose model containing bounding boxes, confidence
@@ -477,12 +476,11 @@ This method takes prediction tensors and batch data, converts the bounding boxes
 def pred_to_json(self, predn: dict[str, torch.Tensor], pbatch: dict[str, Any]) -> None:
     """Convert YOLO predictions to COCO JSON format.
 
-    This method takes prediction tensors and batch data, converts the bounding boxes from YOLO format to COCO
-    format, and appends the results with keypoints to the internal JSON dictionary (self.jdict).
+    This method takes prediction tensors and batch data, converts the bounding boxes from YOLO format to COCO format,
+    and appends the results with keypoints to the internal JSON dictionary (self.jdict).
 
     Args:
-        predn (dict[str, torch.Tensor]): Prediction dictionary containing 'bboxes', 'conf', 'cls', and 'kpts'
-            tensors.
+        predn (dict[str, torch.Tensor]): Prediction dictionary containing 'bboxes', 'conf', 'cls', and 'kpts' tensors.
         pbatch (dict[str, Any]): Batch dictionary containing 'imgsz', 'ori_shape', 'ratio_pad', and 'im_file'.
 
     Notes:

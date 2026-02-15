@@ -364,9 +364,7 @@ def upload_image(self) -> None:
     canvas_width = (
         min(self.canvas_max_width, self.imgw) if aspect_ratio > 1 else int(self.canvas_max_height * aspect_ratio)
     )
-    canvas_height = (
-        min(self.canvas_max_height, self.imgh) if aspect_ratio <= 1 else int(canvas_width / aspect_ratio)
-    )
+    canvas_height = min(self.canvas_max_height, self.imgh) if aspect_ratio <= 1 else int(canvas_width / aspect_ratio)
 
     self.canvas.config(width=canvas_width, height=canvas_height)
     self.canvas_image = ImageTk.PhotoImage(self.image.resize((canvas_width, canvas_height)))
@@ -514,16 +512,15 @@ def process(self, im0: np.ndarray) -> SolutionResults:
     """Process the input image for parking lot management and visualization.
 
     This function analyzes the input image, extracts tracks, and determines the occupancy status of parking regions
-    defined in the JSON file. It annotates the image with occupied and available parking spots, and updates the
-    parking information.
+    defined in the JSON file. It annotates the image with occupied and available parking spots, and updates the parking
+    information.
 
     Args:
         im0 (np.ndarray): The input inference image.
 
     Returns:
         (SolutionResults): Contains processed image `plot_im`, 'filled_slots' (number of occupied parking slots),
-            'available_slots' (number of available parking slots), and 'total_tracks' (total number of
-            tracked objects).
+            'available_slots' (number of available parking slots), and 'total_tracks' (total number of tracked objects).
 
     Examples:
         >>> parking_manager = ParkingManagement(json_file="parking_regions.json")

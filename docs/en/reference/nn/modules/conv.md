@@ -62,7 +62,7 @@ keywords: Ultralytics, convolution modules, Conv, LightConv, GhostConv, YOLO, de
 ## Class `ultralytics.nn.modules.conv.Conv` {#ultralytics.nn.modules.conv.Conv}
 
 ```python
-Conv(self, c1, c2, k = 1, s = 1, p = None, g = 1, d = 1, act = True)
+Conv(self, c1, c2, k=1, s=1, p=None, g=1, d=1, act=True)
 ```
 
 **Bases:** `nn.Module`
@@ -221,7 +221,7 @@ def forward_fuse(self, x):
 ## Class `ultralytics.nn.modules.conv.Conv2` {#ultralytics.nn.modules.conv.Conv2}
 
 ```python
-Conv2(self, c1, c2, k = 3, s = 1, p = None, g = 1, d = 1, act = True)
+Conv2(self, c1, c2, k=3, s=1, p=None, g=1, d=1, act=True)
 ```
 
 **Bases:** `Conv`
@@ -403,7 +403,7 @@ def fuse_convs(self):
 ## Class `ultralytics.nn.modules.conv.LightConv` {#ultralytics.nn.modules.conv.LightConv}
 
 ```python
-LightConv(self, c1, c2, k = 1, act = nn.ReLU())
+LightConv(self, c1, c2, k=1, act=nn.ReLU())
 ```
 
 **Bases:** `nn.Module`
@@ -510,7 +510,7 @@ def forward(self, x):
 ## Class `ultralytics.nn.modules.conv.DWConv` {#ultralytics.nn.modules.conv.DWConv}
 
 ```python
-DWConv(self, c1, c2, k = 1, s = 1, d = 1, act = True)
+DWConv(self, c1, c2, k=1, s=1, d=1, act=True)
 ```
 
 **Bases:** `Conv`
@@ -557,7 +557,7 @@ class DWConv(Conv):
 ## Class `ultralytics.nn.modules.conv.DWConvTranspose2d` {#ultralytics.nn.modules.conv.DWConvTranspose2d}
 
 ```python
-DWConvTranspose2d(self, c1, c2, k = 1, s = 1, p1 = 0, p2 = 0)
+DWConvTranspose2d(self, c1, c2, k=1, s=1, p1=0, p2=0)
 ```
 
 **Bases:** `nn.ConvTranspose2d`
@@ -604,7 +604,7 @@ class DWConvTranspose2d(nn.ConvTranspose2d):
 ## Class `ultralytics.nn.modules.conv.ConvTranspose` {#ultralytics.nn.modules.conv.ConvTranspose}
 
 ```python
-ConvTranspose(self, c1, c2, k = 2, s = 2, p = 0, bn = True, act = True)
+ConvTranspose(self, c1, c2, k=2, s=2, p=0, bn=True, act=True)
 ```
 
 **Bases:** `nn.Module`
@@ -761,7 +761,7 @@ def forward_fuse(self, x):
 ## Class `ultralytics.nn.modules.conv.Focus` {#ultralytics.nn.modules.conv.Focus}
 
 ```python
-Focus(self, c1, c2, k = 1, s = 1, p = None, g = 1, act = True)
+Focus(self, c1, c2, k=1, s=1, p=None, g=1, act=True)
 ```
 
 **Bases:** `nn.Module`
@@ -875,7 +875,7 @@ def forward(self, x):
 ## Class `ultralytics.nn.modules.conv.GhostConv` {#ultralytics.nn.modules.conv.GhostConv}
 
 ```python
-GhostConv(self, c1, c2, k = 1, s = 1, g = 1, act = True)
+GhostConv(self, c1, c2, k=1, s=1, g=1, act=True)
 ```
 
 **Bases:** `nn.Module`
@@ -993,7 +993,7 @@ def forward(self, x):
 ## Class `ultralytics.nn.modules.conv.RepConv` {#ultralytics.nn.modules.conv.RepConv}
 
 ```python
-RepConv(self, c1, c2, k = 3, s = 1, p = 1, g = 1, d = 1, act = True, bn = False, deploy = False)
+RepConv(self, c1, c2, k=3, s=1, p=1, g=1, d=1, act=True, bn=False, deploy=False)
 ```
 
 **Bases:** `nn.Module`
@@ -1478,7 +1478,7 @@ def forward(self, x: torch.Tensor) -> torch.Tensor:
 ## Class `ultralytics.nn.modules.conv.SpatialAttention` {#ultralytics.nn.modules.conv.SpatialAttention}
 
 ```python
-SpatialAttention(self, kernel_size = 7)
+SpatialAttention(self, kernel_size=7)
 ```
 
 **Bases:** `nn.Module`
@@ -1581,7 +1581,7 @@ def forward(self, x):
 ## Class `ultralytics.nn.modules.conv.CBAM` {#ultralytics.nn.modules.conv.CBAM}
 
 ```python
-CBAM(self, c1, kernel_size = 7)
+CBAM(self, c1, kernel_size=7)
 ```
 
 **Bases:** `nn.Module`
@@ -1684,7 +1684,7 @@ def forward(self, x):
 ## Class `ultralytics.nn.modules.conv.Concat` {#ultralytics.nn.modules.conv.Concat}
 
 ```python
-Concat(self, dimension = 1)
+Concat(self, dimension=1)
 ```
 
 **Bases:** `nn.Module`
@@ -1778,7 +1778,7 @@ def forward(self, x: list[torch.Tensor]):
 ## Class `ultralytics.nn.modules.conv.Index` {#ultralytics.nn.modules.conv.Index}
 
 ```python
-Index(self, index = 0)
+Index(self, index=0)
 ```
 
 **Bases:** `nn.Module`

@@ -28,7 +28,7 @@ keywords: Ultralytics, Fast SAM Predictor, YOLO, segmentation, prediction, AI mo
 ## Class `ultralytics.models.fastsam.predict.FastSAMPredictor` {#ultralytics.models.fastsam.predict.FastSAMPredictor}
 
 ```python
-FastSAMPredictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+FastSAMPredictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `SegmentationPredictor`

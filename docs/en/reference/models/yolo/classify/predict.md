@@ -27,7 +27,7 @@ keywords: YOLO, ClassificationPredictor, Ultralytics, model prediction, preproce
 ## Class `ultralytics.models.yolo.classify.predict.ClassificationPredictor` {#ultralytics.models.yolo.classify.predict.ClassificationPredictor}
 
 ```python
-ClassificationPredictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+ClassificationPredictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `BasePredictor`
@@ -194,9 +194,7 @@ Convert input images to model-compatible tensor format with appropriate normaliz
 def preprocess(self, img):
     """Convert input images to model-compatible tensor format with appropriate normalization."""
     if not isinstance(img, torch.Tensor):
-        img = torch.stack(
-            [self.transforms(Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))) for im in img], dim=0
-        )
+        img = torch.stack([self.transforms(Image.fromarray(cv2.cvtColor(im, cv2.COLOR_BGR2RGB))) for im in img], dim=0)
     img = (img if isinstance(img, torch.Tensor) else torch.from_numpy(img)).to(self.model.device)
     return img.half() if self.model.fp16 else img.float()  # Convert uint8 to fp16/32
 ```
@@ -231,9 +229,7 @@ def setup_source(self, source):
         if hasattr(self.model.model, "transforms") and hasattr(self.model.model.transforms.transforms[0], "size")
         else False
     )
-    self.transforms = (
-        classify_transforms(self.imgsz) if updated or not self.model.pt else self.model.model.transforms
-    )
+    self.transforms = classify_transforms(self.imgsz) if updated or not self.model.pt else self.model.model.transforms
 ```
 </details>
 

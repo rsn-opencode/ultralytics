@@ -29,7 +29,7 @@ keywords: YOLO, WorldTrainer, open-set datasets, training, evaluation, build dat
 ## Class `ultralytics.models.yolo.world.train_world.WorldTrainerFromScratch` {#ultralytics.models.yolo.world.train\_world.WorldTrainerFromScratch}
 
 ```python
-WorldTrainerFromScratch(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+WorldTrainerFromScratch(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `WorldTrainer`
@@ -191,8 +191,8 @@ This method constructs appropriate datasets based on the mode and input paths, h
 def build_dataset(self, img_path, mode="train", batch=None):
     """Build YOLO Dataset for training or validation.
 
-    This method constructs appropriate datasets based on the mode and input paths, handling both standard YOLO
-    datasets and grounding datasets with different formats.
+    This method constructs appropriate datasets based on the mode and input paths, handling both standard YOLO datasets
+    and grounding datasets with different formats.
 
     Args:
         img_path (list[str] | str): Path to the folder containing images or list of paths.
@@ -340,8 +340,8 @@ Processes the data configuration to extract paths for training and validation da
 def get_dataset(self):
     """Get train and validation paths from data dictionary.
 
-    Processes the data configuration to extract paths for training and validation datasets, handling both YOLO
-    detection datasets and grounding datasets.
+    Processes the data configuration to extract paths for training and validation datasets, handling both YOLO detection
+    datasets and grounding datasets.
 
     Returns:
         (dict): Final processed data configuration containing train/val paths and metadata.

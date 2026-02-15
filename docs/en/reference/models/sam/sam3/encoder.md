@@ -689,10 +689,8 @@ def forward(
 
     Args:
         src: List of multi-level features, each with shape (batch_size, channels, height, width)
-        src_key_padding_masks: List of padding masks for each feature level, each with shape (batch_size, height,
-            width)
-        pos: List of positional embeddings for each feature level, each with shape (batch_size, channels, height,
-            width)
+        src_key_padding_masks: List of padding masks for each feature level, each with shape (batch_size, height, width)
+        pos: List of positional embeddings for each feature level, each with shape (batch_size, channels, height, width)
         prompt: Optional text/prompt features to attend to, with shape (seq_len, batch_size, d_model)
         prompt_key_padding_mask: Optional padding mask for prompt, with shape (batch_size, seq_len)
         encoder_extra_kwargs: Optional additional arguments to pass to each encoder layer

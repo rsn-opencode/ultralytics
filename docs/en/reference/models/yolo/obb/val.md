@@ -238,15 +238,15 @@ def _process_batch(self, preds: dict[str, torch.Tensor], batch: dict[str, torch.
     """Compute the correct prediction matrix for a batch of detections and ground truth bounding boxes.
 
     Args:
-        preds (dict[str, torch.Tensor]): Prediction dictionary containing 'cls' and 'bboxes' keys with detected
-            class labels and bounding boxes.
+        preds (dict[str, torch.Tensor]): Prediction dictionary containing 'cls' and 'bboxes' keys with detected class
+            labels and bounding boxes.
         batch (dict[str, torch.Tensor]): Batch dictionary containing 'cls' and 'bboxes' keys with ground truth class
             labels and bounding boxes.
 
     Returns:
-        (dict[str, np.ndarray]): Dictionary containing 'tp' key with the correct prediction matrix as a numpy array
-            with shape (N, 10), which includes 10 IoU levels for each detection, indicating the accuracy of
-            predictions compared to the ground truth.
+        (dict[str, np.ndarray]): Dictionary containing 'tp' key with the correct prediction matrix as a numpy array with
+            shape (N, 10), which includes 10 IoU levels for each detection, indicating the accuracy of predictions
+            compared to the ground truth.
 
     Examples:
         >>> preds = {"cls": torch.randint(0, 5, (100,)), "bboxes": torch.rand(100, 5)}
@@ -526,8 +526,8 @@ def pred_to_json(self, predn: dict[str, torch.Tensor], pbatch: dict[str, Any]) -
     """Convert YOLO predictions to COCO JSON format with rotated bounding box information.
 
     Args:
-        predn (dict[str, torch.Tensor]): Prediction dictionary containing 'bboxes', 'conf', and 'cls' keys with
-            bounding box coordinates, confidence scores, and class predictions.
+        predn (dict[str, torch.Tensor]): Prediction dictionary containing 'bboxes', 'conf', and 'cls' keys with bounding
+            box coordinates, confidence scores, and class predictions.
         pbatch (dict[str, Any]): Batch dictionary containing 'imgsz', 'ori_shape', 'ratio_pad', and 'im_file'.
 
     Notes:
@@ -594,8 +594,8 @@ def save_one_txt(self, predn: dict[str, torch.Tensor], save_conf: bool, shape: t
     """Save YOLO OBB detections to a text file in normalized coordinates.
 
     Args:
-        predn (dict[str, torch.Tensor]): Prediction dictionary containing 'bboxes', 'conf', and 'cls' keys with
-            bounding box coordinates (including angle), confidence scores, and class predictions.
+        predn (dict[str, torch.Tensor]): Prediction dictionary containing 'bboxes', 'conf', and 'cls' keys with bounding
+            box coordinates (including angle), confidence scores, and class predictions.
         save_conf (bool): Whether to save confidence scores in the text file.
         shape (tuple[int, int]): Original image shape in format (height, width).
         file (Path): Output file path to save detections.

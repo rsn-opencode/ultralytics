@@ -59,7 +59,7 @@ keywords: YOLOv8, export formats, ONNX, TensorRT, CoreML, machine learning model
 ## Class `ultralytics.engine.exporter.Exporter` {#ultralytics.engine.exporter.Exporter}
 
 ```python
-Exporter(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+Exporter(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 A class for exporting YOLO models to various formats.
@@ -343,8 +343,7 @@ def __call__(self, model=None) -> str:
     if rknn:
         if not self.args.name:
             LOGGER.warning(
-                "Rockchip RKNN export requires a missing 'name' arg for processor type. "
-                "Using default name='rk3588'."
+                "Rockchip RKNN export requires a missing 'name' arg for processor type. Using default name='rk3588'."
             )
             self.args.name = "rk3588"
         self.args.name = self.args.name.lower()
@@ -398,9 +397,7 @@ def __call__(self, model=None) -> str:
 
     # Input
     im = torch.zeros(self.args.batch, model.yaml.get("channels", 3), *self.imgsz).to(self.device)
-    file = Path(
-        getattr(model, "pt_path", None) or getattr(model, "yaml_file", None) or model.yaml.get("yaml_file", "")
-    )
+    file = Path(getattr(model, "pt_path", None) or getattr(model, "yaml_file", None) or model.yaml.get("yaml_file", ""))
     if file.suffix in {".yaml", ".yml"}:
         file = Path(file.name)
 
@@ -1914,7 +1911,7 @@ def run_callbacks(self, event: str):
 ## Class `ultralytics.engine.exporter.IOSDetectModel` {#ultralytics.engine.exporter.IOSDetectModel}
 
 ```python
-IOSDetectModel(self, model, im, mlprogram = True)
+IOSDetectModel(self, model, im, mlprogram=True)
 ```
 
 **Bases:** `torch.nn.Module`
@@ -2081,8 +2078,8 @@ def forward(self, x):
         x (torch.Tensor): The preprocessed tensor with shape (B, C, H, W).
 
     Returns:
-        (torch.Tensor | tuple): Tensor of shape (B, max_det, 4 + 2 + extra_shape) where B is the batch size, or a
-            tuple of (detections, proto) for segmentation models.
+        (torch.Tensor | tuple): Tensor of shape (B, max_det, 4 + 2 + extra_shape) where B is the batch size, or a tuple
+            of (detections, proto) for segmentation models.
     """
     from functools import partial
 
@@ -2144,9 +2141,7 @@ def forward(self, x):
             score,
             self.args.iou,
         )[: self.args.max_det]
-        dets = torch.cat(
-            [box[keep], score[keep].view(-1, 1), cls[keep].view(-1, 1).to(out.dtype), extra[keep]], dim=-1
-        )
+        dets = torch.cat([box[keep], score[keep].view(-1, 1), cls[keep].view(-1, 1).to(out.dtype), extra[keep]], dim=-1)
         # Zero-pad to max_det size to avoid reshape error
         pad = (0, 0, 0, self.args.max_det - dets.shape[0])
         out[i] = torch.nn.functional.pad(dets, pad)

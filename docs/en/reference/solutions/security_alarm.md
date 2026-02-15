@@ -211,9 +211,9 @@ This method processes the input frame, extracts detections, annotates the frame 
 def process(self, im0) -> SolutionResults:
     """Monitor the frame, process object detections, and trigger alerts if thresholds are met.
 
-    This method processes the input frame, extracts detections, annotates the frame with bounding boxes, and sends
-    an email notification if the number of detected objects meets or exceeds the specified threshold and an alert
-    has not already been sent.
+    This method processes the input frame, extracts detections, annotates the frame with bounding boxes, and sends an
+    email notification if the number of detected objects meets or exceeds the specified threshold and an alert has not
+    already been sent.
 
     Args:
         im0 (np.ndarray): The input image or frame to be processed and annotated.
@@ -283,8 +283,8 @@ This method encodes the input image, composes the email message with details abo
 def send_email(self, im0, records: int = 5) -> None:
     """Send an email notification with an image attachment indicating the number of objects detected.
 
-    This method encodes the input image, composes the email message with details about the detection, and sends it
-    to the specified recipient.
+    This method encodes the input image, composes the email message with details about the detection, and sends it to
+    the specified recipient.
 
     Args:
         im0 (np.ndarray): The input image or frame to be attached to the email.

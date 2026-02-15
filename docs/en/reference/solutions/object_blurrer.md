@@ -148,8 +148,8 @@ This method extracts tracking information, applies blur to regions corresponding
 def process(self, im0) -> SolutionResults:
     """Apply a blurring effect to detected objects in the input image.
 
-    This method extracts tracking information, applies blur to regions corresponding to detected objects, and
-    annotates the image with bounding boxes.
+    This method extracts tracking information, applies blur to regions corresponding to detected objects, and annotates
+    the image with bounding boxes.
 
     Args:
         im0 (np.ndarray): The input image containing detected objects.

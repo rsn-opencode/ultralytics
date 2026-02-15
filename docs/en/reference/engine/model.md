@@ -317,13 +317,13 @@ This property returns the class names if they are defined in the model. It check
 def names(self) -> dict[int, str]:
     """Retrieve the class names associated with the loaded model.
 
-    This property returns the class names if they are defined in the model. It checks the class names for validity
-    using the 'check_class_names' function from the ultralytics.nn.autobackend module. If the predictor is not
-    initialized, it sets it up before retrieving the names.
+    This property returns the class names if they are defined in the model. It checks the class names for validity using
+    the 'check_class_names' function from the ultralytics.nn.autobackend module. If the predictor is not initialized, it
+    sets it up before retrieving the names.
 
     Returns:
-        (dict[int, str]): A dictionary of class names associated with the model, where keys are class indices and
-            values are the corresponding class names.
+        (dict[int, str]): A dictionary of class names associated with the model, where keys are class indices and values
+            are the corresponding class names.
 
     Raises:
         AttributeError: If the model or predictor does not have a 'names' attribute.
@@ -383,8 +383,8 @@ device(type='cpu')
 def device(self) -> torch.device:
     """Get the device on which the model's parameters are allocated.
 
-    This property determines the device (CPU or GPU) where the model's parameters are currently stored. It is
-    applicable only to models that are instances of torch.nn.Module.
+    This property determines the device (CPU or GPU) where the model's parameters are currently stored. It is applicable
+    only to models that are instances of torch.nn.Module.
 
     Returns:
         (torch.device | None): The device (CPU/GPU) of the model, or None if the model is not a torch.nn.Module
@@ -441,8 +441,8 @@ def transforms(self):
     """Retrieve the transformations applied to the input data of the loaded model.
 
     This property returns the transformations if they are defined in the model. The transforms typically include
-    preprocessing steps like resizing, normalization, and data augmentation that are applied to input data before it
-    is fed into the model.
+    preprocessing steps like resizing, normalization, and data augmentation that are applied to input data before it is
+    fed into the model.
 
     Returns:
         (object | None): The transform object of the model if available, otherwise None.
@@ -501,9 +501,9 @@ def task_map(self) -> dict:
     nested dictionary. The nested dictionary contains mappings for different operational modes (model, trainer,
     validator, predictor) to their respective class implementations.
 
-    The mapping allows for dynamic loading of appropriate classes based on the model's task and the desired
-    operational mode. This facilitates a flexible and extensible architecture for handling various tasks and modes
-    within the Ultralytics framework.
+    The mapping allows for dynamic loading of appropriate classes based on the model's task and the desired operational
+    mode. This facilitates a flexible and extensible architecture for handling various tasks and modes within the
+    Ultralytics framework.
 
     Returns:
         (dict[str, dict[str, Any]]): A dictionary mapping task names to nested dictionaries. Each nested dictionary
@@ -573,19 +573,18 @@ def __call__(
 ) -> list:
     """Alias for the predict method, enabling the model instance to be callable for predictions.
 
-    This method simplifies the process of making predictions by allowing the model instance to be called directly
-    with the required arguments.
+    This method simplifies the process of making predictions by allowing the model instance to be called directly with
+    the required arguments.
 
     Args:
-        source (str | Path | int | PIL.Image | np.ndarray | torch.Tensor | list | tuple): The source of the image(s)
-            to make predictions on. Can be a file path, URL, PIL image, numpy array, PyTorch tensor, or a list/tuple
+        source (str | Path | int | PIL.Image | np.ndarray | torch.Tensor | list | tuple): The source of the image(s) to
+            make predictions on. Can be a file path, URL, PIL image, numpy array, PyTorch tensor, or a list/tuple
             of these.
         stream (bool): If True, treat the input source as a continuous stream for predictions.
         **kwargs (Any): Additional keyword arguments to configure the prediction process.
 
     Returns:
-        (list[ultralytics.engine.results.Results]): A list of prediction results, each encapsulated in a Results
-            object.
+        (list[ultralytics.engine.results.Results]): A list of prediction results, each encapsulated in a Results object.
 
     Examples:
         >>> model = YOLO("yolo26n.pt")
@@ -710,9 +709,9 @@ This method extends the functionality of the parent class's _apply method by add
 def _apply(self, fn) -> Model:
     """Apply a function to model parameters, buffers, and tensors.
 
-    This method extends the functionality of the parent class's _apply method by additionally resetting the
-    predictor and updating the device in the model's overrides. It's typically used for operations like moving the
-    model to a different device or changing its precision.
+    This method extends the functionality of the parent class's _apply method by additionally resetting the predictor
+    and updating the device in the model's overrides. It's typically used for operations like moving the model to a
+    different device or changing its precision.
 
     Args:
         fn (Callable): A function to be applied to the model's tensors. This is typically a method like to(), cpu(),
@@ -775,8 +774,8 @@ def _check_is_pytorch_model(self) -> None:
     operations that require a PyTorch model are only performed on compatible model types.
 
     Raises:
-        TypeError: If the model is not a PyTorch module or a .pt file. The error message provides detailed
-            information about supported model formats and operations.
+        TypeError: If the model is not a PyTorch module or a .pt file. The error message provides detailed information
+            about supported model formats and operations.
 
     Examples:
         >>> model = Model("yolo26n.pt")
@@ -1059,9 +1058,9 @@ This method dynamically selects and returns the correct module (model, trainer, 
 def _smart_load(self, key: str):
     """Intelligently load the appropriate module based on the model task.
 
-    This method dynamically selects and returns the correct module (model, trainer, validator, or predictor) based
-    on the current task of the model and the provided key. It uses the task_map dictionary to determine the
-    appropriate module to load for the specific task.
+    This method dynamically selects and returns the correct module (model, trainer, validator, or predictor) based on
+    the current task of the model and the provided key. It uses the task_map dictionary to determine the appropriate
+    module to load for the specific task.
 
     Args:
         key (str): The type of module to load. Must be one of 'model', 'trainer', 'validator', or 'predictor'.
@@ -1124,14 +1123,14 @@ def add_callback(self, event: str, func) -> None:
     """Add a callback function for a specified event.
 
     This method allows registering custom callback functions that are triggered on specific events during model
-    operations such as training or inference. Callbacks provide a way to extend and customize the behavior of the
-    model at various stages of its lifecycle.
+    operations such as training or inference. Callbacks provide a way to extend and customize the behavior of the model
+    at various stages of its lifecycle.
 
     Args:
         event (str): The name of the event to attach the callback to. Must be a valid event name recognized by the
             Ultralytics framework.
-        func (Callable): The callback function to be registered. This function will be called when the specified
-            event occurs.
+        func (Callable): The callback function to be registered. This function will be called when the specified event
+            occurs.
 
     Examples:
         >>> def on_train_start(trainer):
@@ -1193,10 +1192,10 @@ This method assesses the model's performance in different export formats, such a
 def benchmark(self, data=None, format="", verbose=False, **kwargs: Any):
     """Benchmark the model across various export formats to evaluate performance.
 
-    This method assesses the model's performance in different export formats, such as ONNX, TorchScript, etc. It
-    uses the 'benchmark' function from the ultralytics.utils.benchmarks module. The benchmarking is configured using
-    a combination of default configuration values, model-specific arguments, method-specific defaults, and any
-    additional user-provided keyword arguments.
+    This method assesses the model's performance in different export formats, such as ONNX, TorchScript, etc. It uses
+    the 'benchmark' function from the ultralytics.utils.benchmarks module. The benchmarking is configured using a
+    combination of default configuration values, model-specific arguments, method-specific defaults, and any additional
+    user-provided keyword arguments.
 
     Args:
         data (str | None): Path to the dataset for benchmarking. If None, uses default dataset for the task.
@@ -1209,8 +1208,8 @@ def benchmark(self, data=None, format="", verbose=False, **kwargs: Any):
             - device (str): Device to run the benchmark on (e.g., 'cpu', 'cuda').
 
     Returns:
-        (polars.DataFrame): A Polars DataFrame with benchmark results for each format, including file size, metric,
-            and inference time.
+        (polars.DataFrame): A Polars DataFrame with benchmark results for each format, including file size, metric, and
+            inference time.
 
     Raises:
         TypeError: If the model is not a PyTorch model.
@@ -1423,9 +1422,9 @@ This method changes the model's mode to evaluation, which affects layers like dr
 def eval(self):
     """Sets the model to evaluation mode.
 
-    This method changes the model's mode to evaluation, which affects layers like dropout and batch normalization
-    that behave differently during training and evaluation. In evaluation mode, these layers use running statistics
-    rather than computing batch statistics, and dropout layers are disabled.
+    This method changes the model's mode to evaluation, which affects layers like dropout and batch normalization that
+    behave differently during training and evaluation. In evaluation mode, these layers use running statistics rather
+    than computing batch statistics, and dropout layers are disabled.
 
     Returns:
         (Model): The model instance with evaluation mode set.
@@ -1563,9 +1562,9 @@ The fusion process typically involves folding the BatchNorm2d parameters (mean, 
 def fuse(self) -> None:
     """Fuse Conv2d and BatchNorm2d layers in the model for optimized inference.
 
-    This method iterates through the model's modules and fuses consecutive Conv2d and BatchNorm2d layers into a
-    single layer. This fusion can significantly improve inference speed by reducing the number of operations and
-    memory accesses required during forward passes.
+    This method iterates through the model's modules and fuses consecutive Conv2d and BatchNorm2d layers into a single
+    layer. This fusion can significantly improve inference speed by reducing the number of operations and memory
+    accesses required during forward passes.
 
     The fusion process typically involves folding the BatchNorm2d parameters (mean, variance, weight, and
     bias) into the preceding Conv2d layer's weights and biases. This results in a single Conv2d layer that
@@ -1632,8 +1631,8 @@ def info(self, detailed: bool = False, verbose: bool = True, imgsz: int | list[i
         imgsz (int | list[int, int]): Input image size used for FLOPs calculation.
 
     Returns:
-        (tuple): A tuple containing the number of layers (int), number of parameters (int), number of gradients
-            (int), and GFLOPs (float). Returns None if verbose is False.
+        (tuple): A tuple containing the number of layers (int), number of parameters (int), number of gradients (int),
+            and GFLOPs (float). Returns None if verbose is False.
 
     Examples:
         >>> model = Model("yolo26n.pt")
@@ -1687,8 +1686,7 @@ False
 def is_hub_model(model: str) -> bool:
     """Check if the provided model is an Ultralytics HUB model.
 
-    This static method determines whether the given model string represents a valid Ultralytics HUB model
-    identifier.
+    This static method determines whether the given model string represents a valid Ultralytics HUB model identifier.
 
     Args:
         model (str): The model string to check.
@@ -1750,8 +1748,8 @@ False
 def is_triton_model(model: str) -> bool:
     """Check if the given model string is a Triton Server URL.
 
-    This static method determines whether the provided model string represents a valid Triton Server URL by parsing
-    its components using urllib.parse.urlsplit().
+    This static method determines whether the provided model string represents a valid Triton Server URL by parsing its
+    components using urllib.parse.urlsplit().
 
     Args:
         model (str): The model string to be checked.
@@ -1818,8 +1816,8 @@ This method supports loading weights from a file or directly from a weights obje
 def load(self, weights: str | Path = "yolo26n.pt") -> Model:
     """Load parameters from the specified weights file into the model.
 
-    This method supports loading weights from a file or directly from a weights object. It matches parameters by
-    name and shape and transfers them to the model.
+    This method supports loading weights from a file or directly from a weights object. It matches parameters by name
+    and shape and transfers them to the model.
 
     Args:
         weights (str | Path): Path to the weights file or a weights object.
@@ -1907,21 +1905,20 @@ def predict(
     """Perform predictions on the given image source using the YOLO model.
 
     This method facilitates the prediction process, allowing various configurations through keyword arguments. It
-    supports predictions with custom predictors or the default predictor method. The method handles different types
-    of image sources and can operate in a streaming mode.
+    supports predictions with custom predictors or the default predictor method. The method handles different types of
+    image sources and can operate in a streaming mode.
 
     Args:
-        source (str | Path | int | PIL.Image | np.ndarray | torch.Tensor | list | tuple): The source of the image(s)
-            to make predictions on. Accepts various types including file paths, URLs, PIL images, numpy arrays, and
+        source (str | Path | int | PIL.Image | np.ndarray | torch.Tensor | list | tuple): The source of the image(s) to
+            make predictions on. Accepts various types including file paths, URLs, PIL images, numpy arrays, and
             torch tensors.
         stream (bool): If True, treats the input source as a continuous stream for predictions.
-        predictor (BasePredictor, optional): An instance of a custom predictor class for making predictions. If
-            None, the method uses a default predictor.
+        predictor (BasePredictor, optional): An instance of a custom predictor class for making predictions. If None,
+            the method uses a default predictor.
         **kwargs (Any): Additional keyword arguments for configuring the prediction process.
 
     Returns:
-        (list[ultralytics.engine.results.Results]): A list of prediction results, each encapsulated in a Results
-            object.
+        (list[ultralytics.engine.results.Results]): A list of prediction results, each encapsulated in a Results object.
 
     Examples:
         >>> model = YOLO("yolo26n.pt")
@@ -1999,8 +1996,8 @@ def reset_callbacks(self) -> None:
     The default callbacks are defined in the 'callbacks.default_callbacks' dictionary, which contains predefined
     functions for various events in the model's lifecycle, such as on_train_start, on_epoch_end, etc.
 
-    This method is useful when you want to revert to the original set of callbacks after making custom
-    modifications, ensuring consistent behavior across different runs or experiments.
+    This method is useful when you want to revert to the original set of callbacks after making custom modifications,
+    ensuring consistent behavior across different runs or experiments.
 
     Examples:
         >>> model = YOLO("yolo26n.pt")
@@ -2052,9 +2049,9 @@ This method iterates through all modules in the model and resets their parameter
 def reset_weights(self) -> Model:
     """Reset the model's weights to their initial state.
 
-    This method iterates through all modules in the model and resets their parameters if they have a
-    'reset_parameters' method. It also ensures that all parameters have 'requires_grad' set to True, enabling them
-    to be updated during training.
+    This method iterates through all modules in the model and resets their parameters if they have a 'reset_parameters'
+    method. It also ensures that all parameters have 'requires_grad' set to True, enabling them to be updated during
+    training.
 
     Returns:
         (Model): The instance of the class with reset weights.
@@ -2115,8 +2112,8 @@ This method exports the model's checkpoint (ckpt) to the specified filename. It 
 def save(self, filename: str | Path = "saved_model.pt") -> None:
     """Save the current model state to a file.
 
-    This method exports the model's checkpoint (ckpt) to the specified filename. It includes metadata such as the
-    date, Ultralytics version, license information, and a link to the documentation.
+    This method exports the model's checkpoint (ckpt) to the specified filename. It includes metadata such as the date,
+    Ultralytics version, license information, and a link to the documentation.
 
     Args:
         filename (str | Path): The name of the file to save the model to.
@@ -2208,8 +2205,8 @@ def track(
     """Conduct object tracking on the specified input source using the registered trackers.
 
     This method performs object tracking using the model's predictors and optionally registered trackers. It handles
-    various input sources such as file paths or video streams, and supports customization through keyword arguments.
-    The method registers trackers if not already present and can persist them between calls.
+    various input sources such as file paths or video streams, and supports customization through keyword arguments. The
+    method registers trackers if not already present and can persist them between calls.
 
     Args:
         source (str | Path | int | list | tuple | np.ndarray | torch.Tensor, optional): Input source for object
@@ -2290,8 +2287,8 @@ def train(
     """Train the model using the specified dataset and training configuration.
 
     This method facilitates model training with a range of customizable settings. It supports training with a custom
-    trainer or the default training approach. The method handles scenarios such as resuming training from a
-    checkpoint, integrating with Ultralytics HUB, and updating model and configuration after training.
+    trainer or the default training approach. The method handles scenarios such as resuming training from a checkpoint,
+    integrating with Ultralytics HUB, and updating model and configuration after training.
 
     When using Ultralytics HUB, if the session has a loaded model, the method prioritizes HUB training arguments and
     warns if local arguments are provided. It checks for pip updates and combines default configurations,
@@ -2414,21 +2411,21 @@ def tune(
 ):
     """Conduct hyperparameter tuning for the model, with an option to use Ray Tune.
 
-    This method supports two modes of hyperparameter tuning: using Ray Tune or a custom tuning method. When Ray Tune
-    is enabled, it leverages the 'run_ray_tune' function from the ultralytics.utils.tuner module. Otherwise, it uses
-    the internal 'Tuner' class for tuning. The method combines default, overridden, and custom arguments to
-    configure the tuning process.
+    This method supports two modes of hyperparameter tuning: using Ray Tune or a custom tuning method. When Ray Tune is
+    enabled, it leverages the 'run_ray_tune' function from the ultralytics.utils.tuner module. Otherwise, it uses the
+    internal 'Tuner' class for tuning. The method combines default, overridden, and custom arguments to configure the
+    tuning process.
 
     Args:
         use_ray (bool): Whether to use Ray Tune for hyperparameter tuning. If False, uses internal tuning method.
         iterations (int): Number of tuning iterations to perform.
         *args (Any): Additional positional arguments to pass to the tuner.
-        **kwargs (Any): Additional keyword arguments for tuning configuration. These are combined with model
-            overrides and defaults to configure the tuning process.
+        **kwargs (Any): Additional keyword arguments for tuning configuration. These are combined with model overrides
+            and defaults to configure the tuning process.
 
     Returns:
-        (ray.tune.ResultGrid | None): When use_ray=True, returns a ResultGrid with hyperparameter search results.
-            When use_ray=False, returns None and saves best hyperparameters to YAML.
+        (ray.tune.ResultGrid | None): When use_ray=True, returns a ResultGrid with hyperparameter search results. When
+            use_ray=False, returns None and saves best hyperparameters to YAML.
 
     Raises:
         TypeError: If the model is not a PyTorch model.
@@ -2511,14 +2508,13 @@ def val(
     configurations, method-specific defaults, and user-provided arguments to configure the validation process.
 
     Args:
-        validator (ultralytics.engine.validator.BaseValidator, optional): An instance of a custom validator class
-            for validating the model.
+        validator (ultralytics.engine.validator.BaseValidator, optional): An instance of a custom validator class for
+            validating the model.
         **kwargs (Any): Arbitrary keyword arguments for customizing the validation process.
 
     Returns:
-        (ultralytics.utils.metrics.DetMetrics): Validation metrics obtained from the validation process. The
-            specific metrics type depends on the task (e.g., DetMetrics, SegmentMetrics,
-            PoseMetrics, ClassifyMetrics).
+        (ultralytics.utils.metrics.DetMetrics): Validation metrics obtained from the validation process. The specific
+            metrics type depends on the task (e.g., DetMetrics, SegmentMetrics, PoseMetrics, ClassifyMetrics).
 
     Raises:
         TypeError: If the model is not a PyTorch model.

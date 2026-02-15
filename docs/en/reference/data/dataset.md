@@ -1268,9 +1268,8 @@ This method checks if the total number of bounding box instances in the provided
 def verify_labels(self, labels: list[dict[str, Any]]) -> None:
     """Verify the number of instances in the dataset matches expected counts.
 
-    This method checks if the total number of bounding box instances in the provided labels matches the expected
-    count for known datasets. It performs validation against a predefined set of datasets with known instance
-    counts.
+    This method checks if the total number of bounding box instances in the provided labels matches the expected count
+    for known datasets. It performs validation against a predefined set of datasets with known instance counts.
 
     Args:
         labels (list[dict[str, Any]]): List of label dictionaries, where each dictionary contains dataset

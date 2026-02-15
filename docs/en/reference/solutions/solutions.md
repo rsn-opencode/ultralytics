@@ -322,8 +322,8 @@ def adjust_box_label(self, cls: int, conf: float, track_id: int | None = None) -
     """Generate a formatted label for a bounding box.
 
     This method constructs a label string for a bounding box using the class index and confidence score. Optionally
-    includes the track ID if provided. The label format adapts based on the display settings defined in
-    `self.show_conf` and `self.show_labels`.
+    includes the track ID if provided. The label format adapts based on the display settings defined in `self.show_conf`
+    and `self.show_labels`.
 
     Args:
         cls (int): The class index of the detected object.
@@ -378,11 +378,10 @@ This method is responsible for visualizing the output of the object detection an
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/solutions/solutions.py#L211-L235"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def display_output(self, plot_im: np.ndarray) -> None:
-    """Display the results of the processing, which could involve showing frames, printing counts, or saving
-    results.
+    """Display the results of the processing, which could involve showing frames, printing counts, or saving results.
 
-    This method is responsible for visualizing the output of the object detection and tracking process. It displays
-    the processed frame with annotations, and allows for user interaction to close the display.
+    This method is responsible for visualizing the output of the object detection and tracking process. It displays the
+    processed frame with annotations, and allows for user interaction to close the display.
 
     Args:
         plot_im (np.ndarray): The image or frame that has been processed and annotated.
@@ -482,9 +481,7 @@ def initialize_region(self) -> None:
     """Initialize the counting region and line segment based on configuration settings."""
     if self.region is None:
         self.region = [(10, 200), (540, 200), (540, 180), (10, 180)]
-    self.r_s = (
-        self.Polygon(self.region) if len(self.region) >= 3 else self.LineString(self.region)
-    )  # region or line
+    self.r_s = self.Polygon(self.region) if len(self.region) >= 3 else self.LineString(self.region)  # region or line
 ```
 </details>
 
@@ -549,8 +546,8 @@ This method updates the tracking history for a given object by appending the cen
 def store_tracking_history(self, track_id: int, box) -> None:
     """Store the tracking history of an object.
 
-    This method updates the tracking history for a given object by appending the center point of its bounding box to
-    the track line. It maintains a maximum of 30 points in the tracking history.
+    This method updates the tracking history for a given object by appending the center point of its bounding box to the
+    track line. It maintains a maximum of 30 points in the tracking history.
 
     Args:
         track_id (int): The unique identifier for the tracked object.
@@ -1257,9 +1254,7 @@ def plot_angle_and_count_and_stage(
     angle_text, count_text, stage_text = f" {angle_text:.2f}", f"Steps : {count_text}", f" {stage_text}"
 
     # Draw angle, count and stage text
-    angle_height = self.plot_workout_information(
-        angle_text, (int(center_kpt[0]), int(center_kpt[1])), color, txt_color
-    )
+    angle_height = self.plot_workout_information(angle_text, (int(center_kpt[0]), int(center_kpt[1])), color, txt_color)
     count_height = self.plot_workout_information(
         count_text, (int(center_kpt[0]), int(center_kpt[1]) + angle_height + 20), color, txt_color
     )

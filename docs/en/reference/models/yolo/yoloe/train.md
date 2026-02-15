@@ -192,8 +192,8 @@ def get_model(self, cfg=None, weights=None, verbose: bool = True):
     """Return a YOLOEModel initialized with the specified configuration and weights.
 
     Args:
-        cfg (dict | str, optional): Model configuration. Can be a dictionary containing a 'yaml_file' key, a direct
-            path to a YAML file, or None to use default configuration.
+        cfg (dict | str, optional): Model configuration. Can be a dictionary containing a 'yaml_file' key, a direct path
+            to a YAML file, or None to use default configuration.
         weights (str | Path, optional): Path to pretrained weights file to load into the model.
         verbose (bool): Whether to display model information during initialization.
 
@@ -416,8 +416,8 @@ This method constructs appropriate datasets based on the mode and input paths, h
 def build_dataset(self, img_path: list[str] | str, mode: str = "train", batch: int | None = None):
     """Build YOLO Dataset for training or validation.
 
-    This method constructs appropriate datasets based on the mode and input paths, handling both standard YOLO
-    datasets and grounding datasets with different formats.
+    This method constructs appropriate datasets based on the mode and input paths, handling both standard YOLO datasets
+    and grounding datasets with different formats.
 
     Args:
         img_path (list[str] | str): Path to the folder containing images or list of paths.
@@ -536,9 +536,7 @@ Return a DetectionValidator for YOLO model validation.
 def get_validator(self):
     """Return a DetectionValidator for YOLO model validation."""
     self.loss_names = "box", "cls", "dfl"
-    return DetectionValidator(
-        self.test_loader, save_dir=self.save_dir, args=copy(self.args), _callbacks=self.callbacks
-    )
+    return DetectionValidator(self.test_loader, save_dir=self.save_dir, args=copy(self.args), _callbacks=self.callbacks)
 ```
 </details>
 

@@ -338,8 +338,8 @@ def set_prompts(self, prompts):
     """Set the visual prompts for the model.
 
     Args:
-        prompts (dict): Dictionary containing class indices and bounding boxes or masks. Must include a 'cls' key
-            with class indices.
+        prompts (dict): Dictionary containing class indices and bounding boxes or masks. Must include a 'cls' key with
+            class indices.
     """
     self.prompts = prompts
 ```

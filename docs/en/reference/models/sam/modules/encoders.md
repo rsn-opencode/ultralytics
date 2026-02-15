@@ -1218,15 +1218,14 @@ This method processes a list of input tensors from the backbone through the FPN,
 def forward(self, xs: list[torch.Tensor]):
     """Perform forward pass through the Feature Pyramid Network (FPN) neck.
 
-    This method processes a list of input tensors from the backbone through the FPN, applying lateral connections
-    and top-down feature fusion. It generates output feature maps and corresponding positional encodings.
+    This method processes a list of input tensors from the backbone through the FPN, applying lateral connections and
+    top-down feature fusion. It generates output feature maps and corresponding positional encodings.
 
     Args:
         xs (list[torch.Tensor]): List of input tensors from the backbone, each with shape (B, C, H, W).
 
     Returns:
-        out (list[torch.Tensor]): List of output feature maps after FPN processing, each with shape (B, d_model, H,
-            W).
+        out (list[torch.Tensor]): List of output feature maps after FPN processing, each with shape (B, d_model, H, W).
         pos (list[torch.Tensor]): List of positional encodings corresponding to each output feature map.
 
     Examples:
@@ -1587,10 +1586,10 @@ def forward(self, x: torch.Tensor) -> list[torch.Tensor]:
         x (torch.Tensor): Input tensor with shape (B, C, H, W) representing a batch of images.
 
     Returns:
-        (list[torch.Tensor]): List of feature maps at different scales, each with shape (B, C_i, H_i, W_i), where
-            C_i is the channel dimension and H_i, W_i are the spatial dimensions at scale i. The list is ordered
-            from highest resolution (fine features) to lowest resolution (coarse features) if return_interm_layers
-            is True, otherwise contains only the final output.
+        (list[torch.Tensor]): List of feature maps at different scales, each with shape (B, C_i, H_i, W_i), where C_i is
+            the channel dimension and H_i, W_i are the spatial dimensions at scale i. The list is ordered from highest
+            resolution (fine features) to lowest resolution (coarse features) if return_interm_layers is True, otherwise
+            contains only the final output.
 
     Examples:
         >>> model = Hiera(embed_dim=96, num_heads=1, stages=(2, 3, 16, 3))

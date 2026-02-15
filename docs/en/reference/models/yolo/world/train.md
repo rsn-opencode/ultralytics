@@ -358,8 +358,8 @@ This method collects unique category names from all datasets, then generates and
 def set_text_embeddings(self, datasets: list[Any], batch: int | None) -> None:
     """Set text embeddings for datasets to accelerate training by caching category names.
 
-    This method collects unique category names from all datasets, then generates and caches text embeddings for
-    these categories to improve training efficiency.
+    This method collects unique category names from all datasets, then generates and caches text embeddings for these
+    categories to improve training efficiency.
 
     Args:
         datasets (list[Any]): List of datasets from which to extract category names.
@@ -374,9 +374,7 @@ def set_text_embeddings(self, datasets: list[Any], batch: int | None) -> None:
         if not hasattr(dataset, "category_names"):
             continue
         text_embeddings.update(
-            self.generate_text_embeddings(
-                list(dataset.category_names), batch, cache_dir=Path(dataset.img_path).parent
-            )
+            self.generate_text_embeddings(list(dataset.category_names), batch, cache_dir=Path(dataset.img_path).parent)
         )
     self.text_embeddings = text_embeddings
 ```

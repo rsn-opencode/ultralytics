@@ -302,9 +302,7 @@ Select the most idle GPUs based on utilization and free memory.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/autodevice.py#L137-L190"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def select_idle_gpu(
-    self, count: int = 1, min_memory_fraction: float = 0, min_util_fraction: float = 0
-) -> list[int]:
+def select_idle_gpu(self, count: int = 1, min_memory_fraction: float = 0, min_util_fraction: float = 0) -> list[int]:
     """Select the most idle GPUs based on utilization and free memory.
 
     Args:
@@ -321,9 +319,7 @@ def select_idle_gpu(
     """
     assert min_memory_fraction <= 1.0, f"min_memory_fraction must be <= 1.0, got {min_memory_fraction}"
     assert min_util_fraction <= 1.0, f"min_util_fraction must be <= 1.0, got {min_util_fraction}"
-    criteria = (
-        f"free memory >= {min_memory_fraction * 100:.1f}% and free utilization >= {min_util_fraction * 100:.1f}%"
-    )
+    criteria = f"free memory >= {min_memory_fraction * 100:.1f}% and free utilization >= {min_util_fraction * 100:.1f}%"
     LOGGER.info(f"Searching for {count} idle GPUs with {criteria}...")
 
     if count <= 0:

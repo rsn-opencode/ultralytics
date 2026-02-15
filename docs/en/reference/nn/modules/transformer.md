@@ -1336,12 +1336,12 @@ def forward(
 
     Args:
         query (torch.Tensor): Query tensor with shape [bs, query_length, C].
-        refer_bbox (torch.Tensor): Reference bounding boxes with shape [bs, query_length, n_levels, 2 or 4], range
-            in [0, 1], top-left (0,0), bottom-right (1, 1), including padding area.
+        refer_bbox (torch.Tensor): Reference bounding boxes with shape [bs, query_length, n_levels, 2 or 4], range in
+            [0, 1], top-left (0,0), bottom-right (1, 1), including padding area.
         value (torch.Tensor): Value tensor with shape [bs, value_length, C].
         value_shapes (list): List with shape [n_levels, 2], [(H_0, W_0), (H_1, W_1), ..., (H_{L-1}, W_{L-1})].
-        value_mask (torch.Tensor, optional): Mask tensor with shape [bs, value_length], True for padding elements,
-            False for non-padding elements.
+        value_mask (torch.Tensor, optional): Mask tensor with shape [bs, value_length], True for padding elements, False
+            for non-padding elements.
 
     Returns:
         (torch.Tensor): Output tensor with shape [bs, Length_{query}, C].
@@ -1581,16 +1581,14 @@ def forward(
     """
     # Self attention
     q = k = self.with_pos_embed(embed, query_pos)
-    tgt = self.self_attn(q.transpose(0, 1), k.transpose(0, 1), embed.transpose(0, 1), attn_mask=attn_mask)[
-        0
-    ].transpose(0, 1)
+    tgt = self.self_attn(q.transpose(0, 1), k.transpose(0, 1), embed.transpose(0, 1), attn_mask=attn_mask)[0].transpose(
+        0, 1
+    )
     embed = embed + self.dropout1(tgt)
     embed = self.norm1(embed)
 
     # Cross attention
-    tgt = self.cross_attn(
-        self.with_pos_embed(embed, query_pos), refer_bbox.unsqueeze(2), feats, shapes, padding_mask
-    )
+    tgt = self.cross_attn(self.with_pos_embed(embed, query_pos), refer_bbox.unsqueeze(2), feats, shapes, padding_mask)
     embed = embed + self.dropout2(tgt)
     embed = self.norm2(embed)
 

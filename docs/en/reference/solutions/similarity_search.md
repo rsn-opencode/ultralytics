@@ -244,9 +244,9 @@ Checks if FAISS index and image paths exist on disk. If found, loads them direct
 def load_or_build_index(self) -> None:
     """Load existing FAISS index or build a new one from image features.
 
-    Checks if FAISS index and image paths exist on disk. If found, loads them directly. Otherwise, builds a new
-    index by extracting features from all images in the data directory, normalizes the features, and saves both the
-    index and image paths for future use.
+    Checks if FAISS index and image paths exist on disk. If found, loads them directly. Otherwise, builds a new index by
+    extracting features from all images in the data directory, normalizes the features, and saves both the index and
+    image paths for future use.
     """
     # Check if the FAISS index and corresponding image paths already exist
     if Path(self.faiss_index).exists() and Path(self.data_path_npy).exists():

@@ -700,12 +700,12 @@ def postprocess(self, preds: torch.Tensor) -> torch.Tensor:
     """Post-processes YOLO model predictions.
 
     Args:
-        preds (torch.Tensor): Raw predictions with shape (batch_size, num_anchors, 4 + nc) with last dimension
-            format [x1, y1, x2, y2, class_probs].
+        preds (torch.Tensor): Raw predictions with shape (batch_size, num_anchors, 4 + nc) with last dimension format
+            [x1, y1, x2, y2, class_probs].
 
     Returns:
-        (torch.Tensor): Processed predictions with shape (batch_size, min(max_det, num_anchors), 6) and last
-            dimension format [x1, y1, x2, y2, max_class_prob, class_index].
+        (torch.Tensor): Processed predictions with shape (batch_size, min(max_det, num_anchors), 6) and last dimension
+            format [x1, y1, x2, y2, max_class_prob, class_index].
     """
     boxes, scores = preds.split([4, self.nc], dim=-1)
     scores, conf, idx = self.get_topk_index(scores, self.max_det)
@@ -1156,9 +1156,7 @@ def forward(self, x: list[torch.Tensor]) -> tuple | list[torch.Tensor] | dict[st
     if isinstance(preds, dict):  # training and validating during training
         if self.end2end:
             preds["one2many"]["proto"] = proto
-            preds["one2one"]["proto"] = (
-                tuple(p.detach() for p in proto) if isinstance(proto, tuple) else proto.detach()
-            )
+            preds["one2one"]["proto"] = tuple(p.detach() for p in proto) if isinstance(proto, tuple) else proto.detach()
         else:
             preds["proto"] = proto
     if self.training:
@@ -1425,9 +1423,7 @@ def forward_head(
     preds = super().forward_head(x, box_head, cls_head)
     if angle_head is not None:
         bs = x[0].shape[0]  # batch size
-        angle = torch.cat(
-            [angle_head[i](x[i]).view(bs, self.ne, -1) for i in range(self.nl)], 2
-        )  # OBB theta logits
+        angle = torch.cat([angle_head[i](x[i]).view(bs, self.ne, -1) for i in range(self.nl)], 2)  # OBB theta logits
         angle = (angle.sigmoid() - 0.25) * math.pi  # [-pi/4, 3pi/4]
         preds["angle"] = angle
     return preds
@@ -1490,8 +1486,8 @@ def postprocess(self, preds: torch.Tensor) -> torch.Tensor:
             format [x, y, w, h, class_probs, angle].
 
     Returns:
-        (torch.Tensor): Processed predictions with shape (batch_size, min(max_det, num_anchors), 7) and last
-            dimension format [x, y, w, h, max_class_prob, class_index, angle].
+        (torch.Tensor): Processed predictions with shape (batch_size, min(max_det, num_anchors), 7) and last dimension
+            format [x, y, w, h, max_class_prob, class_index, angle].
     """
     boxes, scores, angle = preds.split([4, self.nc, self.ne], dim=-1)
     scores, conf, idx = self.get_topk_index(scores, self.max_det)
@@ -1900,8 +1896,8 @@ def postprocess(self, preds: torch.Tensor) -> torch.Tensor:
             format [x1, y1, x2, y2, class_probs, keypoints].
 
     Returns:
-        (torch.Tensor): Processed predictions with shape (batch_size, min(max_det, num_anchors), 6 + self.nk) and
-            last dimension format [x1, y1, x2, y2, max_class_prob, class_index, keypoints].
+        (torch.Tensor): Processed predictions with shape (batch_size, min(max_det, num_anchors), 6 + self.nk) and last
+            dimension format [x1, y1, x2, y2, max_class_prob, class_index, keypoints].
     """
     boxes, scores, kpts = preds.split([4, self.nc, self.nk], dim=-1)
     scores, conf, idx = self.get_topk_index(scores, self.max_det)

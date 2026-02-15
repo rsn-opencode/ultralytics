@@ -31,7 +31,7 @@ keywords: RTDETR, Ultralytics, object detection, tracking, YOLO, RTDETRDataset, 
 ## Class `ultralytics.models.rtdetr.val.RTDETRDataset` {#ultralytics.models.rtdetr.val.RTDETRDataset}
 
 ```python
-RTDETRDataset(self, *args, data = None, **kwargs)
+RTDETRDataset(self, *args, data=None, **kwargs)
 ```
 
 **Bases:** `YOLODataset`
@@ -326,8 +326,8 @@ def build_dataset(self, img_path, mode="val", batch=None):
 
     Args:
         img_path (str): Path to the folder containing images.
-        mode (str, optional): `train` mode or `val` mode, users are able to customize different augmentations for
-            each mode.
+        mode (str, optional): `train` mode or `val` mode, users are able to customize different augmentations for each
+            mode.
         batch (int, optional): Size of batches, this is for `rect`.
 
     Returns:
@@ -374,15 +374,12 @@ Apply confidence thresholding to prediction outputs.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/rtdetr/val.py#L158-L189"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def postprocess(
-    self, preds: torch.Tensor | list[torch.Tensor] | tuple[torch.Tensor]
-) -> list[dict[str, torch.Tensor]]:
+def postprocess(self, preds: torch.Tensor | list[torch.Tensor] | tuple[torch.Tensor]) -> list[dict[str, torch.Tensor]]:
     """Apply confidence thresholding to prediction outputs.
 
     Args:
-        preds (torch.Tensor | list | tuple): Raw predictions from the model. If tensor, should have shape
-            (batch_size, num_predictions, num_classes + 4) where last dimension contains bbox coords and
-            class scores.
+        preds (torch.Tensor | list | tuple): Raw predictions from the model. If tensor, should have shape (batch_size,
+            num_predictions, num_classes + 4) where last dimension contains bbox coords and class scores.
 
     Returns:
         (list[dict[str, torch.Tensor]]): List of dictionaries for each image, each containing:

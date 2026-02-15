@@ -411,9 +411,7 @@ def update(self, i: int, cap: cv2.VideoCapture, stream: str):
             cap.grab()  # .read() = .grab() followed by .retrieve()
             if n % self.vid_stride == 0:
                 success, im = cap.retrieve()
-                im = (
-                    cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)[..., None] if self.cv2_flag == cv2.IMREAD_GRAYSCALE else im
-                )
+                im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)[..., None] if self.cv2_flag == cv2.IMREAD_GRAYSCALE else im
                 if not success:
                     im = np.zeros(self.shape[i], dtype=np.uint8)
                     LOGGER.warning("Video stream unresponsive, please check your IP camera connection.")
@@ -840,11 +838,7 @@ def __next__(self) -> tuple[list[str], list[np.ndarray], list[str]]:
 
             if success:
                 success, im0 = self.cap.retrieve()
-                im0 = (
-                    cv2.cvtColor(im0, cv2.COLOR_BGR2GRAY)[..., None]
-                    if self.cv2_flag == cv2.IMREAD_GRAYSCALE
-                    else im0
-                )
+                im0 = cv2.cvtColor(im0, cv2.COLOR_BGR2GRAY)[..., None] if self.cv2_flag == cv2.IMREAD_GRAYSCALE else im0
                 if success:
                     self.frame += 1
                     paths.append(path)

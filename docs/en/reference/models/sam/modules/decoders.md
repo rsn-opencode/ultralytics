@@ -617,14 +617,13 @@ torch.Size([2, 1, 256, 256]) torch.Size([2, 1])
 def _dynamic_multimask_via_stability(self, all_mask_logits, all_iou_scores):
     """Dynamically select the most stable mask output based on stability scores and IoU predictions.
 
-    This method is used when outputting a single mask. If the stability score from the current single-mask output
-    (based on output token 0) falls below a threshold, it instead selects from multi-mask outputs (based on output
-    tokens 1-3) the mask with the highest predicted IoU score. This ensures a valid mask for both clicking and
-    tracking scenarios.
+    This method is used when outputting a single mask. If the stability score from the current single-mask output (based
+    on output token 0) falls below a threshold, it instead selects from multi-mask outputs (based on output tokens 1-3)
+    the mask with the highest predicted IoU score. This ensures a valid mask for both clicking and tracking scenarios.
 
     Args:
-        all_mask_logits (torch.Tensor): Logits for all predicted masks, shape (B, N, H, W) where B is batch size, N
-            is number of masks (typically 4), and H, W are mask dimensions.
+        all_mask_logits (torch.Tensor): Logits for all predicted masks, shape (B, N, H, W) where B is batch size, N is
+            number of masks (typically 4), and H, W are mask dimensions.
         all_iou_scores (torch.Tensor): Predicted IoU scores for all masks, shape (B, N).
 
     Returns:

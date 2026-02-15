@@ -218,8 +218,7 @@ def get_visual_pe(self, dataloader: torch.utils.data.DataLoader, model: YOLOEMod
     """Extract visual prompt embeddings from training samples.
 
     This method processes a dataloader to compute visual prompt embeddings for each class using a YOLOE model. It
-    normalizes the embeddings and handles cases where no samples exist for a class by setting their embeddings to
-    zero.
+    normalizes the embeddings and handles cases where no samples exist for a class by setting their embeddings to zero.
 
     Args:
         dataloader (torch.utils.data.DataLoader): The dataloader providing training samples.

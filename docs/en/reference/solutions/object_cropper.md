@@ -154,8 +154,7 @@ def process(self, im0) -> SolutionResults:
         im0 (np.ndarray): The input image containing detected objects.
 
     Returns:
-        (SolutionResults): A SolutionResults object containing the total number of cropped objects and processed
-            image.
+        (SolutionResults): A SolutionResults object containing the total number of cropped objects and processed image.
 
     Examples:
         >>> cropper = ObjectCropper()

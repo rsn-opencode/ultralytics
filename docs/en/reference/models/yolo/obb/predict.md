@@ -25,7 +25,7 @@ keywords: Ultralytics, YOLO, OBBPredictor, oriented bounding box, object detecti
 ## Class `ultralytics.models.yolo.obb.predict.OBBPredictor` {#ultralytics.models.yolo.obb.predict.OBBPredictor}
 
 ```python
-OBBPredictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+OBBPredictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `DetectionPredictor`
@@ -135,8 +135,8 @@ def construct_result(self, pred, img, orig_img, img_path):
     """Construct the result object from the prediction.
 
     Args:
-        pred (torch.Tensor): The predicted bounding boxes, scores, and rotation angles with shape (N, 7) where the
-            last dimension contains [x, y, w, h, confidence, class_id, angle].
+        pred (torch.Tensor): The predicted bounding boxes, scores, and rotation angles with shape (N, 7) where the last
+            dimension contains [x, y, w, h, confidence, class_id, angle].
         img (torch.Tensor): The image after preprocessing with shape (B, C, H, W).
         orig_img (np.ndarray): The original image before preprocessing.
         img_path (str): The path to the original image.

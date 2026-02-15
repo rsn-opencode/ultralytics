@@ -195,9 +195,9 @@ This method orchestrates the application of various transformations defined in t
 def __call__(self, labels):
     """Apply all label transformations to an image, instances, and semantic masks.
 
-    This method orchestrates the application of various transformations defined in the BaseTransform class to the
-    input labels. It sequentially calls the apply_image and apply_instances methods to process the image and object
-    instances, respectively.
+    This method orchestrates the application of various transformations defined in the BaseTransform class to the input
+    labels. It sequentially calls the apply_image and apply_instances methods to process the image and object instances,
+    respectively.
 
     Args:
         labels (dict): A dictionary containing image data and annotations. Expected keys include 'img' for the image
@@ -263,8 +263,8 @@ def apply_image(self, labels):
     logic. In its base form, it returns the input labels unchanged.
 
     Args:
-        labels (Any): The input labels to be transformed. The exact type and structure of labels may vary depending
-            on the specific implementation.
+        labels (Any): The input labels to be transformed. The exact type and structure of labels may vary depending on
+            the specific implementation.
 
     Returns:
         (Any): The transformed labels. In the base implementation, this is identical to the input.
@@ -522,8 +522,8 @@ def __call__(self, data):
     This method sequentially applies each transformation in the Compose object's transforms to the input data.
 
     Args:
-        data (Any): The input data to be transformed. This can be of any type, depending on the transformations in
-            the list.
+        data (Any): The input data to be transformed. This can be of any type, depending on the transformations in the
+            list.
 
     Returns:
         (Any): The transformed data after applying all transformations in sequence.
@@ -1085,8 +1085,8 @@ def _mix_transform(self, labels: dict[str, Any]):
     Mosaic. It modifies the input label dictionary in-place with the augmented data.
 
     Args:
-        labels (dict[str, Any]): A dictionary containing image and label data. Expected to have a 'mix_labels' key
-            with a list of additional image and label data for mixing.
+        labels (dict[str, Any]): A dictionary containing image and label data. Expected to have a 'mix_labels' key with
+            a list of additional image and label data for mixing.
 
     Returns:
         (dict[str, Any]): The modified labels dictionary with augmented data after applying the mix transform.
@@ -1152,8 +1152,8 @@ tensor([[2],
 def _update_label_text(labels: dict[str, Any]) -> dict[str, Any]:
     """Update label text and class IDs for mixed labels in image augmentation.
 
-    This method processes the 'texts' and 'cls' fields of the input labels dictionary and any mixed labels, creating
-    a unified set of text labels and updating class IDs accordingly.
+    This method processes the 'texts' and 'cls' fields of the input labels dictionary and any mixed labels, creating a
+    unified set of text labels and updating class IDs accordingly.
 
     Args:
         labels (dict[str, Any]): A dictionary containing label information, including 'texts' and 'cls' fields, and
@@ -1393,8 +1393,8 @@ dict_keys(['im_file', 'ori_shape', 'resized_shape', 'cls', 'instances', 'mosaic_
 def _cat_labels(self, mosaic_labels: list[dict[str, Any]]) -> dict[str, Any]:
     """Concatenate and process labels for mosaic augmentation.
 
-    This method combines labels from multiple images used in mosaic augmentation, clips instances to the mosaic
-    border, and removes zero-area boxes.
+    This method combines labels from multiple images used in mosaic augmentation, clips instances to the mosaic border,
+    and removes zero-area boxes.
 
     Args:
         mosaic_labels (list[dict[str, Any]]): A list of label dictionaries for each image in the mosaic.
@@ -1487,9 +1487,8 @@ This method combines multiple images (3, 4, or 9) into a single mosaic image bas
 def _mix_transform(self, labels: dict[str, Any]) -> dict[str, Any]:
     """Apply mosaic augmentation to the input image and labels.
 
-    This method combines multiple images (3, 4, or 9) into a single mosaic image based on the 'n' attribute. It
-    ensures that rectangular annotations are not present and that there are other images available for mosaic
-    augmentation.
+    This method combines multiple images (3, 4, or 9) into a single mosaic image based on the 'n' attribute. It ensures
+    that rectangular annotations are not present and that there are other images available for mosaic augmentation.
 
     Args:
         labels (dict[str, Any]): A dictionary containing image data and annotations. Expected keys include:
@@ -1563,9 +1562,9 @@ def _mosaic3(self, labels: dict[str, Any]) -> dict[str, Any]:
     images on either side. It's part of the Mosaic augmentation technique used in object detection.
 
     Args:
-        labels (dict[str, Any]): A dictionary containing image and label information for the main (center) image.
-            Must include 'img' key with the image array, and 'mix_labels' key with a list of two dictionaries
-            containing information for the side images.
+        labels (dict[str, Any]): A dictionary containing image and label information for the main (center) image. Must
+            include 'img' key with the image array, and 'mix_labels' key with a list of two dictionaries containing
+            information for the side images.
 
     Returns:
         (dict[str, Any]): A dictionary with the mosaic image and updated labels. Keys include:
@@ -1664,13 +1663,12 @@ def _mosaic4(self, labels: dict[str, Any]) -> dict[str, Any]:
     corresponding labels for each image in the mosaic.
 
     Args:
-        labels (dict[str, Any]): A dictionary containing image data and labels for the base image (index 0) and
-            three additional images (indices 1-3) in the 'mix_labels' key.
+        labels (dict[str, Any]): A dictionary containing image data and labels for the base image (index 0) and three
+            additional images (indices 1-3) in the 'mix_labels' key.
 
     Returns:
-        (dict[str, Any]): A dictionary containing the mosaic image and updated labels. The 'img' key contains the
-            mosaic image as a numpy array, and other keys contain the combined and adjusted labels for all
-            four images.
+        (dict[str, Any]): A dictionary containing the mosaic image and updated labels. The 'img' key contains the mosaic
+            image as a numpy array, and other keys contain the combined and adjusted labels for all four images.
 
     Examples:
         >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=4)
@@ -1937,8 +1935,8 @@ def get_indexes(self):
     'buffer_enabled' attribute. It is used to choose images for creating mosaic augmentations.
 
     Returns:
-        (list[int]): A list of random image indexes. The length of the list is n-1, where n is the number of images
-            used in the mosaic (either 3 or 8, depending on whether n is 4 or 9).
+        (list[int]): A list of random image indexes. The length of the list is n-1, where n is the number of images used
+            in the mosaic (either 3 or 8, depending on whether n is 4 or 9).
 
     Examples:
         >>> mosaic = Mosaic(dataset, imgsz=640, p=1.0, n=4)
@@ -2537,9 +2535,8 @@ This method performs a series of transformations including rotation, translation
 def __call__(self, labels: dict[str, Any]) -> dict[str, Any]:
     """Apply random perspective and affine transformations to an image and its associated labels.
 
-    This method performs a series of transformations including rotation, translation, scaling, shearing, and
-    perspective distortion on the input image and adjusts the corresponding bounding boxes, segments, and keypoints
-    accordingly.
+    This method performs a series of transformations including rotation, translation, scaling, shearing, and perspective
+    distortion on the input image and adjusts the corresponding bounding boxes, segments, and keypoints accordingly.
 
     Args:
         labels (dict[str, Any]): A dictionary containing image data and annotations.
@@ -2660,9 +2657,9 @@ This function performs a series of geometric transformations on the input image,
 def affine_transform(self, img: np.ndarray, border: tuple[int, int]) -> tuple[np.ndarray, np.ndarray, float]:
     """Apply a sequence of affine transformations centered around the image center.
 
-    This function performs a series of geometric transformations on the input image, including translation,
-    perspective change, rotation, scaling, and shearing. The transformations are applied in a specific order to
-    maintain consistency.
+    This function performs a series of geometric transformations on the input image, including translation, perspective
+    change, rotation, scaling, and shearing. The transformations are applied in a specific order to maintain
+    consistency.
 
     Args:
         img (np.ndarray): Input image to be transformed.
@@ -2765,12 +2762,10 @@ This function applies an affine transformation to a set of bounding boxes using 
 def apply_bboxes(self, bboxes: np.ndarray, M: np.ndarray) -> np.ndarray:
     """Apply affine transformation to bounding boxes.
 
-    This function applies an affine transformation to a set of bounding boxes using the provided transformation
-    matrix.
+    This function applies an affine transformation to a set of bounding boxes using the provided transformation matrix.
 
     Args:
-        bboxes (np.ndarray): Bounding boxes in xyxy format with shape (N, 4), where N is the number of bounding
-            boxes.
+        bboxes (np.ndarray): Bounding boxes in xyxy format with shape (N, 4), where N is the number of bounding boxes.
         M (np.ndarray): Affine transformation matrix with shape (3, 3).
 
     Returns:
@@ -2840,13 +2835,13 @@ This method transforms the input keypoints using the provided affine transformat
 def apply_keypoints(self, keypoints: np.ndarray, M: np.ndarray) -> np.ndarray:
     """Apply affine transformation to keypoints.
 
-    This method transforms the input keypoints using the provided affine transformation matrix. It handles
-    perspective rescaling if necessary and updates the visibility of keypoints that fall outside the image
-    boundaries after transformation.
+    This method transforms the input keypoints using the provided affine transformation matrix. It handles perspective
+    rescaling if necessary and updates the visibility of keypoints that fall outside the image boundaries after
+    transformation.
 
     Args:
-        keypoints (np.ndarray): Array of keypoints with shape (N, K, 3), where N is the number of instances, K is
-            the number of keypoints per instance, and 3 represents (x, y, visibility).
+        keypoints (np.ndarray): Array of keypoints with shape (N, K, 3), where N is the number of instances, K is the
+            number of keypoints per instance, and 3 represents (x, y, visibility).
         M (np.ndarray): 3x3 affine transformation matrix.
 
     Returns:
@@ -3013,25 +3008,23 @@ def box_candidates(
 ) -> np.ndarray:
     """Compute candidate boxes for further processing based on size and aspect ratio criteria.
 
-    This method compares boxes before and after augmentation to determine if they meet specified thresholds for
-    width, height, aspect ratio, and area. It's used to filter out boxes that have been overly distorted or reduced
-    by the augmentation process.
+    This method compares boxes before and after augmentation to determine if they meet specified thresholds for width,
+    height, aspect ratio, and area. It's used to filter out boxes that have been overly distorted or reduced by the
+    augmentation process.
 
     Args:
-        box1 (np.ndarray): Original boxes before augmentation, shape (4, N) where N is the number of boxes. Format
-            is [x1, y1, x2, y2] in absolute coordinates.
-        box2 (np.ndarray): Augmented boxes after transformation, shape (4, N). Format is [x1, y1, x2, y2] in
-            absolute coordinates.
-        wh_thr (int): Width and height threshold in pixels. Boxes smaller than this in either dimension are
-            rejected.
+        box1 (np.ndarray): Original boxes before augmentation, shape (4, N) where N is the number of boxes. Format is
+            [x1, y1, x2, y2] in absolute coordinates.
+        box2 (np.ndarray): Augmented boxes after transformation, shape (4, N). Format is [x1, y1, x2, y2] in absolute
+            coordinates.
+        wh_thr (int): Width and height threshold in pixels. Boxes smaller than this in either dimension are rejected.
         ar_thr (int): Aspect ratio threshold. Boxes with an aspect ratio greater than this value are rejected.
-        area_thr (float): Area ratio threshold. Boxes with an area ratio (new/old) less than this value are
-            rejected.
+        area_thr (float): Area ratio threshold. Boxes with an area ratio (new/old) less than this value are rejected.
         eps (float): Small epsilon value to prevent division by zero.
 
     Returns:
-        (np.ndarray): Boolean array of shape (N,) indicating which boxes are candidates. True values correspond to
-            boxes that meet all criteria.
+        (np.ndarray): Boolean array of shape (N,) indicating which boxes are candidates. True values correspond to boxes
+            that meet all criteria.
 
     Examples:
         >>> random_perspective = RandomPerspective()
@@ -3360,9 +3353,8 @@ This method randomly flips the input image either horizontally or vertically bas
 def __call__(self, labels: dict[str, Any]) -> dict[str, Any]:
     """Apply random flip to an image and update any instances like bounding boxes or keypoints accordingly.
 
-    This method randomly flips the input image either horizontally or vertically based on the initialized
-    probability and direction. It also updates the corresponding instances (bounding boxes, keypoints) to match the
-    flipped image.
+    This method randomly flips the input image either horizontally or vertically based on the initialized probability
+    and direction. It also updates the corresponding instances (bounding boxes, keypoints) to match the flipped image.
 
     Args:
         labels (dict[str, Any]): A dictionary containing the following keys:
@@ -3576,18 +3568,17 @@ This method applies letterboxing to the input image, which involves resizing the
 def __call__(self, labels: dict[str, Any] | None = None, image: np.ndarray = None) -> dict[str, Any] | np.ndarray:
     """Resize and pad an image for object detection, instance segmentation, or pose estimation tasks.
 
-    This method applies letterboxing to the input image, which involves resizing the image while maintaining its
-    aspect ratio and adding padding to fit the new shape. It also updates any associated labels accordingly.
+    This method applies letterboxing to the input image, which involves resizing the image while maintaining its aspect
+    ratio and adding padding to fit the new shape. It also updates any associated labels accordingly.
 
     Args:
-        labels (dict[str, Any] | None): A dictionary containing image data and associated labels, or empty dict if
-            None.
+        labels (dict[str, Any] | None): A dictionary containing image data and associated labels, or empty dict if None.
         image (np.ndarray | None): The input image as a numpy array. If None, the image is taken from 'labels'.
 
     Returns:
         (dict[str, Any] | np.ndarray): If 'labels' is provided, returns an updated dictionary with the resized and
-            padded image, updated labels, and additional metadata. If 'labels' is empty, returns the resized and
-            padded image only.
+            padded image, updated labels, and additional metadata. If 'labels' is empty, returns the resized and padded
+            image only.
 
     Examples:
         >>> letterbox = LetterBox(new_shape=(640, 640))
@@ -3632,9 +3623,7 @@ def __call__(self, labels: dict[str, Any] | None = None, image: np.ndarray = Non
     left, right = round(dw - 0.1) if self.center else 0, round(dw + 0.1)
     h, w, c = img.shape
     if c == 3:
-        img = cv2.copyMakeBorder(
-            img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=(self.padding_value,) * 3
-        )
+        img = cv2.copyMakeBorder(img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=(self.padding_value,) * 3)
     else:  # multispectral
         pad_img = np.full((h + top + bottom, w + left + right, c), fill_value=self.padding_value, dtype=img.dtype)
         pad_img[top : top + h, left : left + w] = img
@@ -4180,8 +4169,8 @@ This method applies a series of image augmentations using the Albumentations lib
 def __call__(self, labels: dict[str, Any]) -> dict[str, Any]:
     """Apply Albumentations transformations to input labels.
 
-    This method applies a series of image augmentations using the Albumentations library. It can perform both
-    spatial and non-spatial transformations on the input image and its corresponding labels.
+    This method applies a series of image augmentations using the Albumentations library. It can perform both spatial
+    and non-spatial transformations on the input image and its corresponding labels.
 
     Args:
         labels (dict[str, Any]): A dictionary containing image data and annotations. Expected keys are:
@@ -5043,13 +5032,11 @@ This method samples positive texts based on the existing class labels in the ima
 def __call__(self, labels: dict[str, Any]) -> dict[str, Any]:
     """Randomly sample positive and negative texts and update class indices accordingly.
 
-    This method samples positive texts based on the existing class labels in the image, and randomly selects
-    negative texts from the remaining classes. It then updates the class indices to match the new sampled text
-    order.
+    This method samples positive texts based on the existing class labels in the image, and randomly selects negative
+    texts from the remaining classes. It then updates the class indices to match the new sampled text order.
 
     Args:
-        labels (dict[str, Any]): A dictionary containing image labels and metadata. Must include 'texts' and 'cls'
-            keys.
+        labels (dict[str, Any]): A dictionary containing image labels and metadata. Must include 'texts' and 'cls' keys.
 
     Returns:
         (dict[str, Any]): Updated labels dictionary with new 'cls' and 'texts' entries.
@@ -5244,15 +5231,15 @@ This method resizes the input image to fit within the specified dimensions while
 def __call__(self, im: np.ndarray) -> np.ndarray:
     """Resize and pad an image using the letterbox method.
 
-    This method resizes the input image to fit within the specified dimensions while maintaining its aspect ratio,
-    then pads the resized image to match the target size.
+    This method resizes the input image to fit within the specified dimensions while maintaining its aspect ratio, then
+    pads the resized image to match the target size.
 
     Args:
         im (np.ndarray): Input image as a numpy array with shape (H, W, C).
 
     Returns:
-        (np.ndarray): Resized and padded image as a numpy array with shape (hs, ws, 3), where hs and ws are the
-            target height and width respectively.
+        (np.ndarray): Resized and padded image as a numpy array with shape (hs, ws, 3), where hs and ws are the target
+            height and width respectively.
 
     Examples:
         >>> letterbox = ClassifyLetterBox(size=(640, 640))
@@ -5405,8 +5392,7 @@ def __call__(self, im: Image.Image | np.ndarray) -> np.ndarray:
     This method crops the largest centered square from the image and resizes it to the specified dimensions.
 
     Args:
-        im (np.ndarray | PIL.Image.Image): The input image as a numpy array of shape (H, W, C) or a PIL Image
-            object.
+        im (np.ndarray | PIL.Image.Image): The input image as a numpy array of shape (H, W, C) or a PIL Image object.
 
     Returns:
         (np.ndarray): The center-cropped and resized image as a numpy array of shape (self.h, self.w, C).
@@ -5566,8 +5552,8 @@ def __call__(self, im: np.ndarray) -> torch.Tensor:
         im (np.ndarray): Input image as a numpy array with shape (H, W, C) in BGR order.
 
     Returns:
-        (torch.Tensor): The transformed image as a PyTorch tensor in float32 or float16, normalized to [0, 1] with
-            shape (C, H, W) in BGR order.
+        (torch.Tensor): The transformed image as a PyTorch tensor in float32 or float16, normalized to [0, 1] with shape
+            (C, H, W) in BGR order.
 
     Examples:
         >>> transform = ToTensor(half=True)

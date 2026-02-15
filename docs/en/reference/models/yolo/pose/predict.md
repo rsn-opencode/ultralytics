@@ -25,7 +25,7 @@ keywords: YOLO, Pose Prediction, Ultralytics, PosePredictor, YOLOv8, Machine Lea
 ## Class `ultralytics.models.yolo.pose.predict.PosePredictor` {#ultralytics.models.yolo.pose.predict.PosePredictor}
 
 ```python
-PosePredictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+PosePredictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `DetectionPredictor`
@@ -144,12 +144,12 @@ Extends the parent class implementation by extracting keypoint data from predict
 def construct_result(self, pred, img, orig_img, img_path):
     """Construct the result object from the prediction, including keypoints.
 
-    Extends the parent class implementation by extracting keypoint data from predictions and adding them to the
-    result object.
+    Extends the parent class implementation by extracting keypoint data from predictions and adding them to the result
+    object.
 
     Args:
-        pred (torch.Tensor): The predicted bounding boxes, scores, and keypoints with shape (N, 6+K*D) where N is
-            the number of detections, K is the number of keypoints, and D is the keypoint dimension.
+        pred (torch.Tensor): The predicted bounding boxes, scores, and keypoints with shape (N, 6+K*D) where N is the
+            number of detections, K is the number of keypoints, and D is the keypoint dimension.
         img (torch.Tensor): The processed input image tensor with shape (B, C, H, W).
         orig_img (np.ndarray): The original unprocessed image as a numpy array.
         img_path (str): The path to the original image file.

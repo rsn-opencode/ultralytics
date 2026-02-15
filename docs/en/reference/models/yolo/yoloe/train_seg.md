@@ -146,9 +146,7 @@ def get_validator(self):
         (YOLOESegValidator): Validator for YOLOE segmentation models.
     """
     self.loss_names = "box", "seg", "cls", "dfl"
-    return YOLOESegValidator(
-        self.test_loader, save_dir=self.save_dir, args=copy(self.args), _callbacks=self.callbacks
-    )
+    return YOLOESegValidator(self.test_loader, save_dir=self.save_dir, args=copy(self.args), _callbacks=self.callbacks)
 ```
 </details>
 

@@ -296,8 +296,8 @@ def _process_batch(self, preds: dict[str, torch.Tensor], batch: dict[str, Any]) 
         batch (dict[str, Any]): Batch dictionary containing ground truth data with 'bboxes' and 'cls' keys.
 
     Returns:
-        (dict[str, np.ndarray]): Dictionary containing 'tp' key with correct prediction matrix of shape (N, 10) for
-            10 IoU levels.
+        (dict[str, np.ndarray]): Dictionary containing 'tp' key with correct prediction matrix of shape (N, 10) for 10
+            IoU levels.
     """
     if batch["cls"].shape[0] == 0 or preds["cls"].shape[0] == 0:
         return {"tp": np.zeros((preds["cls"].shape[0], self.niou), dtype=bool)}
@@ -401,17 +401,16 @@ def coco_evaluate(
     """Evaluate COCO/LVIS metrics using faster-coco-eval library.
 
     Performs evaluation using the faster-coco-eval library to compute mAP metrics for object detection. Updates the
-    provided stats dictionary with computed metrics including mAP50, mAP50-95, and LVIS-specific metrics if
-    applicable.
+    provided stats dictionary with computed metrics including mAP50, mAP50-95, and LVIS-specific metrics if applicable.
 
     Args:
         stats (dict[str, Any]): Dictionary to store computed metrics and statistics.
         pred_json (str | Path): Path to JSON file containing predictions in COCO format.
         anno_json (str | Path): Path to JSON file containing ground truth annotations in COCO format.
-        iou_types (str | list[str]): IoU type(s) for evaluation. Can be single string or list of strings. Common
-            values include "bbox", "segm", "keypoints". Defaults to "bbox".
-        suffix (str | list[str]): Suffix to append to metric names in stats dictionary. Should correspond to
-            iou_types if multiple types provided. Defaults to "Box".
+        iou_types (str | list[str]): IoU type(s) for evaluation. Can be single string or list of strings. Common values
+            include "bbox", "segm", "keypoints". Defaults to "bbox".
+        suffix (str | list[str]): Suffix to append to metric names in stats dictionary. Should correspond to iou_types
+            if multiple types provided. Defaults to "Box".
 
     Returns:
         (dict[str, Any]): Updated stats dictionary containing the computed COCO/LVIS evaluation metrics.
@@ -429,9 +428,7 @@ def coco_evaluate(
             anno = COCO(anno_json)
             pred = anno.loadRes(pred_json)
             for i, iou_type in enumerate(iou_types):
-                val = COCOeval_faster(
-                    anno, pred, iouType=iou_type, lvis_style=self.is_lvis, print_function=LOGGER.info
-                )
+                val = COCOeval_faster(anno, pred, iouType=iou_type, lvis_style=self.is_lvis, print_function=LOGGER.info)
                 val.params.imgIds = [int(Path(x).stem) for x in self.dataloader.dataset.im_files]  # images to eval
                 val.evaluate()
                 val.accumulate()

@@ -245,8 +245,8 @@ This method applies non-maximum suppression to raw model predictions and prepare
 def postprocess(self, preds, img, orig_imgs, **kwargs):
     """Post-process predictions and return a list of Results objects.
 
-    This method applies non-maximum suppression to raw model predictions and prepares them for visualization and
-    further analysis.
+    This method applies non-maximum suppression to raw model predictions and prepares them for visualization and further
+    analysis.
 
     Args:
         preds (torch.Tensor): Raw predictions from the model.

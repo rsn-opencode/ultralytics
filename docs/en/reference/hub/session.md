@@ -366,8 +366,8 @@ def _set_train_args(self):
     specific file setup.
 
     Raises:
-        ValueError: If the model is already trained, if required dataset information is missing, or if there are
-            issues with the provided training arguments.
+        ValueError: If the model is already trained, if required dataset information is missing, or if there are issues
+            with the provided training arguments.
     """
     if self.model.is_resumable():
         # Model has saved weights
@@ -486,8 +486,7 @@ def create_model(self, model_args: dict[str, Any]):
     """Initialize a HUB training session with the specified model arguments.
 
     Args:
-        model_args (dict[str, Any]): Arguments for creating the model, including batch size, epochs, image size,
-            etc.
+        model_args (dict[str, Any]): Arguments for creating the model, including batch size, epochs, image size, etc.
 
     Returns:
         (None): If the model could not be created.

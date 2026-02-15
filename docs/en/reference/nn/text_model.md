@@ -280,12 +280,12 @@ torch.Size([1, 512])
 def encode_image(self, image: Image.Image | torch.Tensor, dtype: torch.dtype = torch.float32) -> torch.Tensor:
     """Encode images into normalized feature vectors.
 
-    This method processes image inputs through the CLIP model to generate feature vectors, which are then
-    normalized to unit length. These normalized vectors can be used for text-image similarity comparisons.
+    This method processes image inputs through the CLIP model to generate feature vectors, which are then normalized to
+    unit length. These normalized vectors can be used for text-image similarity comparisons.
 
     Args:
-        image (PIL.Image | torch.Tensor): Image input as a PIL Image or preprocessed tensor. If a PIL Image is
-            provided, it will be converted to a tensor using the model's image preprocessing function.
+        image (PIL.Image | torch.Tensor): Image input as a PIL Image or preprocessed tensor. If a PIL Image is provided,
+            it will be converted to a tensor using the model's image preprocessing function.
         dtype (torch.dtype, optional): Data type for output features.
 
     Returns:
@@ -419,8 +419,8 @@ def tokenize(self, texts: str | list[str], truncate: bool = True) -> torch.Tenso
 
     Args:
         texts (str | list[str]): Input text or list of texts to tokenize.
-        truncate (bool, optional): Whether to trim texts that exceed CLIP's context length. Defaults to True to
-            avoid RuntimeError from overly long inputs while still allowing explicit opt-out.
+        truncate (bool, optional): Whether to trim texts that exceed CLIP's context length. Defaults to True to avoid
+            RuntimeError from overly long inputs while still allowing explicit opt-out.
 
     Returns:
         (torch.Tensor): Tokenized text tensor with shape (batch_size, context_length) ready for model processing.
@@ -866,9 +866,7 @@ def tokenize(self, texts: list[str], truncate: bool = True) -> torch.Tensor:
     Examples:
         >>> model = MobileCLIPTS(device=torch.device("cpu"))
         >>> tokens = model.tokenize(["a photo of a cat", "a photo of a dog"])
-        >>> strict_tokens = model.tokenize(
-        ...     ["a very long caption"], truncate=False
-        ... )  # RuntimeError if exceeds 77-token
+        >>> strict_tokens = model.tokenize(["a very long caption"], truncate=False)  # RuntimeError if exceeds 77-token
     """
     return self.tokenizer(texts, truncate=truncate).to(self.device)
 ```

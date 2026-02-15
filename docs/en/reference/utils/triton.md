@@ -196,8 +196,8 @@ def __call__(self, *inputs: np.ndarray) -> list[np.ndarray]:
             corresponding model input.
 
     Returns:
-        (list[np.ndarray]): Model outputs cast to the dtype of the first input. Each element in the list corresponds
-            to one of the model's output tensors.
+        (list[np.ndarray]): Model outputs cast to the dtype of the first input. Each element in the list corresponds to
+            one of the model's output tensors.
 
     Examples:
         >>> model = TritonRemoteModel(url="localhost:8000", endpoint="yolov8", scheme="http")

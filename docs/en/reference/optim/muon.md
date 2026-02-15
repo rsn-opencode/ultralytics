@@ -239,9 +239,8 @@ Applies either hybrid Muon+SGD updates or pure SGD updates depending on the 'use
 def step(self, closure=None):
     """Perform a single optimization step.
 
-    Applies either hybrid Muon+SGD updates or pure SGD updates depending on the
-    'use_muon' flag in each parameter group. For Muon-enabled groups, parameters
-    receive both an orthogonalized Muon update and a standard SGD momentum update.
+    Applies either hybrid Muon+SGD updates or pure SGD updates depending on the 'use_muon' flag in each parameter group.
+    For Muon-enabled groups, parameters receive both an orthogonalized Muon update and a standard SGD momentum update.
 
     Args:
         closure (Callable, optional): A closure that reevaluates the model
@@ -274,9 +273,7 @@ def step(self, closure=None):
                     state["momentum_buffer"] = torch.zeros_like(p)
                     state["momentum_buffer_SGD"] = torch.zeros_like(p)
 
-                update = muon_update(
-                    grad, state["momentum_buffer"], beta=group["momentum"], nesterov=group["nesterov"]
-                )
+                update = muon_update(grad, state["momentum_buffer"], beta=group["momentum"], nesterov=group["nesterov"])
                 p.add_(update.reshape(p.shape), alpha=-(lr * self.muon))
 
                 # SGD update
@@ -466,8 +463,8 @@ Applies Muon updates to all parameters, incorporating momentum and orthogonaliza
 def step(self, closure=None):
     """Perform a single optimization step.
 
-    Applies Muon updates to all parameters, incorporating momentum and orthogonalization.
-    Weight decay is applied multiplicatively before the parameter update.
+    Applies Muon updates to all parameters, incorporating momentum and orthogonalization. Weight decay is applied
+    multiplicatively before the parameter update.
 
     Args:
         closure (Callable[[], torch.Tensor] | None, optional): A closure that reevaluates the model

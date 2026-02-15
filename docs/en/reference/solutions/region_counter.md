@@ -245,8 +245,8 @@ def process(self, im0: np.ndarray) -> SolutionResults:
         im0 (np.ndarray): Input image frame where objects and regions are annotated.
 
     Returns:
-        (SolutionResults): Contains processed image `plot_im`, 'total_tracks' (int, total number of tracked
-            objects), and 'region_counts' (dict, counts of objects per region).
+        (SolutionResults): Contains processed image `plot_im`, 'total_tracks' (int, total number of tracked objects),
+            and 'region_counts' (dict, counts of objects per region).
     """
     self.extract_tracks(im0)
     annotator = SolutionAnnotator(im0, line_width=self.line_width)

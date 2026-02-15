@@ -122,7 +122,7 @@ keywords: Ultralytics, SAM, Segment Anything Model, SAM 2, Segment Anything Mode
 ## Class `ultralytics.models.sam.predict.Predictor` {#ultralytics.models.sam.predict.Predictor}
 
 ```python
-Predictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+Predictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `BasePredictor`
@@ -391,12 +391,12 @@ def _prepare_prompts(self, dst_shape, src_shape, bboxes=None, points=None, label
         dst_shape (tuple[int, int]): The target shape (height, width) for the prompts.
         src_shape (tuple[int, int]): The source shape (height, width) of the input image.
         bboxes (np.ndarray | list | None): Bounding boxes in XYXY format with shape (N, 4).
-        points (np.ndarray | list | None): Points indicating object locations with shape (N, 2) or (N, num_points,
-            2), in pixels.
-        labels (np.ndarray | list | None): Point prompt labels with shape (N) or (N, num_points). 1 for foreground,
-            0 for background.
-        masks (list[np.ndarray] | np.ndarray | None): Masks for the objects, where each mask is a 2D array with
-            shape (H, W).
+        points (np.ndarray | list | None): Points indicating object locations with shape (N, 2) or (N, num_points, 2),
+            in pixels.
+        labels (np.ndarray | list | None): Point prompt labels with shape (N) or (N, num_points). 1 for foreground, 0
+            for background.
+        masks (list[np.ndarray] | np.ndarray | None): Masks for the objects, where each mask is a 2D array with shape
+            (H, W).
 
     Returns:
         bboxes (torch.Tensor | None): Transformed bounding boxes.
@@ -515,8 +515,8 @@ def generate(
 ):
     """Perform image segmentation using the Segment Anything Model (SAM).
 
-    This method segments an entire image into constituent parts by leveraging SAM's advanced architecture and
-    real-time performance capabilities. It can optionally work on image crops for finer segmentation.
+    This method segments an entire image into constituent parts by leveraging SAM's advanced architecture and real-time
+    performance capabilities. It can optionally work on image crops for finer segmentation.
 
     Args:
         im (torch.Tensor): Input tensor representing the preprocessed image with shape (N, C, H, W).
@@ -566,9 +566,7 @@ def generate(
             idx = pred_score > conf_thres
             pred_mask, pred_score = pred_mask[idx], pred_score[idx]
 
-            stability_score = calculate_stability_score(
-                pred_mask, self.model.mask_threshold, stability_score_offset
-            )
+            stability_score = calculate_stability_score(pred_mask, self.model.mask_threshold, stability_score_offset)
             idx = stability_score > stability_score_thresh
             pred_mask, pred_score = pred_mask[idx], pred_score[idx]
             # Bool type is much more memory-efficient.
@@ -711,8 +709,8 @@ This method leverages SAM's (Segment Anything Model) architecture consisting of 
 def inference(self, im, bboxes=None, points=None, labels=None, masks=None, multimask_output=False, *args, **kwargs):
     """Perform image segmentation inference based on the given input cues, using the currently loaded image.
 
-    This method leverages SAM's (Segment Anything Model) architecture consisting of image encoder, prompt encoder,
-    and mask decoder for real-time and promptable segmentation tasks.
+    This method leverages SAM's (Segment Anything Model) architecture consisting of image encoder, prompt encoder, and
+    mask decoder for real-time and promptable segmentation tasks.
 
     Args:
         im (torch.Tensor): The preprocessed input image in tensor format, with shape (N, C, H, W).
@@ -726,8 +724,7 @@ def inference(self, im, bboxes=None, points=None, labels=None, masks=None, multi
 
     Returns:
         pred_masks (torch.Tensor): The output masks in shape (C, H, W), where C is the number of generated masks.
-        pred_scores (torch.Tensor): An array of length C containing quality scores predicted by the model for each
-            mask.
+        pred_scores (torch.Tensor): An array of length C containing quality scores predicted by the model for each mask.
 
     Examples:
         >>> predictor = Predictor()
@@ -817,16 +814,15 @@ def inference_features(
         dst_shape (tuple[int, int] | None): The target shape (height, width) for the prompts. If None, defaults to
             (imgsz, imgsz).
         bboxes (np.ndarray | list[list[float]] | None): Bounding boxes in xyxy format with shape (N, 4).
-        points (np.ndarray | list[list[float]] | None): Points indicating object locations with shape (N, 2), in
-            pixels.
+        points (np.ndarray | list[list[float]] | None): Points indicating object locations with shape (N, 2), in pixels.
         labels (np.ndarray | list[int] | None): Point prompt labels with shape (N, ).
         masks (list[np.ndarray] | np.ndarray | None): Masks for the objects, where each mask is a 2D array.
         multimask_output (bool): Flag to return multiple masks for ambiguous prompts.
 
     Returns:
         pred_masks (torch.Tensor): The output masks in shape (C, H, W), where C is the number of generated masks.
-        pred_bboxes (torch.Tensor): Bounding boxes for each mask with shape (N, 6), where N is the number of boxes.
-            Each box is in xyxy format with additional columns for score and class.
+        pred_bboxes (torch.Tensor): Bounding boxes for each mask with shape (N, 6), where N is the number of boxes. Each
+            box is in xyxy format with additional columns for score and class.
 
     Notes:
         - The input features is a torch.Tensor of shape (B, C, H, W) if performing on SAM, or a dict[str, Any] if performing on SAM2.
@@ -901,8 +897,8 @@ def postprocess(self, preds, img, orig_imgs):
         orig_imgs (list[np.ndarray] | torch.Tensor): The original, unprocessed images.
 
     Returns:
-        (list[Results]): List of Results objects containing detection masks, bounding boxes, and other metadata for
-            each processed image.
+        (list[Results]): List of Results objects containing detection masks, bounding boxes, and other metadata for each
+            processed image.
 
     Examples:
         >>> predictor = Predictor()
@@ -1053,13 +1049,13 @@ This method prepares the input image by applying transformations and normalizati
 def preprocess(self, im):
     """Preprocess the input image for model inference.
 
-    This method prepares the input image by applying transformations and normalization. It supports both
-    torch.Tensor and list of np.ndarray as input formats. For OpenCV-loaded images, the input is typically BGR and
-    is converted to RGB during preprocessing.
+    This method prepares the input image by applying transformations and normalization. It supports both torch.Tensor
+    and list of np.ndarray as input formats. For OpenCV-loaded images, the input is typically BGR and is converted to
+    RGB during preprocessing.
 
     Args:
-        im (torch.Tensor | list[np.ndarray]): Input image(s) in BCHW tensor format or a list of HWC NumPy arrays.
-            NumPy arrays are expected to be in BGR order (as returned by OpenCV) and will be converted to RGB.
+        im (torch.Tensor | list[np.ndarray]): Input image(s) in BCHW tensor format or a list of HWC NumPy arrays. NumPy
+            arrays are expected to be in BGR order (as returned by OpenCV) and will be converted to RGB.
 
     Returns:
         (torch.Tensor): The preprocessed image tensor, normalized and converted to the appropriate dtype.
@@ -1139,10 +1135,10 @@ def prompt_inference(self, im, bboxes=None, points=None, labels=None, masks=None
     Args:
         im (torch.Tensor): Preprocessed input image tensor with shape (N, C, H, W).
         bboxes (np.ndarray | list | None): Bounding boxes in XYXY format with shape (N, 4).
-        points (np.ndarray | list | None): Points indicating object locations with shape (N, 2) or (N, num_points,
-            2), in pixels.
-        labels (np.ndarray | list | None): Point prompt labels with shape (N) or (N, num_points). 1 for foreground,
-            0 for background.
+        points (np.ndarray | list | None): Points indicating object locations with shape (N, 2) or (N, num_points, 2),
+            in pixels.
+        labels (np.ndarray | list | None): Point prompt labels with shape (N) or (N, num_points). 1 for foreground, 0
+            for background.
         masks (np.ndarray | None): Low-res masks from previous predictions with shape (N, H, W). For SAM, H=W=256.
         multimask_output (bool): Flag to return multiple masks for ambiguous prompts.
 
@@ -1209,14 +1205,14 @@ def remove_small_regions(masks, min_area=0, nms_thresh=0.7):
     """Remove small disconnected regions and holes from segmentation masks.
 
     This function performs post-processing on segmentation masks generated by the Segment Anything Model (SAM). It
-    removes small disconnected regions and holes from the input masks, and then performs Non-Maximum Suppression
-    (NMS) to eliminate any newly created duplicate boxes.
+    removes small disconnected regions and holes from the input masks, and then performs Non-Maximum Suppression (NMS)
+    to eliminate any newly created duplicate boxes.
 
     Args:
-        masks (torch.Tensor): Segmentation masks to be processed, with shape (N, H, W) where N is the number of
-            masks, H is height, and W is width.
-        min_area (int): Minimum area threshold for removing disconnected regions and holes. Regions smaller than
-            this will be removed.
+        masks (torch.Tensor): Segmentation masks to be processed, with shape (N, H, W) where N is the number of masks, H
+            is height, and W is width.
+        min_area (int): Minimum area threshold for removing disconnected regions and holes. Regions smaller than this
+            will be removed.
         nms_thresh (float): IoU threshold for the NMS algorithm to remove duplicate boxes.
 
     Returns:
@@ -1324,13 +1320,13 @@ This method prepares the model for inference on a single image by setting up the
 def set_image(self, image):
     """Preprocess and set a single image for inference.
 
-    This method prepares the model for inference on a single image by setting up the model if not already
-    initialized, configuring the data source, and preprocessing the image for feature extraction. It ensures that
-    only one image is set at a time and extracts image features for subsequent use.
+    This method prepares the model for inference on a single image by setting up the model if not already initialized,
+    configuring the data source, and preprocessing the image for feature extraction. It ensures that only one image is
+    set at a time and extracts image features for subsequent use.
 
     Args:
-        image (str | np.ndarray): Path to the image file as a string, or a numpy array representing an image read by
-            cv2 (BGR channel order).
+        image (str | np.ndarray): Path to the image file as a string, or a numpy array representing an image read by cv2
+            (BGR channel order).
 
     Raises:
         AssertionError: If more than one image is attempted to be set.
@@ -1677,10 +1673,10 @@ def _prepare_prompts(self, dst_shape, src_shape, bboxes=None, points=None, label
         dst_shape (tuple[int, int]): The target shape (height, width) for the prompts.
         src_shape (tuple[int, int]): The source shape (height, width) of the input image.
         bboxes (np.ndarray | list | None): Bounding boxes in XYXY format with shape (N, 4).
-        points (np.ndarray | list | None): Points indicating object locations with shape (N, 2) or (N, num_points,
-            2), in pixels.
-        labels (np.ndarray | list | None): Point prompt labels with shape (N,) or (N, num_points). 1 for foreground,
-            0 for background.
+        points (np.ndarray | list | None): Points indicating object locations with shape (N, 2) or (N, num_points, 2),
+            in pixels.
+        labels (np.ndarray | list | None): Point prompt labels with shape (N,) or (N, num_points). 1 for foreground, 0
+            for background.
         masks (list | np.ndarray | None): Masks for the objects, where each mask is a 2D array.
 
     Returns:
@@ -1797,7 +1793,7 @@ def setup_source(self, source):
 ## Class `ultralytics.models.sam.predict.SAM2VideoPredictor` {#ultralytics.models.sam.predict.SAM2VideoPredictor}
 
 ```python
-SAM2VideoPredictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+SAM2VideoPredictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `SAM2Predictor`
@@ -1953,9 +1949,7 @@ The resulting slices share the same tensor storage.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/sam/predict.py#L1617-L1650"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def _add_output_per_object(
-    self, frame_idx, current_out, storage_key, inference_state: dict[str, Any] | None = None
-):
+def _add_output_per_object(self, frame_idx, current_out, storage_key, inference_state: dict[str, Any] | None = None):
     """Split a multi-object output into per-object output slices and add them into Output_Dict_Per_Obj.
 
     The resulting slices share the same tensor storage.
@@ -1964,8 +1958,8 @@ def _add_output_per_object(
         frame_idx (int): The index of the current frame.
         current_out (dict): The current output dictionary containing multi-object outputs.
         storage_key (str): The key used to store the output in the per-object output dictionary.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
     """
     inference_state = inference_state or self.inference_state
     maskmem_features = current_out["maskmem_features"]
@@ -2017,15 +2011,14 @@ When users provide correction clicks, the surrounding frames' non-conditioning m
 def _clear_non_cond_mem_around_input(self, frame_idx, inference_state: dict[str, Any] | None = None):
     """Remove the non-conditioning memory around the input frame.
 
-    When users provide correction clicks, the surrounding frames' non-conditioning memories can still contain
-    outdated object appearance information and could confuse the model. This method clears those non-conditioning
-    memories surrounding the interacted frame to avoid giving the model both old and new information about the
-    object.
+    When users provide correction clicks, the surrounding frames' non-conditioning memories can still contain outdated
+    object appearance information and could confuse the model. This method clears those non-conditioning memories
+    surrounding the interacted frame to avoid giving the model both old and new information about the object.
 
     Args:
         frame_idx (int): The index of the current frame where user interaction occurred.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
     """
     inference_state = inference_state or self.inference_state
     r = self.model.memory_temporal_stride_for_eval
@@ -2094,16 +2087,15 @@ def _consolidate_temp_output_across_obj(
 
     This method combines the temporary outputs for each object on a given frame into a unified
     output. It fills in any missing objects either from the main output dictionary or leaves
-    placeholders if they do not exist in the main output. Optionally, it can re-run the memory encoder after
-    applying non-overlapping constraints to the object scores.
+    placeholders if they do not exist in the main output. Optionally, it can re-run the memory encoder after applying
+    non-overlapping constraints to the object scores.
 
     Args:
         frame_idx (int): The index of the frame for which to consolidate outputs.
         is_cond (bool, optional): Indicates if the frame is considered a conditioning frame.
-        run_mem_encoder (bool, optional): Specifies whether to run the memory encoder after consolidating the
-            outputs.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        run_mem_encoder (bool, optional): Specifies whether to run the memory encoder after consolidating the outputs.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         (dict): A consolidated output dictionary containing the combined results for all objects.
@@ -2229,8 +2221,8 @@ def _get_empty_mask_ptr(self, frame_idx, inference_state: dict[str, Any] | None 
 
     Args:
         frame_idx (int): The index of the current frame for which to generate the dummy object pointer.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         (torch.Tensor): A tensor representing the dummy object pointer generated from the empty mask.
@@ -2306,10 +2298,10 @@ def _get_maskmem_pos_enc(self, out_maskmem_pos_enc, inference_state: dict[str, A
     batch size.
 
     Args:
-        out_maskmem_pos_enc (list[torch.Tensor] | None): The positional encoding for mask memory. Should be a list
-            of tensors or None.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        out_maskmem_pos_enc (list[torch.Tensor] | None): The positional encoding for mask memory. Should be a list of
+            tensors or None.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         (list[torch.Tensor]): The positional encoding for mask memory, either cached or expanded.
@@ -2366,9 +2358,9 @@ This function sets up the initial state required for performing inference on vid
 def _init_state(num_frames):
     """Initialize an inference state.
 
-    This function sets up the initial state required for performing inference on video data. It includes
-    initializing various dictionaries and ordered dictionaries that will store inputs, outputs, and other metadata
-    relevant to the tracking process.
+    This function sets up the initial state required for performing inference on video data. It includes initializing
+    various dictionaries and ordered dictionaries that will store inputs, outputs, and other metadata relevant to the
+    tracking process.
 
     Args:
         num_frames (int): The number of frames in the video.
@@ -2453,8 +2445,8 @@ def _obj_id_to_idx(self, obj_id, inference_state: dict[str, Any] | None = None):
 
     Args:
         obj_id (int): The unique identifier of the object provided by the client side.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         (int): The index of the object on the model side.
@@ -2650,8 +2642,8 @@ def _run_memory_encoder(
         high_res_masks (torch.Tensor): High-resolution masks for which to compute the memory.
         object_score_logits (torch.Tensor): Logits representing the object scores.
         is_mask_from_pts (bool): Indicates if the mask is derived from point interactions.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         maskmem_features (torch.Tensor): The encoded mask features.
@@ -2762,8 +2754,8 @@ def _run_single_frame_inference(
         reverse (bool): Indicates if the tracking should be performed in reverse order.
         run_mem_encoder (bool): Indicates if the memory encoder should be executed.
         prev_sam_mask_logits (torch.Tensor | None): Previous mask logits for the current object.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         (dict): A dictionary containing the output of the tracking step, including updated features and predictions.
@@ -2895,8 +2887,8 @@ def add_new_prompts(
         labels (torch.Tensor, optional): The labels corresponding to the points.
         masks (torch.Tensor, optional): Binary masks for the object.
         frame_idx (int, optional): The index of the frame to which the prompts are applied.
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
 
     Returns:
         pred_masks (torch.Tensor): The flattened predicted masks.
@@ -3219,9 +3211,9 @@ method leverages SAM's (Segment Anything Model) architecture consisting of image
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/sam/predict.py#L893-L964"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def inference(self, im, bboxes=None, points=None, labels=None, masks=None):
-    """Perform image segmentation inference based on the given input cues, using the currently loaded image. This
-    method leverages SAM's (Segment Anything Model) architecture consisting of image encoder, prompt
-    encoder, and mask decoder for real-time and promptable segmentation tasks.
+    """Perform image segmentation inference based on the given input cues, using the currently loaded image. This method
+    leverages SAM's (Segment Anything Model) architecture consisting of image encoder, prompt encoder, and mask
+    decoder for real-time and promptable segmentation tasks.
 
     Args:
         im (torch.Tensor): The preprocessed input image in tensor format, with shape (N, C, H, W).
@@ -3320,9 +3312,9 @@ This function sets up the initial state required for performing inference on vid
 def init_state(predictor):
     """Initialize an inference state for the predictor.
 
-    This function sets up the initial state required for performing inference on video data. It includes
-    initializing various dictionaries and ordered dictionaries that will store inputs, outputs, and other metadata
-    relevant to the tracking process.
+    This function sets up the initial state required for performing inference on video data. It includes initializing
+    various dictionaries and ordered dictionaries that will store inputs, outputs, and other metadata relevant to the
+    tracking process.
 
     Args:
         predictor (SAM2VideoPredictor): The predictor object for which to initialize the state.
@@ -3373,9 +3365,9 @@ This method extends the post-processing functionality by applying non-overlappin
 def postprocess(self, preds, img, orig_imgs):
     """Post-process the predictions to apply non-overlapping constraints if required.
 
-    This method extends the post-processing functionality by applying non-overlapping constraints to the predicted
-    masks if the `non_overlap_masks` flag is set to True. This ensures that the masks do not overlap, which can be
-    useful for certain applications.
+    This method extends the post-processing functionality by applying non-overlapping constraints to the predicted masks
+    if the `non_overlap_masks` flag is set to True. This ensures that the masks do not overlap, which can be useful for
+    certain applications.
 
     Args:
         preds (tuple[torch.Tensor, torch.Tensor]): The predicted masks and scores from the model.
@@ -3426,13 +3418,13 @@ def propagate_in_video_preflight(self, inference_state: dict[str, Any] | None = 
     """Prepare inference_state and consolidate temporary outputs before tracking.
 
     This method marks the start of tracking, disallowing the addition of new objects until the session is reset. It
-    consolidates temporary outputs from `temp_output_dict_per_obj` and merges them into `output_dict`. Additionally,
-    it clears non-conditioning memory around input frames and ensures that the state is consistent with the provided
+    consolidates temporary outputs from `temp_output_dict_per_obj` and merges them into `output_dict`. Additionally, it
+    clears non-conditioning memory around input frames and ensures that the state is consistent with the provided
     inputs.
 
     Args:
-        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's
-            inference state.
+        inference_state (dict[str, Any], optional): The current inference state. If None, uses the instance's inference
+            state.
     """
     inference_state = inference_state or self.inference_state
     # Tracking has started and we don't allow adding new objects until session is reset.
@@ -3525,8 +3517,8 @@ exists and raise an error if it doesn't exist.
 ```python
 @smart_inference_mode()
 def remove_object(self, inference_state, obj_id, strict=False):
-    """Remove an object id from the tracking state. If strict is True, we check whether the object id actually
-    exists and raise an error if it doesn't exist.
+    """Remove an object id from the tracking state. If strict is True, we check whether the object id actually exists
+    and raise an error if it doesn't exist.
     """
     old_obj_idx_to_rm = inference_state["obj_id_to_idx"].get(obj_id, None)
     # Check whether this object_id to remove actually exists and possibly raise an error.
@@ -3805,8 +3797,8 @@ def _prepare_memory_conditioned_features(self, obj_idx: int | None) -> torch.Ten
 
     If ``obj_idx`` is provided, features are prepared for a specific prompted object in the image. If ``obj_idx`` is
     None, features are prepared for all objects. If no memory is available, a no-memory embedding is added to the
-    current vision features. Otherwise, memory from previous frames is used to condition the current vision features
-    via a transformer attention mechanism.
+    current vision features. Otherwise, memory from previous frames is used to condition the current vision features via
+    a transformer attention mechanism.
 
     Args:
         obj_idx (int | None): The index of the object for which to prepare the features.
@@ -3962,11 +3954,11 @@ def inference(
     obj_ids: list[int] | None = None,
     update_memory: bool = False,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    """Perform inference on a single image with optional bounding boxes, masks, points and object IDs. It has two
-    modes: one is to run inference on a single image without updating the memory, and the other is to update
-    the memory with the provided prompts and object IDs. When update_memory is True, it will update the
-    memory with the provided prompts and obj_ids. When update_memory is False, it will only run inference on
-    the provided image without updating the memory.
+    """Perform inference on a single image with optional bounding boxes, masks, points and object IDs. It has two modes:
+    one is to run inference on a single image without updating the memory, and the other is to update the memory
+    with the provided prompts and object IDs. When update_memory is True, it will update the memory with the
+    provided prompts and obj_ids. When update_memory is False, it will only run inference on the provided image
+    without updating the memory.
 
     Args:
         im (torch.Tensor | np.ndarray): The input image tensor or numpy array.
@@ -4068,9 +4060,9 @@ def track_step(
     """Tracking step for the current image state to predict masks.
 
     This method processes the image features and runs the SAM heads to predict masks. If obj_idx is provided, it
-    processes the features for a specific prompted object in the image. If obj_idx is None, it processes the
-    features for all objects in the image. The method supports both mask-based output without SAM and full SAM
-    processing with memory-conditioned features.
+    processes the features for a specific prompted object in the image. If obj_idx is None, it processes the features
+    for all objects in the image. The method supports both mask-based output without SAM and full SAM processing with
+    memory-conditioned features.
 
     Args:
         obj_idx (int | None): The index of the object for which to predict masks. If None, it processes all objects.
@@ -4609,8 +4601,8 @@ def inference_features(
 
     Returns:
         pred_masks (torch.Tensor): The output masks in shape (C, H, W), where C is the number of generated masks.
-        pred_bboxes (torch.Tensor): Bounding boxes for each mask with shape (N, 6), where N is the number of boxes.
-            Each box is in xyxy format with additional columns for score and class.
+        pred_bboxes (torch.Tensor): Bounding boxes for each mask with shape (N, 6), where N is the number of boxes. Each
+            box is in xyxy format with additional columns for score and class.
 
     Notes:
         - The input features is a torch.Tensor of shape (B, C, H, W) if performing on SAM, or a dict[str, Any] if performing on SAM2.
@@ -4854,9 +4846,9 @@ method leverages SAM's (Segment Anything Model) architecture consisting of image
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/sam/predict.py#L2407-L2455"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def propagate_in_video(self, inference_state, frame_idx):
-    """Perform image segmentation inference based on the given input cues, using the currently loaded image. This
-    method leverages SAM's (Segment Anything Model) architecture consisting of image encoder, prompt
-    encoder, and mask decoder for real-time and promptable segmentation tasks.
+    """Perform image segmentation inference based on the given input cues, using the currently loaded image. This method
+    leverages SAM's (Segment Anything Model) architecture consisting of image encoder, prompt encoder, and mask
+    decoder for real-time and promptable segmentation tasks.
 
     Args:
         inference_state (dict): The current state of inference, including input cues and previous outputs.
@@ -5166,9 +5158,7 @@ def _apply_object_wise_non_overlapping_constraints(self, pred_masks, obj_scores,
     # Replace pixel scores with object scores
     pred_masks_single_score = torch.where(pred_masks > 0, obj_scores[..., None, None], background_value)
     # Apply pixel-wise non-overlapping constraint based on mask scores
-    pixel_level_non_overlapping_masks = self.tracker.model._apply_non_overlapping_constraints(
-        pred_masks_single_score
-    )
+    pixel_level_non_overlapping_masks = self.tracker.model._apply_non_overlapping_constraints(pred_masks_single_score)
     # Replace object scores with pixel scores. Note, that now only one object can claim the overlapping region
     pred_masks = torch.where(
         pixel_level_non_overlapping_masks > 0,
@@ -5235,8 +5225,8 @@ def _associate_det_trk(
 
     Returns:
         new_det_fa_inds: array of new object indices.
-        unmatched_trk_obj_ids: array of existing masklet object IDs that are not matched to any detections on this
-            frame (for unmatched, we only count masklets with >0 area)
+        unmatched_trk_obj_ids: array of existing masklet object IDs that are not matched to any detections on this frame
+            (for unmatched, we only count masklets with >0 area)
         det_to_matched_trk_obj_ids: dict[int, np.ndarray]: mapping from detector's detection indices to the list of
             matched tracklet object IDs
         empty_trk_obj_ids: array of existing masklet object IDs with zero area in SAM2 prediction
@@ -5453,14 +5443,14 @@ def _det_track_one_frame(
     tracker_metadata_prev: dict[str, Any],
     allow_new_detections: bool = True,
 ):
-    """This function handles one-step inference for the DenseTracking model in an SPMD manner. At a high-level, all
-    GPUs execute the same function calls as if it's done on a single GPU, while under the hood, some
-    function calls involve distributed computation based on sharded SAM2 states.
+    """This function handles one-step inference for the DenseTracking model in an SPMD manner. At a high-level, all GPUs
+    execute the same function calls as if it's done on a single GPU, while under the hood, some function calls
+    involve distributed computation based on sharded SAM2 states.
 
     - `input_batch` contains image and other inputs on the entire video; it should be identical across GPUs
     - `tracker_states_local` holds the local masklet information in this GPU shard
     - `tracker_metadata_prev` manages the metadata for SAM2 objects, such as which masklet is hold on which GPUs
-      it contains both global and local masklet information
+    it contains both global and local masklet information
     """
     # Step 1: run backbone and detector in a distributed manner -- this is done via Sam3ImageOnVideoMultiGPU,
     # a MultiGPU model (assigned to `self.detector`) that shards frames in a round-robin manner.
@@ -5577,8 +5567,8 @@ detection scores, keeping the high-scoring ones and dropping the low-scoring one
 ```python
 @staticmethod
 def _drop_new_det_with_obj_limit(new_det_fa_inds, det_scores_np, num_to_keep):
-    """Drop a few new detections based on the maximum number of objects. We drop new objects based on their
-    detection scores, keeping the high-scoring ones and dropping the low-scoring ones.
+    """Drop a few new detections based on the maximum number of objects. We drop new objects based on their detection
+    scores, keeping the high-scoring ones and dropping the low-scoring ones.
     """
     assert 0 <= num_to_keep <= len(new_det_fa_inds)
     if num_to_keep == 0:
@@ -5793,8 +5783,7 @@ def _process_hotstart(
             if is_within_hotstart:
                 obj_ids_newly_removed.add(obj_id)
                 LOGGER.debug(
-                    f"Removing object {obj_id} at frame {frame_idx} "
-                    f"since it is unmatched for frames: {frame_indices}"
+                    f"Removing object {obj_id} at frame {frame_idx} since it is unmatched for frames: {frame_indices}"
                 )
         if (
             trk_keep_alive[obj_id] <= 0  # Object has not been matched for too long
@@ -6079,8 +6068,7 @@ boxes: (N, 4) in xyxy format, normalized [0,1] margin: fraction of image
 def _suppress_detections_close_to_boundary(boxes, margin=0.025):
     """Suppress detections too close to image edges (for normalized boxes).
 
-    boxes: (N, 4) in xyxy format, normalized [0,1]
-    margin: fraction of image
+    boxes: (N, 4) in xyxy format, normalized [0,1] margin: fraction of image
     """
     x_min, y_min, x_max, y_max = boxes.unbind(-1)
     x_c = (x_min + x_max) / 2
@@ -6142,8 +6130,8 @@ def _suppress_overlapping_based_on_recent_occlusion(
     obj_ids_newly_removed: set[int],
     reverse: bool = False,
 ):
-    """Suppress overlapping masks based on the most recent occlusion information. If an object is removed by
-    hotstart, we always suppress it if it overlaps with any other object.
+    """Suppress overlapping masks based on the most recent occlusion information. If an object is removed by hotstart,
+    we always suppress it if it overlaps with any other object.
 
     Args:
         frame_idx (int): The current frame index.
@@ -6348,9 +6336,7 @@ Run Sam2 memory encoder, enforcing non-overlapping constraints globally.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/sam/predict.py#L3711-L3767"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def _tracker_update_memories(
-    self, tracker_inference_states: list[Any], frame_idx: int, low_res_masks: torch.Tensor
-):
+def _tracker_update_memories(self, tracker_inference_states: list[Any], frame_idx: int, low_res_masks: torch.Tensor):
     """Run Sam2 memory encoder, enforcing non-overlapping constraints globally."""
     if len(tracker_inference_states) == 0:
         return
@@ -6446,11 +6432,11 @@ def add_prompt(
     labels=None,
     inference_state=None,
 ):
-    """Add text, point or box prompts on a single frame. This method returns the inference outputs only on the
-    prompted frame.
+    """Add text, point or box prompts on a single frame. This method returns the inference outputs only on the prompted
+    frame.
 
-    Note that text prompts are NOT associated with a particular frame (i.e. they apply
-    to all frames). However, we only run inference on the frame specified in `frame_idx`.
+    Note that text prompts are NOT associated with a particular frame (i.e. they apply to all frames). However, we only
+    run inference on the frame specified in `frame_idx`.
     """
     inference_state = inference_state or self.inference_state
     assert text is not None or bboxes is not None, "at least one type of prompt (text, boxes) must be provided"
@@ -6614,9 +6600,9 @@ This function sets up the initial state required for performing inference on vid
 def init_state(predictor):
     """Initialize an inference state for the predictor.
 
-    This function sets up the initial state required for performing inference on video data. It includes
-    initializing various dictionaries and ordered dictionaries that will store inputs, outputs, and other metadata
-    relevant to the tracking process.
+    This function sets up the initial state required for performing inference on video data. It includes initializing
+    various dictionaries and ordered dictionaries that will store inputs, outputs, and other metadata relevant to the
+    tracking process.
 
     Args:
         predictor (SAM3VideoSemanticPredictor): The predictor object for which to initialize the state.
@@ -6677,9 +6663,7 @@ def postprocess(self, preds, img, orig_imgs):
         pred_scores = torch.tensor(
             [preds["obj_id_to_score"][obj_id] for obj_id in curr_obj_ids], device=pred_masks.device
         )
-        pred_cls = torch.tensor(
-            [preds["obj_id_to_cls"][obj_id] for obj_id in curr_obj_ids], device=pred_masks.device
-        )
+        pred_cls = torch.tensor([preds["obj_id_to_cls"][obj_id] for obj_id in curr_obj_ids], device=pred_masks.device)
         keep = (pred_scores > self.args.conf) & pred_masks.any(dim=(1, 2))
         pred_masks = pred_masks[keep]
         pred_boxes = batched_mask_to_box(pred_masks)
@@ -6691,11 +6675,7 @@ def postprocess(self, preds, img, orig_imgs):
         if pred_masks.shape[0] > 1:
             tracker_scores = torch.tensor(
                 [
-                    (
-                        preds["obj_id_to_tracker_score"][obj_id]
-                        if obj_id in preds["obj_id_to_tracker_score"]
-                        else 0.0
-                    )
+                    (preds["obj_id_to_tracker_score"][obj_id] if obj_id in preds["obj_id_to_tracker_score"] else 0.0)
                     for obj_id in curr_obj_ids
                 ],
                 device=pred_masks.device,
@@ -7234,9 +7214,7 @@ def update_masklet_confirmation_status(
     # a) first, expand "confirmation_data" to include new masklets added in this frame
     status_prev = confirmation_data["status"]
     consecutive_det_num_prev = confirmation_data["consecutive_det_num"]
-    assert status_prev.shape == obj_ids_all_gpu_prev.shape, (
-        f"Got {status_prev.shape} vs {obj_ids_all_gpu_prev.shape}"
-    )
+    assert status_prev.shape == obj_ids_all_gpu_prev.shape, f"Got {status_prev.shape} vs {obj_ids_all_gpu_prev.shape}"
 
     obj_id_to_updated_idx = {obj_id: idx for idx, obj_id in enumerate(obj_ids_all_gpu_updated)}
     prev_elem_is_in_updated = np.isin(obj_ids_all_gpu_prev, obj_ids_all_gpu_updated)

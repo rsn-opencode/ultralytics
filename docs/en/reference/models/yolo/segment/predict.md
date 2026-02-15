@@ -27,7 +27,7 @@ keywords: YOLO, SegmentationPredictor, machine learning, computer vision, object
 ## Class `ultralytics.models.yolo.segment.predict.SegmentationPredictor` {#ultralytics.models.yolo.segment.predict.SegmentationPredictor}
 
 ```python
-SegmentationPredictor(self, cfg = DEFAULT_CFG, overrides = None, _callbacks = None)
+SegmentationPredictor(self, cfg=DEFAULT_CFG, overrides=None, _callbacks=None)
 ```
 
 **Bases:** `DetectionPredictor`

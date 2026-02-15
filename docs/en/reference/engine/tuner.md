@@ -542,8 +542,8 @@ Connects to MongoDB Atlas for distributed hyperparameter optimization across mul
 def _init_mongodb(self, mongodb_uri="", mongodb_db="", mongodb_collection=""):
     """Initialize MongoDB connection for distributed tuning.
 
-    Connects to MongoDB Atlas for distributed hyperparameter optimization across multiple machines. Each worker
-    saves results to a shared collection and reads the latest best hyperparameters from all workers for evolution.
+    Connects to MongoDB Atlas for distributed hyperparameter optimization across multiple machines. Each worker saves
+    results to a shared collection and reads the latest best hyperparameters from all workers for evolution.
 
     Args:
         mongodb_uri (str): MongoDB connection string, e.g. 'mongodb+srv://username:password@cluster.mongodb.net/'.
@@ -731,8 +731,8 @@ Downloads all results from MongoDB and writes them to the local CSV file in chro
 def _sync_mongodb_to_csv(self):
     """Sync MongoDB results to CSV for plotting compatibility.
 
-    Downloads all results from MongoDB and writes them to the local CSV file in chronological order. This enables
-    the existing plotting functions to work seamlessly with distributed MongoDB data.
+    Downloads all results from MongoDB and writes them to the local CSV file in chronological order. This enables the
+    existing plotting functions to work seamlessly with distributed MongoDB data.
     """
     try:
         # Get all results from MongoDB

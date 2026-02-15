@@ -216,13 +216,12 @@ def forward(
 ) -> list[tuple[torch.Tensor, torch.Tensor]]:
     """Compute optimal assignment between predictions and ground truth using Hungarian algorithm.
 
-    This method calculates matching costs based on classification scores, bounding box coordinates, and optionally
-    mask predictions, then finds the optimal bipartite assignment between predictions and ground truth.
+    This method calculates matching costs based on classification scores, bounding box coordinates, and optionally mask
+    predictions, then finds the optimal bipartite assignment between predictions and ground truth.
 
     Args:
         pred_bboxes (torch.Tensor): Predicted bounding boxes with shape (batch_size, num_queries, 4).
-        pred_scores (torch.Tensor): Predicted classification scores with shape (batch_size, num_queries,
-            num_classes).
+        pred_scores (torch.Tensor): Predicted classification scores with shape (batch_size, num_queries, num_classes).
         gt_bboxes (torch.Tensor): Ground truth bounding boxes with shape (num_gts, 4).
         gt_cls (torch.Tensor): Ground truth class labels with shape (num_gts,).
         gt_groups (list[int]): Number of ground truth boxes for each image in the batch.
@@ -231,8 +230,8 @@ def forward(
 
     Returns:
         (list[tuple[torch.Tensor, torch.Tensor]]): A list of size batch_size, each element is a tuple (index_i,
-            index_j), where index_i is the tensor of indices of the selected predictions (in order) and index_j is
-            the tensor of indices of the corresponding selected ground truth targets (in order).
+            index_j), where index_i is the tensor of indices of the selected predictions (in order) and index_j is the
+            tensor of indices of the corresponding selected ground truth targets (in order).
         For each batch element, it holds: len(index_i) = len(index_j) = min(num_queries, num_target_boxes).
     """
     bs, nq, nc = pred_scores.shape
@@ -261,11 +260,7 @@ def forward(
     cost_giou = 1.0 - bbox_iou(pred_bboxes.unsqueeze(1), gt_bboxes.unsqueeze(0), xywh=True, GIoU=True).squeeze(-1)
 
     # Combine costs into final cost matrix
-    C = (
-        self.cost_gain["class"] * cost_class
-        + self.cost_gain["bbox"] * cost_bbox
-        + self.cost_gain["giou"] * cost_giou
-    )
+    C = self.cost_gain["class"] * cost_class + self.cost_gain["bbox"] * cost_bbox + self.cost_gain["giou"] * cost_giou
 
     # Add mask costs if available
     if self.with_mask:

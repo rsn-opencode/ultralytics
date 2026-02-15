@@ -464,9 +464,7 @@ def forward(
         pred_dist = pred_dist * stride
         pred_dist[..., 0::2] /= imgsz[1]
         pred_dist[..., 1::2] /= imgsz[0]
-        loss_dfl = (
-            F.l1_loss(pred_dist[fg_mask], target_ltrb[fg_mask], reduction="none").mean(-1, keepdim=True) * weight
-        )
+        loss_dfl = F.l1_loss(pred_dist[fg_mask], target_ltrb[fg_mask], reduction="none").mean(-1, keepdim=True) * weight
         loss_dfl = loss_dfl.sum() / target_scores_sum
 
     return loss_iou, loss_dfl
@@ -715,9 +713,7 @@ def forward(
         pred_dist = pred_dist * stride
         pred_dist[..., 0::2] /= imgsz[1]
         pred_dist[..., 1::2] /= imgsz[0]
-        loss_dfl = (
-            F.l1_loss(pred_dist[fg_mask], target_ltrb[fg_mask], reduction="none").mean(-1, keepdim=True) * weight
-        )
+        loss_dfl = F.l1_loss(pred_dist[fg_mask], target_ltrb[fg_mask], reduction="none").mean(-1, keepdim=True) * weight
         loss_dfl = loss_dfl.sum() / target_scores_sum
 
     return loss_iou, loss_dfl
@@ -1132,8 +1128,8 @@ target indices.
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/loss.py#L389-L448"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
 def get_assigned_targets_and_loss(self, preds: dict[str, torch.Tensor], batch: dict[str, Any]) -> tuple:
-    """Calculate the sum of the loss for box, cls and dfl multiplied by batch size and return foreground mask and
-    target indices.
+    """Calculate the sum of the loss for box, cls and dfl multiplied by batch size and return foreground mask and target
+    indices.
     """
     loss = torch.zeros(3, device=self.device)  # box, cls, dfl
     pred_distri, pred_scores = (
@@ -1245,9 +1241,7 @@ Parse model predictions to extract features.
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/loss.py#L450-L454"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def parse_output(
-    self, preds: dict[str, torch.Tensor] | tuple[torch.Tensor, dict[str, torch.Tensor]]
-) -> torch.Tensor:
+def parse_output(self, preds: dict[str, torch.Tensor] | tuple[torch.Tensor, dict[str, torch.Tensor]]) -> torch.Tensor:
     """Parse model predictions to extract features."""
     return preds[1] if isinstance(preds, tuple) else preds
 ```
@@ -1497,9 +1491,7 @@ def loss(self, preds: dict[str, torch.Tensor], batch: dict[str, torch.Tensor]) -
             # masks = F.interpolate(masks[None], (mask_h, mask_w), mode="nearest")[0]
             proto = F.interpolate(proto, masks.shape[-2:], mode="bilinear", align_corners=False)
 
-        imgsz = (
-            torch.tensor(preds["feats"][0].shape[2:], device=self.device, dtype=pred_masks.dtype) * self.stride[0]
-        )
+        imgsz = torch.tensor(preds["feats"][0].shape[2:], device=self.device, dtype=pred_masks.dtype) * self.stride[0]
         loss[1] = self.calculate_segmentation_loss(
             fg_mask,
             masks,
@@ -1793,9 +1785,9 @@ def calculate_keypoints_loss(
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """Calculate the keypoints loss for the model.
 
-    This function calculates the keypoints loss and keypoints object loss for a given batch. The keypoints loss is
-    based on the difference between the predicted keypoints and ground truth keypoints. The keypoints object loss is
-    a binary classification loss that classifies whether a keypoint is present or not.
+    This function calculates the keypoints loss and keypoints object loss for a given batch. The keypoints loss is based
+    on the difference between the predicted keypoints and ground truth keypoints. The keypoints object loss is a binary
+    classification loss that classifies whether a keypoint is present or not.
 
     Args:
         masks (torch.Tensor): Binary mask tensor indicating object presence, shape (BS, N_anchors).
@@ -2039,9 +2031,9 @@ def calculate_keypoints_loss(
 ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     """Calculate the keypoints loss for the model.
 
-    This function calculates the keypoints loss and keypoints object loss for a given batch. The keypoints loss is
-    based on the difference between the predicted keypoints and ground truth keypoints. The keypoints object loss is
-    a binary classification loss that classifies whether a keypoint is present or not.
+    This function calculates the keypoints loss and keypoints object loss for a given batch. The keypoints loss is based
+    on the difference between the predicted keypoints and ground truth keypoints. The keypoints object loss is a binary
+    classification loss that classifies whether a keypoint is present or not.
 
     Args:
         masks (torch.Tensor): Binary mask tensor indicating object presence, shape (BS, N_anchors).
@@ -2398,9 +2390,7 @@ Decode predicted object bounding box coordinates from anchor points and distribu
 
 <a href="https://github.com/ultralytics/ultralytics/blob/main/ultralytics/utils/loss.py#L1077-L1093"><i class="fa-brands fa-github" aria-hidden="true" style="margin-right:6px;"></i>View on GitHub</a>
 ```python
-def bbox_decode(
-    self, anchor_points: torch.Tensor, pred_dist: torch.Tensor, pred_angle: torch.Tensor
-) -> torch.Tensor:
+def bbox_decode(self, anchor_points: torch.Tensor, pred_dist: torch.Tensor, pred_angle: torch.Tensor) -> torch.Tensor:
     """Decode predicted object bounding box coordinates from anchor points and distribution.
 
     Args:
@@ -2707,7 +2697,7 @@ def __call__(self, preds: Any, batch: dict[str, torch.Tensor]) -> tuple[torch.Te
 ## Class `ultralytics.utils.loss.E2ELoss` {#ultralytics.utils.loss.E2ELoss}
 
 ```python
-E2ELoss(self, model, loss_fn = v8DetectionLoss)
+E2ELoss(self, model, loss_fn=v8DetectionLoss)
 ```
 
 Criterion class for computing training losses for end-to-end detection.
@@ -3008,7 +2998,7 @@ def parse_output(self, preds) -> dict[str, torch.Tensor]:
 ## Class `ultralytics.utils.loss.TVPSegmentLoss` {#ultralytics.utils.loss.TVPSegmentLoss}
 
 ```python
-TVPSegmentLoss(self, model, tal_topk = 10)
+TVPSegmentLoss(self, model, tal_topk=10)
 ```
 
 **Bases:** `TVPDetectLoss`
