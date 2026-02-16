@@ -8,9 +8,11 @@ from typing import Any
 import torch
 
 from ultralytics.data import YOLODataset
-from ultralytics.data.augment import Compose, Format, rtdetr_transforms, v8_transforms
+from ultralytics.data.augment import Compose, Format, v8_transforms
 from ultralytics.models.yolo.detect import DetectionValidator
 from ultralytics.utils import colorstr, ops
+
+from .detr_augment import rtdetr_transforms
 
 __all__ = ("RTDETRValidator",)  # tuple or list
 
