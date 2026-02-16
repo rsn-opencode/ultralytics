@@ -102,9 +102,15 @@ from ultralytics.utils import (
     callbacks,
     colorstr,
     get_default_args,
-    is_dgx,
     is_jetson,
 )
+try:
+    from ultralytics.utils import is_dgx
+except ImportError:
+    # Backward-compatible fallback when exporter.py is newer than ultralytics.utils.
+    def is_dgx() -> bool:
+        return False
+
 from ultralytics.utils.checks import (
     IS_PYTHON_3_10,
     IS_PYTHON_MINIMUM_3_9,
