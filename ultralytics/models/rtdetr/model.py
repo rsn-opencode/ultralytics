@@ -13,6 +13,7 @@ from ultralytics.engine.model import Model
 from ultralytics.nn.tasks import RTDETRDetectionModel
 from ultralytics.utils.torch_utils import TORCH_1_11
 
+from .deim import RTDETRDEIMTrainer, RTDETRDEIMValidator
 from .predict import RTDETRPredictor
 from .train import RTDETRTrainer
 from .val import RTDETRValidator
@@ -58,6 +59,22 @@ class RTDETR(Model):
                 "predictor": RTDETRPredictor,
                 "validator": RTDETRValidator,
                 "trainer": RTDETRTrainer,
+                "model": RTDETRDetectionModel,
+            }
+        }
+
+
+class RTDETRDEIM(RTDETR):
+    """RT-DETR interface that routes training/validation through isolated DEIM classes."""
+
+    @property
+    def task_map(self) -> dict:
+        """Return a task map that uses DEIM-specific trainer/validator implementations."""
+        return {
+            "detect": {
+                "predictor": RTDETRPredictor,
+                "validator": RTDETRDEIMValidator,
+                "trainer": RTDETRDEIMTrainer,
                 "model": RTDETRDetectionModel,
             }
         }
