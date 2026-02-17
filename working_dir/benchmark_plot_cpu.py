@@ -17,7 +17,7 @@ BENCHMARK = "t4_new"
 # =============================================================================
 # BENCHMARK DATA
 # =============================================================================
-# Format: (size_label, latency_ms, mAP50-95)
+# Format: (size_label, latency_ms, mAP50-95[, latency_err_ms])
 
 BENCHMARKS = {
     "m5": {
@@ -241,11 +241,14 @@ BENCHMARKS = {
             ],
             "YOLO26_RTDETR": [
                 ("n", 1.8, 41.2),
-                ("ns", 2.5, 47.4),
-                ("s", 4.5, 49.5),
-                ("m", 6.9, 53.5),
-                ("l", 8.4, 55.2),
+                ("ns", 2.5, 47.7),
+                ("s", 4.5, 51.0),
+                ("m", 6.9, 54.0),
+                ("l", 8.8, 55.2),
                 ("x", 13.8, 56.6),
+            ],
+            "DINOv3-RTDETR": [
+                ("s", 4.5, 50.3, 0.1),
             ],
             "RF-DETR (TopK)": [
                 ("n", 2.8, 48.4),
@@ -386,6 +389,7 @@ MODEL_STYLES = {
     "YOLO26 (NMS)": ("o", -12),
     "YOLO26-reported": ("o", -12),
     "YOLO26_RTDETR": ("^", -12),
+    "DINOv3-RTDETR": ("X", 8),
     "RF-DETR": ("s", -12),
     "RF-DETR (TopK)": ("s", -12),
     "RF-DETR-reported": ("s", 8),
@@ -397,18 +401,48 @@ MODEL_STYLES = {
 
 
 def plot_series(ax, points, label, color, marker, label_offset):
-    xs = [point[1] for point in points]
-    ys = [point[2] for point in points]
-    ax.plot(
-        xs,
-        ys,
-        label=label,
-        color=color,
-        marker=marker,
-        linewidth=2,
-        markersize=7,
-    )
-    for size, x_value, y_value in points:
+    parsed_points = []
+    for point in points:
+        if len(point) == 3:
+            size, x_value, y_value = point
+            x_error = 0.0
+        elif len(point) == 4:
+            size, x_value, y_value, x_error = point
+        else:
+            raise ValueError(
+                f"Point '{point}' must have 3 or 4 values: (size, latency, map[, latency_error])."
+            )
+        parsed_points.append((size, x_value, y_value, x_error))
+
+    xs = [point[1] for point in parsed_points]
+    ys = [point[2] for point in parsed_points]
+    x_errors = [point[3] for point in parsed_points]
+
+    if any(x_errors):
+        ax.errorbar(
+            xs,
+            ys,
+            xerr=x_errors,
+            label=label,
+            color=color,
+            marker=marker,
+            linestyle="-",
+            linewidth=2,
+            markersize=7,
+            capsize=3,
+        )
+    else:
+        ax.plot(
+            xs,
+            ys,
+            label=label,
+            color=color,
+            marker=marker,
+            linewidth=2,
+            markersize=7,
+        )
+
+    for size, x_value, y_value, _ in parsed_points:
         ax.annotate(
             size,
             (x_value, y_value),
