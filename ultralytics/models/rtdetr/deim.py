@@ -158,18 +158,19 @@ class RTDETRDEIMTrainer(RTDETRTrainer):
         )
         return dataset
 
-    def _on_train_epoch_start(self):
+    def _on_train_epoch_start(self, trainer=None):
         """Apply DEIM epoch scheduling to transforms/collate and stop multi-scale at stage-4 start."""
-        epoch = self.epoch
-        dataset = self.train_loader.dataset
+        trainer = trainer or self
+        epoch = trainer.epoch
+        dataset = trainer.train_loader.dataset
         if hasattr(dataset, "set_epoch"):
             dataset.set_epoch(epoch)
 
         if not hasattr(dataset, "policy_epochs"):
             raise AttributeError("RTDETRDEIMTrainer requires dataset.policy_epochs for DEIM scheduling.")
         stop_epoch = int(dataset.policy_epochs[-1])
-        if epoch == stop_epoch and self.args.multi_scale > 0:
-            self.args.multi_scale = 0.0
+        if epoch == stop_epoch and trainer.args.multi_scale > 0:
+            trainer.args.multi_scale = 0.0
             LOGGER.info(f"DEIM stage-4 at epoch {epoch}: disabling multi-scale")
 
     def train(self, *args, **kwargs):

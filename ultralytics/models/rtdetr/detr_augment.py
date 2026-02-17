@@ -163,6 +163,7 @@ class _RTDETRDEIMPolicy:
         self.policy_epochs = policy_epochs
         self.mosaic_prob = mosaic_prob
         self.epoch = 0
+        self.post_transforms = []
 
     def set_epoch(self, epoch: int) -> None:
         """Set current epoch (0-based) for stage scheduling."""
@@ -194,7 +195,13 @@ class _RTDETRDEIMPolicy:
         labels = self.resize(labels)
         labels = self.sanitize2(labels)
         labels = self.from_tv(labels)
+        for transform in self.post_transforms:
+            labels = transform(labels)
         return labels
+
+    def append(self, transform) -> None:
+        """Append post-transform ops (e.g., Format) for API compatibility with Compose-like callers."""
+        self.post_transforms.append(transform)
 
 
 class _RTDETRDEIMMosaic:
