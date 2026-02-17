@@ -1,6 +1,6 @@
 import torch
 import argparse
-from ultralytics import RTDETR
+from ultralytics import RTDETR, RTDETRDEIM, YOLO
 import yaml
 
 
@@ -16,6 +16,13 @@ def parse_args():
         type=str,
         default='ultralytics/cfg/models/11/yolo11-rtdetr-res50.yaml',
         help='Path to model configuration YAML file'
+    )
+    parser.add_argument(
+        '--model-class',
+        type=str,
+        default='RTDETR',
+        choices=['RTDETR', 'RTDETRDEIM', 'YOLO'],
+        help='Model wrapper class to use'
     )
     parser.add_argument(
         '--config',
@@ -53,7 +60,8 @@ def main():
     # Parse command line arguments
     args = parse_args()
 
-    print(f"\nModel: {args.model}")
+    print(f"\nModel class: {args.model_class}")
+    print(f"Model: {args.model}")
     print(f"Config: {args.config}")
 
     # Check available devices
@@ -63,8 +71,13 @@ def main():
         for i in range(torch.cuda.device_count()):
             print(f"GPU {i}: {torch.cuda.get_device_name(i)}")
 
-    # Load RT-DETR model
-    model = RTDETR(args.model)
+    # Load model with requested wrapper class
+    model_classes = {
+        'RTDETR': RTDETR,
+        'RTDETRDEIM': RTDETRDEIM,
+        'YOLO': YOLO,
+    }
+    model = model_classes[args.model_class](args.model)
 
     for name, param in model.model.named_parameters():
         if not param.requires_grad:
