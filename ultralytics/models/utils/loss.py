@@ -939,6 +939,41 @@ class RTDETRv4DetectionLoss(RTDETRDetectionLoss):
 
         return losses
 
+    def _get_pre_losses(
+        self,
+        batch: dict[str, Any],
+        global_num_gts: float,
+        dfine_meta: dict[str, Any] | None,
+        postfix: str = "_pre",
+        match_indices: list[tuple] | None = None,
+    ) -> dict[str, torch.Tensor]:
+        """Compute class/box/giou supervision for DFine pre-head outputs."""
+        if dfine_meta is None:
+            return {}
+        pre_bboxes = dfine_meta.get("pre_bboxes")
+        pre_logits = dfine_meta.get("pre_logits")
+        if pre_bboxes is None or pre_logits is None:
+            return {}
+        # DFINE meta is frequently built from slicing/splitting and may be non-contiguous.
+        # Matcher uses .view(), so ensure contiguous layout here instead of changing matcher internals.
+        pre_bboxes = pre_bboxes.contiguous()
+        pre_logits = pre_logits.contiguous()
+
+        gt_cls, gt_bboxes, gt_groups = batch["cls"], batch["bboxes"], batch["gt_groups"]
+        if match_indices is None:
+            match_indices = self.matcher(pre_bboxes, pre_logits, gt_bboxes, gt_cls, gt_groups)
+
+        return self._get_loss(
+            pre_bboxes,
+            pre_logits,
+            gt_bboxes,
+            gt_cls,
+            gt_groups,
+            global_num_gts,
+            postfix=postfix,
+            match_indices=match_indices,
+        )
+
     def forward(
         self,
         preds: tuple[torch.Tensor, torch.Tensor],
@@ -1003,6 +1038,7 @@ class RTDETRv4DetectionLoss(RTDETRDetectionLoss):
                 match_indices=match_indices,
             )
         )
+        total_loss.update(self._get_pre_losses(batch, global_num_gts, dfine_meta, postfix="_pre"))
 
         if dn_meta is not None:
             dn_pos_idx, dn_num_group = dn_meta["dn_pos_idx"], dn_meta["dn_num_group"]
@@ -1033,6 +1069,15 @@ class RTDETRv4DetectionLoss(RTDETRDetectionLoss):
                     postfix="_dn",
                     is_dn=True,
                     include_local_aux=False,
+                )
+            )
+            total_loss.update(
+                self._get_pre_losses(
+                    batch,
+                    dn_global_num_gts,
+                    dn_dfine_meta,
+                    postfix="_dn_pre",
+                    match_indices=dn_match_indices,
                 )
             )
 
