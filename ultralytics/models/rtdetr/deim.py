@@ -12,7 +12,7 @@ from ultralytics.data import YOLODataset
 from ultralytics.data.augment import Compose, Format
 from ultralytics.utils import LOGGER, colorstr
 
-from .detr_augment import _compute_policy_epochs, rtdetr_deim_transforms
+from .detr_augment import compute_policy_epochs, rtdetr_deim_transforms
 from .train import RTDETRTrainer
 from .val import RTDETRDataset, RTDETRValidator
 
@@ -79,7 +79,7 @@ class RTDETRDEIMDataset(RTDETRDataset):
 
     def _compute_deim_schedule(self, hyp) -> tuple[tuple[int, int, int], tuple[int, int]]:
         """Compute DEIM stage boundaries from epochs only."""
-        policy_epochs = _compute_policy_epochs(hyp)
+        policy_epochs = compute_policy_epochs(hyp)
         return policy_epochs, policy_epochs[:2]
 
     def build_transforms(self, hyp=None):

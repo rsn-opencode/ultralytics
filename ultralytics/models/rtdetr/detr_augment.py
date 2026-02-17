@@ -86,7 +86,12 @@ class _RTDETRFromTvTensors:
         labels["img"] = img_np
         labels["instances"] = Instances(bboxes=bboxes, bbox_format="xyxy", normalized=False)
         labels["cls"] = cls_out
-        labels["resized_shape"] = img_np.shape[:2]
+        # Keep a stable key set across mosaic/non-mosaic branches for downstream collate_fn.
+        shape = tuple(img_np.shape[:2])
+        labels.setdefault("im_file", "")
+        labels.setdefault("ori_shape", shape)
+        labels.setdefault("ratio_pad", (1.0, 1.0))
+        labels["resized_shape"] = shape
         return labels
 
 
@@ -305,14 +310,41 @@ class _RTDETRDEIMMosaic:
         return mosaic_labels
 
 
-def _compute_policy_epochs(hyp: IterableSimpleNamespace) -> tuple[int, int, int]:
-    """Compute DEIM policy boundaries from epochs only."""
+def compute_policy_epochs(hyp: IterableSimpleNamespace) -> tuple[int, int, int]:
+    """Compute DEIM policy boundaries.
+
+    Supports optional DEIM-style schedule key:
+      - flat_epoch: explicit stage-2 end / stage-3 start epoch
+    """
     if not hasattr(hyp, "epochs"):
-        raise AttributeError("_compute_policy_epochs requires 'epochs' in hyp.")
+        raise AttributeError("compute_policy_epochs requires 'epochs' in hyp.")
+
     epochs = max(1, int(hyp.epochs))
     start = min(4, max(0, epochs - 1))
-    stop = epochs
-    mid = min(stop, start + stop // 2)
+
+    # Mimic DEIM RT schedules from total epochs only:
+    #   60 -> 2 no-aug epochs, 120 -> 3 no-aug epochs.
+    # Keep classic 50-epoch behavior with no final no-aug tail.
+    if epochs >= 100:
+        no_aug_epoch = 3
+    elif epochs >= 60:
+        no_aug_epoch = 2
+    else:
+        no_aug_epoch = 0
+
+    stop = epochs - no_aug_epoch
+    if stop < 0:
+        raise ValueError(f"compute_policy_epochs got invalid no_aug_epoch={no_aug_epoch} for epochs={epochs}.")
+
+    if hasattr(hyp, "flat_epoch"):
+        mid = int(hyp.flat_epoch)
+    else:
+        mid = min(stop, start + epochs // 2)
+
+    if not (0 <= start <= mid <= stop <= epochs):
+        raise ValueError(
+            f"compute_policy_epochs produced invalid boundaries: start={start}, mid={mid}, stop={stop}, epochs={epochs}."
+        )
     return start, mid, stop
 
 
